@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="14F1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="1E9-PT-I0f">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+    </dependencies>
+    <scenes>
+        <!--Account View Controller-->
+        <scene sceneID="2cT-Nv-OBG">
+            <objects>
+                <viewController storyboardIdentifier="AccountVC" id="zbk-Bs-QxS" customClass="AccountViewController" customModule="barr" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="dRe-JJ-yJz"/>
+                        <viewControllerLayoutGuide type="bottom" id="mSc-Nv-4yG"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="R2V-fd-JzJ">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="raO-dl-UJG">
+                                <rect key="frame" x="20" y="80" width="168" height="68"/>
+                                <state key="normal" title="Login"/>
+                                <connections>
+                                    <segue destination="ftA-9S-g56" kind="show" identifier="LoginSeg" animates="NO" id="kp6-Am-DC5"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="1uo-nf-ryQ"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pnd-Kc-KKG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1347" y="324"/>
+        </scene>
+        <!--Login View Controller-->
+        <scene sceneID="y7y-Bc-I8i">
+            <objects>
+                <viewController storyboardIdentifier="LoginScreen" id="ftA-9S-g56" customClass="LoginViewController" customModule="barr" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Llk-Cs-2Vx"/>
+                        <viewControllerLayoutGuide type="bottom" id="7qs-Pa-zMo"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="2j2-l1-ba0">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bp1-iD-5Hm" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2033" y="324"/>
+        </scene>
+        <!--Item-->
+        <scene sceneID="CAI-1O-0wp">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="1E9-PT-I0f" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="GKM-iv-lGL"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="N9H-8y-Xom">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="zbk-Bs-QxS" kind="relationship" relationship="rootViewController" id="1Gj-Hw-YVt"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oAd-aO-upY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="535" y="324"/>
+        </scene>
+    </scenes>
+</document>
