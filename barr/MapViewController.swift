@@ -45,6 +45,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+        print("status")
         switch status {
         case .NotDetermined:
             locationManager.requestAlwaysAuthorization()
@@ -78,6 +79,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
             button.backgroundColor = UIColor.greenColor()
             self.view = self.gMap.makeMap(lat, longitude: long)
             self.view.addSubview(button)
+            ErrorHandler.buidErrorView(true)
         }else {
             print("lat long not defined")
         }

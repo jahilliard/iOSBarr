@@ -10,6 +10,7 @@
 		0C0074291C725D91008E9652 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0074281C725D91008E9652 /* LoginViewController.swift */; };
 		0C0ECBD71C6C3EAA00252B51 /* YelpClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0ECBD61C6C3EAA00252B51 /* YelpClient.swift */; };
 		0C1932E31C7A47D4009A6E13 /* notUseFiled.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1932E21C7A47D4009A6E13 /* notUseFiled.swift */; };
+		0C1A9A321C7CA93600C5658F /* ErrorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1A9A311C7CA93600C5658F /* ErrorHandler.swift */; };
 		0C2B2C4A1C6EA3D800D4562B /* GoogleClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2B2C491C6EA3D800D4562B /* GoogleClient.swift */; };
 		0C39264C1C6C149E00CF343B /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C39264B1C6C149E00CF343B /* User.swift */; };
 		0C39264E1C6C285500CF343B /* Business.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C39264D1C6C285500CF343B /* Business.swift */; };
@@ -50,6 +51,7 @@
 		0C0074281C725D91008E9652 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		0C0ECBD61C6C3EAA00252B51 /* YelpClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YelpClient.swift; sourceTree = "<group>"; };
 		0C1932E21C7A47D4009A6E13 /* notUseFiled.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = notUseFiled.swift; sourceTree = "<group>"; };
+		0C1A9A311C7CA93600C5658F /* ErrorHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorHandler.swift; sourceTree = "<group>"; };
 		0C2B2C491C6EA3D800D4562B /* GoogleClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleClient.swift; sourceTree = "<group>"; };
 		0C39264B1C6C149E00CF343B /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		0C39264D1C6C285500CF343B /* Business.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Business.swift; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 				0C39264B1C6C149E00CF343B /* User.swift */,
 				0C39264D1C6C285500CF343B /* Business.swift */,
 				0CAE28701C776B4400CE4F92 /* Auth.swift */,
+				0C1A9A311C7CA93600C5658F /* ErrorHandler.swift */,
 			);
 			name = models;
 			sourceTree = "<group>";
@@ -386,6 +389,7 @@
 				0C39264C1C6C149E00CF343B /* User.swift in Sources */,
 				0C0074291C725D91008E9652 /* LoginViewController.swift in Sources */,
 				0C44C63B1C7C1C7800B8DF41 /* AdditionalInfoViewController.swift in Sources */,
+				0C1A9A321C7CA93600C5658F /* ErrorHandler.swift in Sources */,
 				0C1932E31C7A47D4009A6E13 /* notUseFiled.swift in Sources */,
 				0C44DD2C1C6FE70D00B88039 /* AccountViewController.swift in Sources */,
 			);
