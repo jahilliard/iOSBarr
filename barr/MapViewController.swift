@@ -27,16 +27,14 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
             print("\(result.tokenString)")
             print("\(FBSDKAccessToken.currentAccessToken().refreshDate)")
         })
-        print("\(FBSDKAccessToken.currentAccessToken().refreshDate)")
         if CLLocationManager.authorizationStatus() == .NotDetermined {
-            print("request auth")
             locationManager.requestAlwaysAuthorization()
         } else {
             locationManager.delegate = self
-            locationManager.requestAlwaysAuthorization()
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.startUpdatingLocation()
         }
+        print("\(FBSDKAccessToken.currentAccessToken().refreshDate)")
     }
 
     override func didReceiveMemoryWarning() {
@@ -60,11 +58,15 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
             // restricted by e.g. parental controls. User can't enable Location Services
             break
         case .Denied:
+            ErrorHandler.showEventsAcessDeniedAlert("Change Permissions", message: "Please change your location permissions")
             // user denied your app access to Location Services, but can grant access from Settings.app
             break
         default:
             break
         }
+    }
+    
+    func requestAuthorizationLocation(){
     }
     
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
@@ -79,7 +81,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
             button.backgroundColor = UIColor.greenColor()
             self.view = self.gMap.makeMap(lat, longitude: long)
             self.view.addSubview(button)
-            ErrorHandler.buidErrorView(true)
+//            ErrorHandler.buidErrorView(true)
         }else {
             print("lat long not defined")
         }

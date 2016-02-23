@@ -20,4 +20,26 @@ struct ErrorHandler {
             topController.view.addSubview(errorView)
         }
     }
+    
+    static func showEventsAcessDeniedAlert(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message,
+            preferredStyle: .Alert)
+        
+        let settingsAction = UIAlertAction(title: "Settings", style: .Default) {
+            (alertAction) in
+                // THIS IS WHERE THE MAGIC HAPPENS!!!!
+                if let appSettings = NSURL(string: UIApplicationOpenSettingsURLString) {
+                UIApplication.sharedApplication().openURL(appSettings)
+            }
+        }
+        alertController.addAction(settingsAction)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
+        alertController.addAction(cancelAction)
+        
+        if let topController = UIApplication.topViewController() {
+            print("Top View defined ")
+            topController.presentViewController(alertController, animated: true, completion: nil)
+        }
+    }
 }
