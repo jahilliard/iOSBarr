@@ -21,16 +21,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         //App launch code
-        if let fbAccessToken = User.prefs.stringForKey("fbAuthtoken"){
+        FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+        
+        if let fbAccessToken = FBSDKAccessToken.currentAccessToken(){
             //print(fbAuthtoken)
-            Auth.sendAuthRequest(fbAccessToken)
+            Auth.sendAuthRequest(fbAccessToken.tokenString)
         } else {
-            let storyboard = UIStoryboard(name: "Login", bundle: nil)
-            let initialViewController = storyboard.instantiateViewControllerWithIdentifier("LoginScreen")
-            self.window?.rootViewController = initialViewController
-            self.window?.makeKeyAndVisible()
+            if let _ = User.prefs.stringForKey("userId") {
+                let storyboard = UIStoryboard(name: "Login", bundle: nil)
+                let initialViewController = storyboard.instantiateViewControllerWithIdentifier("LoginScreen")
+                self.window?.rootViewController = initialViewController
+                self.window?.makeKeyAndVisible()
+            } else {
+                let storyboard = UIStoryboard(name: "", bundle: nil)
+                let initialViewController = storyboard.instantiateViewControllerWithIdentifier("LoginScreen")
+                self.window?.rootViewController = initialViewController
+                self.window?.makeKeyAndVisible()
+            }
         }
-        return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+        return true
 
     }
     

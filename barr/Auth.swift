@@ -21,8 +21,8 @@ struct Auth {
                     currUser = User(fbAuthtoken: fbAccessToken, fbId: userAuth["fbId"].rawValue as! String, accessToken: userAuth["authToken"].rawValue as! String, userId: userAuth["id"].rawValue as! String)
 //                  print("\(userAuth["isCreated"].rawValue as! Bool)")
 //                  let isCreated = userAuth["isCreated"].rawValue as! Bool
-                    let isCreated = true
-                    if (isCreated == true) {
+//                    let isCreated = true
+                    if (userAuth["isCreated"] == true) {
                         populateNewUser(fbAccessToken, currUser: currUser!)
                     }
                     return true

@@ -12,21 +12,22 @@ import SwiftyJSON
 
 class Match  {
     let userId: String;
-    let matchList: [String: MatchInfo];
+    var matchList: [String: MatchInfo];
     
     init(userId: String, matchList: [NSDictionary]?){
         self.userId = userId;
-        self.matchList = [String: matchList]();
-        if(matchList != nil){
-            for match in matchList {
-                let singleMatch = MatchInfo(UserInfo(match["userInfo"], match["isOpen"], match["expire"]));
+        self.matchList = [String: MatchInfo]();
+        if let matchListIter = matchList{
+            for match in matchListIter {
+//                var matchJSON = JSON(match)
+                let singleMatch = MatchInfo(userInfo: UserInfo(userId: match["userInfo"]!["userId"] as! String, nickname: match["userInfo"]!["nickname"] as! String, firstName: match["userInfo"]!["firstName"] as! String, lastName: match["userInfo"]!["lastName"] as! String, img: match["userInfo"]!["img"] as! String), isOpen: match["isOpen"] as! Bool, expire: match["expire"] as! NSDate);
                 self.matchList[singleMatch.userInfo.userId] = singleMatch;
             }
         }
     }
     
-    func addMatch(match: [NSDictionary]){
-        let singleMatch = MatchInfo(UserInfo(match["userInfo"], match["isOpen"], match["expire"]));
+    func addMatch(match: NSDictionary){
+        let singleMatch = MatchInfo(userInfo: UserInfo(userId: match["userInfo"]!["userId"] as! String, nickname: match["userInfo"]!["nickname"] as! String, firstName: match["userInfo"]!["firstName"] as! String, lastName: match["userInfo"]!["lastName"] as! String, img: match["userInfo"]!["img"] as! String), isOpen: match["isOpen"] as! Bool, expire: match["expire"] as! NSDate);
         self.matchList[singleMatch.userInfo.userId] = singleMatch;
     }
     
