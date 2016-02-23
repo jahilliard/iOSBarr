@@ -11,6 +11,7 @@
 		0C0ECBD71C6C3EAA00252B51 /* YelpClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0ECBD61C6C3EAA00252B51 /* YelpClient.swift */; };
 		0C1932E31C7A47D4009A6E13 /* notUseFiled.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1932E21C7A47D4009A6E13 /* notUseFiled.swift */; };
 		0C1A9A321C7CA93600C5658F /* ErrorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1A9A311C7CA93600C5658F /* ErrorHandler.swift */; };
+		0C1A9A341C7CFCBF00C5658F /* JoinCircle.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C1A9A331C7CFCBF00C5658F /* JoinCircle.storyboard */; };
 		0C2B2C4A1C6EA3D800D4562B /* GoogleClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2B2C491C6EA3D800D4562B /* GoogleClient.swift */; };
 		0C39264C1C6C149E00CF343B /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C39264B1C6C149E00CF343B /* User.swift */; };
 		0C39264E1C6C285500CF343B /* Business.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C39264D1C6C285500CF343B /* Business.swift */; };
@@ -52,6 +53,7 @@
 		0C0ECBD61C6C3EAA00252B51 /* YelpClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YelpClient.swift; sourceTree = "<group>"; };
 		0C1932E21C7A47D4009A6E13 /* notUseFiled.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = notUseFiled.swift; sourceTree = "<group>"; };
 		0C1A9A311C7CA93600C5658F /* ErrorHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorHandler.swift; sourceTree = "<group>"; };
+		0C1A9A331C7CFCBF00C5658F /* JoinCircle.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = JoinCircle.storyboard; sourceTree = "<group>"; };
 		0C2B2C491C6EA3D800D4562B /* GoogleClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleClient.swift; sourceTree = "<group>"; };
 		0C39264B1C6C149E00CF343B /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		0C39264D1C6C285500CF343B /* Business.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Business.swift; sourceTree = "<group>"; };
@@ -181,6 +183,7 @@
 				0CAE28721C78C72E00CE4F92 /* Login.storyboard */,
 				0CAE28741C78C74700CE4F92 /* Signup.storyboard */,
 				0C1932E21C7A47D4009A6E13 /* notUseFiled.swift */,
+				0C1A9A331C7CFCBF00C5658F /* JoinCircle.storyboard */,
 			);
 			name = Storyboards;
 			sourceTree = "<group>";
@@ -305,6 +308,7 @@
 				0C3DBAF91C6C13AA00401A2E /* LaunchScreen.storyboard in Resources */,
 				0C3DBAF61C6C13AA00401A2E /* Assets.xcassets in Resources */,
 				0CAE28731C78C72E00CE4F92 /* Login.storyboard in Resources */,
+				0C1A9A341C7CFCBF00C5658F /* JoinCircle.storyboard in Resources */,
 				0C3EA74A1C713A9D0039193B /* Account.storyboard in Resources */,
 				0C3DBAF41C6C13AA00401A2E /* Main.storyboard in Resources */,
 			);

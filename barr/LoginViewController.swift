@@ -95,10 +95,6 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
                     
                     successBlock(result)
                 } else {
-                    //The user did not grant all permissions requested
-                    //Discover which permissions are granted
-                    //and if you can live without the declined ones
-                    
                     failureBlock((nil))
                 }
             }
