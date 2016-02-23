@@ -72,6 +72,10 @@ class User {
         })
     }
     
+    func seeIfNicknameExist(){
+        
+    }
+    
 }
 
 //print("current Token \(FBSDKAccessToken.currentAccessToken())")

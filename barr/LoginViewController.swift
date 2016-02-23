@@ -16,12 +16,34 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
     @IBAction func loginFB(sender: AnyObject) {
         let fbLoginManager : FBSDKLoginManager = FBSDKLoginManager()
         fbLoginManager.loginBehavior = FBSDKLoginBehavior.Native
-        loginToFacebookWithSuccess({}, andFailure: {_ in })
+        loginToFacebookWithSuccess(
+            { result in
+                Auth.sendAuthRequest(result.token.tokenString){
+                    err, isCreated in
+                    if err != nil{
+                        err
+                    } else {
+                        if (isCreated) {
+                            let addInfoVC:AdditionalInfoViewController = AdditionalInfoViewController()
+                            self.presentViewController(addInfoVC, animated: true, completion: nil)
+                        } else {
+                            print("HIT")
+                            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                            let mapVC: UIViewController = storyboard.instantiateViewControllerWithIdentifier("TabVC")
+                            self.presentViewController(mapVC, animated: true, completion: nil)
+                        }
+                    }
+                }
+            }, andFailure: {
+                err in
+                    err
+            }
+        )
     }
     
     let facebookReadPermissions = ["public_profile", "email", "user_friends"]
     
-    func loginToFacebookWithSuccess(successBlock: () -> Void, andFailure failureBlock: (NSError?) -> Void) {
+    func loginToFacebookWithSuccess(successBlock: (FBSDKLoginManagerLoginResult) -> Void, andFailure failureBlock: (NSError?) -> Void) {
         
         if FBSDKAccessToken.currentAccessToken() != nil {
             //For debugging, when we want to ensure that facebook login always happens
@@ -71,7 +93,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
                     //	}
                     //}
                     
-                    successBlock()
+                    successBlock(result)
                 } else {
                     //The user did not grant all permissions requested
                     //Discover which permissions are granted
@@ -127,7 +149,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         if (error == nil){
 //            print("\(result.token.tokenString)")
 //            print("\(result.token.expirationDate)")
-            Auth.sendAuthRequest(result.token.tokenString)
+            Auth.sendAuthRequest(result.token.tokenString){_,_ in }
 //            print(User.createUser(result.token.tokenString))
             print("Login Complete...")
             let storyboard = UIStoryboard(name: "Main", bundle: nil)

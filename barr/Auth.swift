@@ -14,20 +14,31 @@ struct Auth {
     
     static var currUser: User?
     
-    static func sendAuthRequest(fbAccessToken: String){
-            let params = ["access_token": fbAccessToken]
-            AlamoHelper.GET("login/facebook", parameters: params, completion: {
-                userAuth -> AnyObject in
-                    currUser = User(fbAuthtoken: fbAccessToken, fbId: userAuth["fbId"].rawValue as! String, accessToken: userAuth["authToken"].rawValue as! String, userId: userAuth["id"].rawValue as! String)
-//                  print("\(userAuth["isCreated"].rawValue as! Bool)")
-//                  let isCreated = userAuth["isCreated"].rawValue as! Bool
-//                    let isCreated = true
-                    if (userAuth["isCreated"] == true) {
+    static func sendAuthRequest(fbAccessToken: String, completeion: ((NSError?, Bool) -> Void)?){
+        FBSDKAccessToken.refreshCurrentAccessToken( {
+            (connection, result, error : NSError!) -> Void in
+                print("\(error)")
+                print("\(result.tokenString)")
+                print("\(FBSDKAccessToken.currentAccessToken().refreshDate)")
+            }
+        )
+        let params = ["access_token": fbAccessToken]
+        AlamoHelper.GET("login/facebook", parameters: params, completion: {
+            userAuth -> Void in
+                currUser = User(fbAuthtoken: fbAccessToken, fbId: userAuth["fbId"].rawValue as! String, accessToken: userAuth["authToken"].rawValue as! String, userId: userAuth["id"].rawValue as! String)
+                if let isCreated = userAuth["isCreated"].rawString()?.toBool() {
+                    if (isCreated == true) {
                         populateNewUser(fbAccessToken, currUser: currUser!)
                     }
-                    return true
-            })
-//        }
+                    if let compBlock = completeion {
+                        compBlock(nil, isCreated)
+                    }
+                } else {
+                    if let compBlock = completeion {
+                        compBlock(NSError(domain: "isCreated not defined", code: 100, userInfo: nil), false)
+                    }
+                }
+        })
     }
     
     static func populateNewUser(fbAuthtoken: String, currUser: User){

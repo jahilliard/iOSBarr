@@ -26,6 +26,8 @@
 		0C44C6331C7BCC5300B8DF41 /* MatchInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C44C6321C7BCC5300B8DF41 /* MatchInfo.swift */; };
 		0C44C6351C7BCC5900B8DF41 /* Match.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C44C6341C7BCC5900B8DF41 /* Match.swift */; };
 		0C44C6371C7BCC8700B8DF41 /* Locations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C44C6361C7BCC8700B8DF41 /* Locations.swift */; };
+		0C44C6391C7C149500B8DF41 /* extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C44C6381C7C149500B8DF41 /* extension.swift */; };
+		0C44C63B1C7C1C7800B8DF41 /* AdditionalInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C44C63A1C7C1C7800B8DF41 /* AdditionalInfoViewController.swift */; };
 		0C44DD2C1C6FE70D00B88039 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C44DD2B1C6FE70D00B88039 /* AccountViewController.swift */; };
 		0CAE28711C776B4400CE4F92 /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CAE28701C776B4400CE4F92 /* Auth.swift */; };
 		0CAE28731C78C72E00CE4F92 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0CAE28721C78C72E00CE4F92 /* Login.storyboard */; };
@@ -68,6 +70,8 @@
 		0C44C6321C7BCC5300B8DF41 /* MatchInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatchInfo.swift; sourceTree = "<group>"; };
 		0C44C6341C7BCC5900B8DF41 /* Match.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Match.swift; sourceTree = "<group>"; };
 		0C44C6361C7BCC8700B8DF41 /* Locations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Locations.swift; sourceTree = "<group>"; };
+		0C44C6381C7C149500B8DF41 /* extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extension.swift; sourceTree = "<group>"; };
+		0C44C63A1C7C1C7800B8DF41 /* AdditionalInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdditionalInfoViewController.swift; sourceTree = "<group>"; };
 		0C44DD2B1C6FE70D00B88039 /* AccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		0CAE28701C776B4400CE4F92 /* Auth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Auth.swift; sourceTree = "<group>"; };
 		0CAE28721C78C72E00CE4F92 /* Login.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
@@ -151,6 +155,7 @@
 				0C39264A1C6C148700CF343B /* models */,
 				0C3DBAF51C6C13AA00401A2E /* Assets.xcassets */,
 				0C3DBAFA1C6C13AA00401A2E /* Info.plist */,
+				0C44C6381C7C149500B8DF41 /* extension.swift */,
 			);
 			path = barr;
 			sourceTree = "<group>";
@@ -184,6 +189,7 @@
 				0C44DD2B1C6FE70D00B88039 /* AccountViewController.swift */,
 				0C3EA74D1C713CDC0039193B /* CurrentChatViewController.swift */,
 				0C0074281C725D91008E9652 /* LoginViewController.swift */,
+				0C44C63A1C7C1C7800B8DF41 /* AdditionalInfoViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -366,6 +372,7 @@
 				0C3EA74E1C713CDC0039193B /* CurrentChatViewController.swift in Sources */,
 				0C44C6371C7BCC8700B8DF41 /* Locations.swift in Sources */,
 				0C39264E1C6C285500CF343B /* Business.swift in Sources */,
+				0C44C6391C7C149500B8DF41 /* extension.swift in Sources */,
 				0C44C6311C7BCC4B00B8DF41 /* Room.swift in Sources */,
 				0C44C6351C7BCC5900B8DF41 /* Match.swift in Sources */,
 				0C3DBAF11C6C13AA00401A2E /* MapViewController.swift in Sources */,
@@ -378,6 +385,7 @@
 				0C44C62F1C7BCC3C00B8DF41 /* UserInfo.swift in Sources */,
 				0C39264C1C6C149E00CF343B /* User.swift in Sources */,
 				0C0074291C725D91008E9652 /* LoginViewController.swift in Sources */,
+				0C44C63B1C7C1C7800B8DF41 /* AdditionalInfoViewController.swift in Sources */,
 				0C1932E31C7A47D4009A6E13 /* notUseFiled.swift in Sources */,
 				0C44DD2C1C6FE70D00B88039 /* AccountViewController.swift in Sources */,
 			);

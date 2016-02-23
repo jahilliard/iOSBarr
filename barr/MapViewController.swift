@@ -44,9 +44,26 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    
     func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+        switch status {
+        case .NotDetermined:
+            locationManager.requestAlwaysAuthorization()
+            break
+        case .AuthorizedWhenInUse:
             locationManager.startUpdatingLocation()
+            break
+        case .AuthorizedAlways:
+            locationManager.startUpdatingLocation()
+            break
+        case .Restricted:
+            // restricted by e.g. parental controls. User can't enable Location Services
+            break
+        case .Denied:
+            // user denied your app access to Location Services, but can grant access from Settings.app
+            break
+        default:
+            break
+        }
     }
     
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {

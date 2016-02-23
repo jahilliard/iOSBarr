@@ -25,19 +25,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if let fbAccessToken = FBSDKAccessToken.currentAccessToken(){
             //print(fbAuthtoken)
-            Auth.sendAuthRequest(fbAccessToken.tokenString)
+            Auth.sendAuthRequest(fbAccessToken.tokenString, completeion: nil)
         } else {
-            if let _ = User.prefs.stringForKey("userId") {
-                let storyboard = UIStoryboard(name: "Login", bundle: nil)
-                let initialViewController = storyboard.instantiateViewControllerWithIdentifier("LoginScreen")
-                self.window?.rootViewController = initialViewController
-                self.window?.makeKeyAndVisible()
-            } else {
-                let storyboard = UIStoryboard(name: "", bundle: nil)
-                let initialViewController = storyboard.instantiateViewControllerWithIdentifier("LoginScreen")
-                self.window?.rootViewController = initialViewController
-                self.window?.makeKeyAndVisible()
-            }
+            let storyboard = UIStoryboard(name: "Login", bundle: nil)
+            let initialViewController = storyboard.instantiateViewControllerWithIdentifier("LoginScreen")
+            self.window?.rootViewController = initialViewController
+            self.window?.makeKeyAndVisible()
         }
         return true
 
