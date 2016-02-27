@@ -17,18 +17,25 @@ class GoogleMaps {
         GMSServices.provideAPIKey(self.gMapsAPIKey)
     }
     
-    func makeMap(latitude: Double, longitude: Double) -> UIView{
+    func makeMap(latitude: Double, longitude: Double, completion: (mapView: GMSMapView) -> Void) -> Void{
         let camera = GMSCameraPosition.cameraWithLatitude(latitude,
             longitude: longitude, zoom: 13)
         let mapView = GMSMapView.mapWithFrame(CGRectZero, camera: camera)
         mapView.myLocationEnabled = true
         
-//        let marker = GMSMarker()
-//        marker.position = CLLocationCoordinate2DMake(-33.86, 151.20)
-//        marker.title = "Sydney"
-//        marker.snippet = "Australia"
-//        marker.map = mapView
-        
-        return mapView
+        completion(mapView: mapView)
+    }
+    
+    func makeLocationsOnMap(locations: [Location]?) -> [GMSMarker]{
+        var markers: [GMSMarker]?
+        if let locationsArr = locations {
+            for location in locationsArr {
+                let marker = GMSMarker()
+                marker.position = CLLocationCoordinate2DMake(location.lat as! Double, location.lon as! Double)
+                marker.title = location.name
+                markers?.append(marker)
+            }
+        }
+        return markers!
     }
 }

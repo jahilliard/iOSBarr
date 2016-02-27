@@ -27,7 +27,6 @@ struct ErrorHandler {
         
         let settingsAction = UIAlertAction(title: "Settings", style: .Default) {
             (alertAction) in
-                // THIS IS WHERE THE MAGIC HAPPENS!!!!
                 if let appSettings = NSURL(string: UIApplicationOpenSettingsURLString) {
                 UIApplication.sharedApplication().openURL(appSettings)
             }

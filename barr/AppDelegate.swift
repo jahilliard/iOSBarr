@@ -23,6 +23,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //App launch code
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         
+//        let storyboard = UIStoryboard(name: "Login", bundle: nil)
+//        let initialViewController = storyboard.instantiateViewControllerWithIdentifier("additionalInfo")
+//        self.window?.rootViewController = initialViewController
+//        self.window?.makeKeyAndVisible()
+        
         if let fbAccessToken = FBSDKAccessToken.currentAccessToken(){
             //print(fbAuthtoken)
             Auth.sendAuthRequest(fbAccessToken.tokenString, completeion: nil)

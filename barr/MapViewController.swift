@@ -19,22 +19,16 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("\(FBSDKAccessToken.currentAccessToken().refreshDate)")
-        print("\(FBSDKAccessToken.currentAccessToken().tokenString)")
         FBSDKAccessToken.refreshCurrentAccessToken( {
             (connection, result, error : NSError!) -> Void in
             print("\(error)")
             print("\(result.tokenString)")
             print("\(FBSDKAccessToken.currentAccessToken().refreshDate)")
         })
-        if CLLocationManager.authorizationStatus() == .NotDetermined {
-            locationManager.requestAlwaysAuthorization()
-        } else {
-            locationManager.delegate = self
-            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-            locationManager.startUpdatingLocation()
-        }
-        print("\(FBSDKAccessToken.currentAccessToken().refreshDate)")
+        locationManager.requestAlwaysAuthorization()
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+        locationManager.startUpdatingLocation()
     }
 
     override func didReceiveMemoryWarning() {
@@ -44,6 +38,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(false)
+    }
+    
+    func locationManager(manager: CLLocationManager){
+        
     }
     
     func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
@@ -70,21 +68,21 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
         }
     }
     
-    func requestAuthorizationLocation(){
-    }
-    
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
-        print("Error")
+        print("Error In Location Manager")
     }
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let userLocation: CLLocation = locations[0] as CLLocation
         locationManager.stopUpdatingLocation()
         if let lat = userLocation.coordinate.latitude as Double?, long = userLocation.coordinate.longitude as Double?{
-            let button = UIButton(frame: CGRectMake((screenSize.width * 0.75), (screenSize.height * 0.75), screenSize.width * 0.1, screenSize.height * 0.1))
-            button.backgroundColor = UIColor.greenColor()
-            self.view = self.gMap.makeMap(lat, longitude: long)
-            self.view.addSubview(button)
+            self.gMap.makeMap(lat, longitude: long) {
+                mapView in
+                    self.view = mapView
+            }
+//            let button = UIButton(frame: CGRectMake((screenSize.width * 0.75), (screenSize.height * 0.75), screenSize.width * 0.1, screenSize.height * 0.1))
+//            button.backgroundColor = UIColor.greenColor()
+//            self.view.addSubview(button)
 //            ErrorHandler.buidErrorView(true)
         }else {
             print("lat long not defined")

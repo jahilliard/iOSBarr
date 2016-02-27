@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Alamofire
 import SwiftyJSON
 
 class Location {
@@ -21,30 +20,28 @@ class Location {
     let lat: NSNumber?
     let lon: NSNumber?
     
-    init(dictionary: NSDictionary) {
-        self.name = dictionary["name"] as? String
-        self.lat = dictionary["lat"] as? NSNumber
-        self.lon = dictionary["lon"] as? NSNumber
+    init(dictionary: JSON) {
+        self.name = dictionary["name"].rawString()
+        self.lat = dictionary["lat"].rawValue as? NSNumber
+        self.lon = dictionary["lon"].rawValue as? NSNumber
+        
         
         //setting imageURL
-        let imageURLString = dictionary["image_url"] as? String
-        if imageURLString != nil {
-            self.imageURL = NSURL(string: imageURLString!)!
+        if let imageURLString = dictionary["image_url"].rawString() {
+            self.imageURL = NSURL(string: imageURLString)!
         } else {
             self.imageURL = nil
         }
         
-        let location = dictionary["location"] as? NSDictionary
-        
         //setting address
         var address = ""
-        if location != nil {
-            let addressArray = location!["address"] as? NSArray
+        if let location = dictionary["location"].rawValue as? NSDictionary {
+            let addressArray = location["address"] as? NSArray
             if addressArray != nil && addressArray!.count > 0 {
                 address = addressArray![0] as! String
             }
             
-            let neighborhoods = location!["neighborhoods"] as? NSArray
+            let neighborhoods = location["neighborhoods"] as? NSArray
             if neighborhoods != nil && neighborhoods!.count > 0 {
                 if !address.isEmpty {
                     address += ", "
@@ -55,7 +52,7 @@ class Location {
         self.address = address
         
         //setting categories
-        let categoriesArray = dictionary["categories"] as? [[String]]
+        let categoriesArray = dictionary["categories"].rawValue as? [[String]]
         if categoriesArray != nil {
             var categoryNames = [String]()
             for category in categoriesArray! {
@@ -68,23 +65,28 @@ class Location {
         }
         
         //setting distance
-        let distanceMeters = dictionary["distance"] as? NSNumber
-        if distanceMeters != nil {
+        if let distanceMeters = dictionary["distance"].rawValue as? NSNumber {
             let milesPerMeter = 0.000621371
-            self.distance = String(format: "%.2f mi", milesPerMeter * distanceMeters!.doubleValue)
+            self.distance = String(format: "%.2f mi", milesPerMeter * distanceMeters.doubleValue)
         } else {
             self.distance = nil
         }
         
         //setting ratingImageURL
-        let ratingImageURLString = dictionary["rating_img_url_large"] as? String
-        if ratingImageURLString != nil {
-            self.ratingImageURL = NSURL(string: ratingImageURLString!)
+        if let ratingImageURLString = dictionary["rating_img_url_large"].rawString() {
+            self.ratingImageURL = NSURL(string: ratingImageURLString)
         } else {
             self.ratingImageURL = nil
         }
         
-        reviewCount = dictionary["review_count"] as? NSNumber
+        reviewCount = dictionary["review_count"].rawValue as? NSNumber
+    }
+    
+    func getLocations(completion: (response: JSON) -> Void){
+        AlamoHelper.GET("locations/", parameters: nil, completion: {
+            response in
+                completion(response: response)
+        })
     }
     
 }
