@@ -15,22 +15,17 @@ struct Auth {
     static var currUser: User?
     
     static func sendAuthRequest(fbAccessToken: String, completeion: ((NSError?, Bool) -> Void)?){
-        FBSDKAccessToken.refreshCurrentAccessToken( {
-            (connection, result, error : NSError!) -> Void in
-                print("\(error)")
-                print("\(result.tokenString)")
-                print("\(FBSDKAccessToken.currentAccessToken().refreshDate)")
-            }
-        )
         let params = ["access_token": fbAccessToken]
         AlamoHelper.GET("login/facebook", parameters: params, completion: {
             userAuth -> Void in
                 currUser = User(fbAuthtoken: fbAccessToken, fbId: userAuth["fbId"].rawValue as! String, accessToken: userAuth["authToken"].rawValue as! String, userId: userAuth["id"].rawValue as! String)
                 if let isCreated = userAuth["isCreated"].rawString()?.toBool() {
                     if (isCreated == true) {
+                        print("User was Created")
                         populateNewUser(fbAccessToken, currUser: currUser!)
                     }
                     if let compBlock = completeion {
+                        print("User NOT was Created")
                         compBlock(nil, isCreated)
                     }
                 } else {

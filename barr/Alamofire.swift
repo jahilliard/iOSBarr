@@ -17,8 +17,8 @@ let headers = [
 struct AlamoHelper {
 
 //    static let domain = "http://172.25.0.72:3000/"
-//    static let domain = "http://10.0.0.2:3000/"
-    static let domain = "http://128.237.142.205:3000/"
+    static let domain = "http://10.0.0.47:3000/"
+//    static let domain = "http://128.237.142.205:3000/"
 
     static func GET(subdomain: String, parameters: [String: AnyObject]?, completion: (response: JSON) -> Void){
         if let params = parameters {
