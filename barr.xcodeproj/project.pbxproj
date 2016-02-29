@@ -39,6 +39,7 @@
 		0CAE28711C776B4400CE4F92 /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CAE28701C776B4400CE4F92 /* Auth.swift */; };
 		0CAE28731C78C72E00CE4F92 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0CAE28721C78C72E00CE4F92 /* Login.storyboard */; };
 		0CE32B4D1C759E3000C61F98 /* Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE32B4C1C759E3000C61F98 /* Alamofire.swift */; };
+		0CEA2AA91C82926800EA2631 /* Me.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CEA2AA81C82926800EA2631 /* Me.swift */; };
 		F5EA423E335AEFD9191DA847 /* Pods_barr.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 916C42F7B8F8814DA6A2EB5E /* Pods_barr.framework */; };
 /* End PBXBuildFile section */
 
@@ -89,6 +90,7 @@
 		0CAE28701C776B4400CE4F92 /* Auth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Auth.swift; sourceTree = "<group>"; };
 		0CAE28721C78C72E00CE4F92 /* Login.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		0CE32B4C1C759E3000C61F98 /* Alamofire.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Alamofire.swift; sourceTree = "<group>"; };
+		0CEA2AA81C82926800EA2631 /* Me.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Me.swift; sourceTree = "<group>"; };
 		36CDFA35C0D7F6EA94DAAE26 /* Pods-barr.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-barr.debug.xcconfig"; path = "Pods/Target Support Files/Pods-barr/Pods-barr.debug.xcconfig"; sourceTree = "<group>"; };
 		433DC74FE6359325AE41CE9E /* Pods-barr.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-barr.release.xcconfig"; path = "Pods/Target Support Files/Pods-barr/Pods-barr.release.xcconfig"; sourceTree = "<group>"; };
 		916C42F7B8F8814DA6A2EB5E /* Pods_barr.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_barr.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -129,10 +131,10 @@
 				0C44C6361C7BCC8700B8DF41 /* Locations.swift */,
 				0C44C6301C7BCC4B00B8DF41 /* Circle.swift */,
 				0C44C62E1C7BCC3C00B8DF41 /* UserInfo.swift */,
-				0C39264B1C6C149E00CF343B /* User.swift */,
 				0CAE28701C776B4400CE4F92 /* Auth.swift */,
 				0C1A9A311C7CA93600C5658F /* ErrorHandler.swift */,
 				0C4E6A3C1C801E1F0092AE08 /* Chat.swift */,
+				0CEA2AA81C82926800EA2631 /* Me.swift */,
 			);
 			name = models;
 			sourceTree = "<group>";
@@ -166,6 +168,7 @@
 				0C39264A1C6C148700CF343B /* models */,
 				0C3DBAF51C6C13AA00401A2E /* Assets.xcassets */,
 				0C3DBAFA1C6C13AA00401A2E /* Info.plist */,
+				0C39264B1C6C149E00CF343B /* User.swift */,
 				0C134FE81C7EB02D009ADAB9 /* YourNotificationsViewController.swift */,
 				0C1932E21C7A47D4009A6E13 /* notUseFiled.swift */,
 				0C44C6381C7C149500B8DF41 /* extension.swift */,
@@ -411,6 +414,7 @@
 				0C44C63B1C7C1C7800B8DF41 /* AdditionalInfoViewController.swift in Sources */,
 				0C1A9A321C7CA93600C5658F /* ErrorHandler.swift in Sources */,
 				0C1932E31C7A47D4009A6E13 /* notUseFiled.swift in Sources */,
+				0CEA2AA91C82926800EA2631 /* Me.swift in Sources */,
 				0C44DD2C1C6FE70D00B88039 /* AccountViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

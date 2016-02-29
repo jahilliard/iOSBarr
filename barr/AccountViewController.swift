@@ -14,7 +14,6 @@ class AccountViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        print("Load Page")
         let logOutBut: UIButton = UIButton(frame: CGRect(x: self.view.frame.width*0.5, y: self.view.frame.height*0.5, width: 200, height: 200))
         logOutBut.backgroundColor = UIColor.greenColor()
         logOutBut.titleLabel?.text = "Logout"

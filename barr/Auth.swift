@@ -12,40 +12,54 @@ import SwiftyJSON
 
 struct Auth {
     
-    static var currUser: User?
+    static private var completion:  ((NSError?, Bool) -> Void)?
+    static private var wasCreated: Bool?
     
-    static func sendAuthRequest(fbAccessToken: String, completeion: ((NSError?, Bool) -> Void)?){
+    static func sendAuthRequest(fbAccessToken: String, completion: ((NSError?, Bool) -> Void)?){
         let params = ["access_token": fbAccessToken]
         AlamoHelper.GET("login/facebook", parameters: params, completion: {
             userAuth -> Void in
-                currUser = User(fbAuthtoken: fbAccessToken, fbId: userAuth["fbId"].rawValue as! String, accessToken: userAuth["authToken"].rawValue as! String, userId: userAuth["id"].rawValue as! String)
-                if let isCreated = userAuth["isCreated"].rawString()?.toBool() {
-                    if (isCreated == true) {
-                        print("User was Created")
-                        populateNewUser(fbAccessToken, currUser: currUser!)
-                    }
-                    if let compBlock = completeion {
-                        print("User NOT was Created")
-                        compBlock(nil, isCreated)
-                    }
-                } else {
-                    if let compBlock = completeion {
-                        compBlock(NSError(domain: "isCreated not defined", code: 100, userInfo: nil), false)
-                    }
-                }
+            if let fbId = userAuth["fbId"].rawString(), accessToken = userAuth["authToken"].rawString(), userId = userAuth["id"].rawString(), isCreated = userAuth["isCreated"].rawString()?.toBool() {
+                    self.wasCreated = isCreated
+                    self.completion = completion
+                    Me.user.setVariables(fbAccessToken, fbId: fbId, accessToken: accessToken, userId: userId)
+                    self.wasUserCreated()
+            }
         })
     }
     
-    static func populateNewUser(fbAuthtoken: String, currUser: User){
-        print("Graph Call")
-        currUser.makeFbGraphCall(["fields":"email,first_name,last_name,picture"], completion:
-            {
-                response in
-                    updateUserInfo( response["first_name"].rawString()!, lastName: response["last_name"].rawString()!, email: response["email"].rawString()!)
-            })
+    static private func wasUserCreated(){
+        print(wasCreated)
+        if let isCreated = wasCreated {
+            if (isCreated == true) {
+                print("User was Created")
+                Me.user.createUser()
+            } else {
+                if let compBlock = completion {
+                    print("User NOT was Created")
+                    compBlock(nil, isCreated)
+                }
+            }
+        } else {
+            if let compBlock = completion {
+                print("There was a Login Error")
+                compBlock(NSError(domain: "isCreated not defined", code: 100, userInfo: nil), false)
+            }
+        }
     }
     
-    static func updateUserInfo(firstName: String, lastName: String, email: String){
-        currUser?.updateUser(["lastName": lastName, "firstName": firstName, "email": email])
-    }
+    
+//    static func populateNewUser(fbAuthtoken: String){
+//        print("Graph Call")
+//        currUser.makeFbGraphCall(["fields":"email,first_name,last_name,picture"], completion:
+//            {
+//                response in
+//                    updateUserInfo(currUser, firstName: response["first_name"].rawString()!, lastName: response["last_name"].rawString()!, email: response["email"].rawString()!, picture: response["print"].rawString()!)
+//            })
+//    }
+//    
+//    static func updateUserInfo(currUser: User, firstName: String, lastName: String, email: String, picture: String){
+//        print(picture)
+//        currUser.updateUser(["lastName": lastName, "firstName": firstName, "email": email])
+//    }
 }

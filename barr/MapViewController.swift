@@ -19,12 +19,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        FBSDKAccessToken.refreshCurrentAccessToken( {
-            (connection, result, error : NSError!) -> Void in
-            print("\(error)")
-            print("\(result.tokenString)")
-            print("\(FBSDKAccessToken.currentAccessToken().refreshDate)")
-        })
+//        Me.user.printVals()
         locationManager.requestAlwaysAuthorization()
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
@@ -45,7 +40,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
-        print("status")
         switch status {
         case .NotDetermined:
             locationManager.requestAlwaysAuthorization()
@@ -63,8 +57,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
             ErrorHandler.showEventsAcessDeniedAlert("Change Permissions", message: "Please change your location permissions")
             // user denied your app access to Location Services, but can grant access from Settings.app
             break
-        default:
-            break
         }
     }
     
@@ -80,11 +72,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
                 mapView in
                     self.view = mapView
             }
-//            let button = UIButton(frame: CGRectMake((screenSize.width * 0.75), (screenSize.height * 0.75), screenSize.width * 0.1, screenSize.height * 0.1))
-//            button.backgroundColor = UIColor.greenColor()
-//            self.view.addSubview(button)
-//            ErrorHandler.buidErrorView(true)
-        }else {
+        } else {
             print("lat long not defined")
         }
     }

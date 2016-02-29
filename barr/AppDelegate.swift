@@ -1,3 +1,4 @@
+
 //
 //  AppDelegate.swift
 //  barr
@@ -14,6 +15,7 @@ import SwiftyJSON
 let screenSize: CGRect = UIScreen.mainScreen().bounds
 
 @UIApplicationMain
+
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
@@ -22,19 +24,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         //App launch code
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
-        
-//        let storyboard = UIStoryboard(name: "Login", bundle: nil)
-//        let initialViewController = storyboard.instantiateViewControllerWithIdentifier("additionalInfo")
-//        self.window?.rootViewController = initialViewController
-//        self.window?.makeKeyAndVisible()
-        
-        if let fbAccessToken = FBSDKAccessToken.currentAccessToken(){
-            //print(fbAuthtoken)
-            Auth.sendAuthRequest(fbAccessToken.tokenString, completeion: nil)
-//            let storyboard = UIStoryboard(name: "Login", bundle: nil)
-//            let initialViewController = storyboard.instantiateViewControllerWithIdentifier("additionalInfo")
-//            self.window?.rootViewController = initialViewController
-//            self.window?.makeKeyAndVisible()
+
+        if FBSDKAccessToken.currentAccessToken() != nil {
+            FBSDKAccessToken.refreshCurrentAccessToken( {
+                (connection, result, error : NSError!) -> Void in
+                    Auth.sendAuthRequest(FBSDKAccessToken.currentAccessToken().tokenString, completion: nil)
+            })
         } else {
             let storyboard = UIStoryboard(name: "Login", bundle: nil)
             let initialViewController = storyboard.instantiateViewControllerWithIdentifier("LoginScreen")
