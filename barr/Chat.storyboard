@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="14F1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="gpf-Y2-90H">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <scenes>
+        <!--Chat Controller-->
+        <scene sceneID="wgq-el-PtS">
+            <objects>
+                <tableViewController id="gpf-Y2-90H" customClass="ChatController" customModule="barr" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="66" sectionHeaderHeight="28" sectionFooterHeight="28" id="rFi-dx-AGU">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MessageTableViewCell" rowHeight="66" id="ylI-o8-xom" customClass="MessageTableViewCell" customModule="barr" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="600" height="66"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ylI-o8-xom" id="meT-vC-jow">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="65"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="H7M-2A-fwT">
+                                            <rect key="frame" x="28" y="8" width="544" height="42"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dQf-f1-B7d">
+                                                    <rect key="frame" x="0.0" y="0.0" width="45" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Message" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cHz-MZ-IVk">
+                                                    <rect key="frame" x="0.0" y="21" width="69" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </stackView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="trailingMargin" secondItem="H7M-2A-fwT" secondAttribute="trailing" constant="20" id="1vl-Gh-rbG"/>
+                                        <constraint firstItem="H7M-2A-fwT" firstAttribute="leading" secondItem="meT-vC-jow" secondAttribute="leadingMargin" constant="20" id="5ZY-gu-o3o"/>
+                                        <constraint firstItem="H7M-2A-fwT" firstAttribute="top" secondItem="meT-vC-jow" secondAttribute="topMargin" id="8PX-Te-Abg"/>
+                                        <constraint firstItem="H7M-2A-fwT" firstAttribute="top" secondItem="meT-vC-jow" secondAttribute="topMargin" id="eNy-iK-JDN"/>
+                                        <constraint firstItem="H7M-2A-fwT" firstAttribute="leading" secondItem="meT-vC-jow" secondAttribute="leadingMargin" constant="20" id="hnn-yV-5sq"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="H7M-2A-fwT" secondAttribute="trailing" constant="20" id="pRB-SN-Rwv"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="messageLabel" destination="cHz-MZ-IVk" id="vIV-9a-4Xy"/>
+                                    <outlet property="nameLabel" destination="dQf-f1-B7d" id="gi9-Zn-OAw"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="gpf-Y2-90H" id="5GN-oh-O80"/>
+                            <outlet property="delegate" destination="gpf-Y2-90H" id="qza-mU-IUn"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HPC-I9-7iy" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-252" y="512"/>
+        </scene>
+    </scenes>
+</document>

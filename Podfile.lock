@@ -30,7 +30,7 @@ PODS:
   - FBSDKShareKit (4.10.0):
     - FBSDKCoreKit
   - GoogleMaps (1.11.1)
-  - Socket.IO-Client-Swift (5.3.3)
+  - Socket.IO-Client-Swift (5.5.0)
   - SwiftyJSON (2.3.2)
 
 DEPENDENCIES:
@@ -42,7 +42,7 @@ DEPENDENCIES:
   - FBSDKLoginKit (~> 4.10)
   - FBSDKShareKit (~> 4.10)
   - GoogleMaps (~> 1.11)
-  - Socket.IO-Client-Swift (~> 5.3)
+  - Socket.IO-Client-Swift (~> 5.5.0)
   - SwiftyJSON (~> 2.3)
 
 SPEC CHECKSUMS:
@@ -54,7 +54,7 @@ SPEC CHECKSUMS:
   FBSDKLoginKit: d3d4a2e9d31954deb00bfea964167a05ca1ea976
   FBSDKShareKit: 54587b4624706ace1e810cf83412a918141f807a
   GoogleMaps: c947160008f414c66707a5ea60f35e92055c7670
-  Socket.IO-Client-Swift: debd5c155e4299e33854fbd26bfeaafcbc6df6c6
+  Socket.IO-Client-Swift: f39dbd4e9b295907bb7fd4b9588b89c00426783d
   SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
 
 COCOAPODS: 0.39.0

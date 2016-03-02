@@ -14,6 +14,7 @@ import Alamofire
 class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
     
     @IBAction func loginFB(sender: AnyObject) {
+        SocketManager.sharedInstance.initialize();
         let fbLoginManager : FBSDKLoginManager = FBSDKLoginManager()
         fbLoginManager.loginBehavior = FBSDKLoginBehavior.Native
         loginToFacebookWithSuccess(
@@ -105,7 +106,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("Load Page")
+        print("Load Pages")
         
         if (FBSDKAccessToken.currentAccessToken() == nil){
             print("Not Logged in...")
