@@ -33,6 +33,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else {
             let storyboard = UIStoryboard(name: "Login", bundle: nil)
             let initialViewController = storyboard.instantiateViewControllerWithIdentifier("LoginScreen")
+
+            /*let storyboard = UIStoryboard(name: "Chat", bundle: nil);
+            let initialViewController = storyboard.instantiateViewControllerWithIdentifier("ChatScreen")*/
             self.window?.rootViewController = initialViewController
             self.window?.makeKeyAndVisible()
         }

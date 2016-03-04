@@ -20,9 +20,30 @@ class ChatController: UITableViewController {
             }
         }
     }
-
+    
+    func appendNewMessage(){
+        self.tableView.beginUpdates()
+        self.tableView.insertRowsAtIndexPaths([
+            NSIndexPath(forRow: self.chatMessages.count-1, inSection: 0)
+            ], withRowAnimation: .Automatic)
+        self.tableView.endUpdates()
+    }
+    
+    @objc func checkNewMessage(notification : NSNotification){
+        if let info = notification.userInfo as? Dictionary<String,String> {
+            if let chateeId = info["chateeId"]{
+                if (chateeId == self.otherUserId){
+                    appendNewMessage();
+                }
+            } else{
+                return;
+            }
+        }
+    }
+    
     override func viewDidLoad() {
-        super.viewDidLoad()
+        super.viewDidLoad();
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "checkNewMessage:", name: ChatManager.sharedInstance.newMessageNotification, object: nil);
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false

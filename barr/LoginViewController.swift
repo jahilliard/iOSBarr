@@ -14,7 +14,6 @@ import Alamofire
 class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
     
     @IBAction func loginFB(sender: AnyObject) {
-        SocketManager.sharedInstance.initialize();
         let fbLoginManager : FBSDKLoginManager = FBSDKLoginManager()
         fbLoginManager.loginBehavior = FBSDKLoginBehavior.Native
         loginToFacebookWithSuccess(
