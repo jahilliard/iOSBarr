@@ -12,18 +12,30 @@ import SocketIOClientSwift
 class SocketManager {
     let socket : SocketIOClient;
     
-    static let sharedInstance = SocketManager();
+    static let sharedInstance : SocketManager = SocketManager();
 
     /*func registerHandler(eventName: String, handler: NSArray -> ()){
         socket.on(eventName, callback: {(data, ack) in handler(data) });
     }*/
     
     private init(){
-        self.socket = SocketIOClient(socketURL: NSURL(string: "http://10.0.0.3:3000")!, options: ["connectParams" : ["id": "56d35862ca9a1dbd590d8b5c", "access_token" : "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiNTZkMzU4NjJjYTlhMWRiZDU5MGQ4YjVjIiwiZXhwIjoxNDU3Mjk3MTA1NTAzfQ.t77dtS76-dPzz2pMQJcS-9mGRnqlUQyKTcw5OdOkpwA"]]);
+        let connectParams = ["id": Me.user.userId!, "access_token": Me.user.accessToken!];
+        self.socket = SocketIOClient(socketURL: NSURL(string: "http://10.0.0.3:3000")!, options: ["connectParams" : connectParams]);
         print("SOCKET MANAGER INITING");
         
         self.socket.on("newMessage", callback: {(data, ack) in
-            print(data);
+            if (data.count <= 0){
+                return;
+            }
+            
+            let newMessage = data[0];
+            
+            if let sender = newMessage["from"] as? String,
+                messageText = newMessage["message"] as? String
+            {
+                ChatManager.sharedInstance.addChatMessage(sender, message: messageText);
+            }
+            
             /*let sender = data["from"];
             let message = data["message"];
             let chat = chats[sender];

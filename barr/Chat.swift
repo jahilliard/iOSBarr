@@ -11,9 +11,10 @@ import SwiftyJSON
 class Chat {
     let chateeId: String
     var messages:[Message] //each message contains the message string and the sender
-    
+    var containsUnread: Bool
     
     init(dict: JSON){
+        self.containsUnread = false;
         self.messages = [];
         if let chateeId = dict["chateeId"].rawString(), messages = dict["messages"].rawValue as? [NSDictionary]{
             for msg: NSDictionary in messages {

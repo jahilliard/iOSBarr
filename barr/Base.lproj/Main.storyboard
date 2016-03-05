@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="JyD-vg-tsl">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="14F1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="JyD-vg-tsl">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
@@ -35,10 +35,10 @@
             </objects>
             <point key="canvasLocation" x="983.5" y="-61"/>
         </scene>
-        <!--Chat-->
+        <!--ChatList-->
         <scene sceneID="za9-XR-8uA">
             <objects>
-                <viewControllerPlaceholder storyboardName="Chat" id="Hs9-rl-bBJ" sceneMemberID="viewController">
+                <viewControllerPlaceholder storyboardName="ChatList" id="Hs9-rl-bBJ" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Item" id="HPk-WB-cgG"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1Ty-EM-441" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -1,50 +1,24 @@
 //
-//  ChatControllerTableViewController.swift
+//  ChatListViewController.swift
 //  barr
 //
-//  Created by Carl Lin on 3/1/16.
+//  Created by Carl Lin on 3/4/16.
 //  Copyright © 2016 barrapp. All rights reserved.
 //
 
 import UIKit
 
-class ChatController: UITableViewController {
-    private var otherUserId = "56d35862ca9a1dbd590d8b5c";
-    private var chatMessages : [Message] {
-        get {
-            let chat = ChatManager.sharedInstance.getChat(self.otherUserId);
-            if (chat != nil) {
-                return chat!.messages;
-            } else {
-                return [];
-            }
-        }
-    }
+class ChatListViewController: UITableViewController {
+    var selectedChateeId: String;
     
-    func appendNewMessage(){
-        self.tableView.beginUpdates()
-        self.tableView.insertRowsAtIndexPaths([
-            NSIndexPath(forRow: self.chatMessages.count-1, inSection: 0)
-            ], withRowAnimation: .Automatic)
-        self.tableView.endUpdates()
-    }
-    
-    @objc func checkNewMessage(notification : NSNotification){
-        if let info = notification.userInfo as? Dictionary<String,String> {
-            if let chateeId = info["chateeId"]{
-                if (chateeId == self.otherUserId){
-                    appendNewMessage();
-                }
-            } else{
-                return;
-            }
-        }
+    @objc func updateList(notification : NSNotification){
+        self.tableView.reloadData();
     }
     
     override func viewDidLoad() {
-        super.viewDidLoad();
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "checkNewMessage:", name: ChatManager.sharedInstance.newMessageNotification, object: nil);
-
+        super.viewDidLoad()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateList:", name: ChatManager.sharedInstance.newMessageNotification, object: nil);
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -66,20 +40,18 @@ class ChatController: UITableViewController {
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return self.chatMessages.count;
+        return ChatManager.sharedInstance.chatOrder.count;
     }
 
-    
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("MessageTableViewCell", forIndexPath: indexPath) as! MessageTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("ChatListTableViewCell", forIndexPath: indexPath)
 
         // Configure the cell...
-        let msg = self.chatMessages[indexPath.row] as Message
-        cell.msg = msg;
-
+        let chatOrder = chatManager.sharedInstance.chatOrder;
+        let chateeId = chatOrder[indexPath.row];
+        cell.initialize(chateeId);
         return cell;
     }
-
 
     /*
     // Override to support conditional editing of the table view.
@@ -116,14 +88,25 @@ class ChatController: UITableViewController {
     }
     */
 
-    /*
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let selectedChateeId = ChatManager.sharedInstance.chatOrder[indexPath.row];
+        self.selectedChateeId = selectedChateeId;
+        ChatManager.sharedInstance.currentChateeId = selectedChateeId;
+        ChatManager.sharedInstance.getChat(selectedChateeId).containsUnread = false;
+        performSegueWithIdentifier("toChat", sender: self)
+    }
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if segue.identifier == "toChat"{
+            let navigationController = segue.destinationViewController as UINavigationController;
+            let chatView = navigationController.topViewController as ChatViewController;
+            chatView.otherUserId = selectedChateeId;
+        }
     }
-    */
 
 }
