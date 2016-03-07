@@ -39,7 +39,7 @@ class ChatManager {
         }
         
         var containsUnread = false;
-        if (self.currentChateeId != userId){
+        if (self.currentChateeId != userId && self.currentChateeId != Me.user.userId){
             containsUnread = true;
         }
         
@@ -52,6 +52,18 @@ class ChatManager {
         }
         
         self.chatOrder.insert(userId, atIndex: 0);
+        print("NOTIFYING CHATS");
         notifyChats(userId);
+    }
+    
+    func sendMessage(userId: String, message: String) {
+        SocketManager.sharedInstance.sendMessage(userId, message: message, callback: {(err, data) in
+            if (err != nil) {
+                print(err);
+                return;
+            } else {
+                self.addChatMessage(userId, message: message);
+            }
+        });
     }
 }

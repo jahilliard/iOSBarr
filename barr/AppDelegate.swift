@@ -24,10 +24,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         //App launch code
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
-
+        print("HERE");
         if FBSDKAccessToken.currentAccessToken() != nil {
+            print("REFRESHING TOKEN");
             FBSDKAccessToken.refreshCurrentAccessToken( {
                 (connection, result, error : NSError!) -> Void in
+                    print("DOING AUTH");
                     Auth.sendAuthRequest(FBSDKAccessToken.currentAccessToken().tokenString, completion: nil)
             })
         } else {

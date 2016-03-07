@@ -21,7 +21,8 @@ class ChatListTableViewCell: UITableViewCell {
             }
             
             if(chat.containsUnread){
-                nameLabel.font = UIFont.boldSystemFontOfSize(16.0);
+                //do something to signify unread
+                print("CONTAINS UNREAD");
             }
             
             //set photo

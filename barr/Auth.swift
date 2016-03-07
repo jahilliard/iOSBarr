@@ -25,6 +25,7 @@ struct Auth {
                 self.completion = completion
                 Me.user.setVariables(fbAccessToken, fbId: fbId, accessToken: accessToken, userId: userId)
                 self.wasUserCreated()
+                print("STARTING SOCKETS");
                 SocketManager.sharedInstance.initialize();
             }
         })

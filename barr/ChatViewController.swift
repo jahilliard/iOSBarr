@@ -8,8 +8,30 @@
 
 import UIKit
 
-class ChatViewController: UITableViewController {
-    var otherUserId = "";
+class ChatViewController: UIViewController, UITableViewDelegate, UITableViewDataSource,
+    UITextFieldDelegate
+{
+    @IBOutlet weak var sendMsgButton: UIButton!
+    @IBOutlet weak var messageInputField: UITextField!
+    @IBOutlet weak var messagesTableView: UITableView!
+    @IBOutlet weak var dockViewHeightConstraint: NSLayoutConstraint!
+    var otherUserId : String! {
+        didSet {
+            self.title = self.otherUserId;
+        }
+    }
+    
+    
+    @IBAction func OnButtonClick(sender: UIButton)
+    {
+        if let text : String = self.messageInputField.text {
+            ChatManager.sharedInstance.sendMessage(self.otherUserId, message: text);
+            self.messageInputField.text = "";
+        }
+        
+        self.messageInputField.endEditing(true);
+    }
+    
     private var chatMessages : [Message] {
         get {
             let chat = ChatManager.sharedInstance.getChat(self.otherUserId);
@@ -22,11 +44,11 @@ class ChatViewController: UITableViewController {
     }
     
     func appendNewMessage(){
-        self.tableView.beginUpdates()
-        self.tableView.insertRowsAtIndexPaths([
+        self.messagesTableView.beginUpdates()
+        self.messagesTableView.insertRowsAtIndexPaths([
             NSIndexPath(forRow: self.chatMessages.count-1, inSection: 0)
             ], withRowAnimation: .Automatic)
-        self.tableView.endUpdates()
+        self.messagesTableView.endUpdates()
     }
     
     @objc func checkNewMessage(notification : NSNotification){
@@ -41,10 +63,43 @@ class ChatViewController: UITableViewController {
         }
     }
     
+    func textFieldDidBeginEditing(textField: UITextField) {
+        //grow the dockview
+        self.view.layoutIfNeeded();
+        UIView.animateWithDuration(0.5, animations: {
+            self.dockViewHeightConstraint.constant = 220;
+            self.view.layoutIfNeeded();
+            }, completion: nil);
+    }
+    
+    func textFieldDidEndEditing(textField: UITextField) {
+        //shrink the dockview
+        self.view.layoutIfNeeded();
+        UIView.animateWithDuration(0.5, animations: {
+            self.dockViewHeightConstraint.constant = 60;
+            self.view.layoutIfNeeded();
+            }, completion: nil);
+    }
+    
+    func tableViewTapped(){
+        //Tell textview to end editing
+        self.messageInputField.endEditing(true);
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad();
+        self.messagesTableView.delegate = self;
+        self.messagesTableView.dataSource = self;
+        self.messageInputField.delegate = self;
+        
+        //add tap gesture recognizer to tableview
+        let tableTapGesture : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "tableViewTapped");
+        
+        self.messagesTableView.addGestureRecognizer(tableTapGesture);
+        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "checkNewMessage:", name: ChatManager.sharedInstance.newMessageNotification, object: nil);
 
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -59,18 +114,18 @@ class ChatViewController: UITableViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1;
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return self.chatMessages.count;
     }
 
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("MessageTableViewCell", forIndexPath: indexPath) as! MessageTableViewCell
 
         // Configure the cell...

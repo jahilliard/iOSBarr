@@ -20,10 +20,11 @@ class SocketManager {
     
     private init(){
         let connectParams = ["id": Me.user.userId!, "access_token": Me.user.accessToken!];
-        self.socket = SocketIOClient(socketURL: NSURL(string: "http://10.0.0.3:3000")!, options: ["connectParams" : connectParams]);
+        self.socket = SocketIOClient(socketURL: NSURL(string: "http://192.168.1.9:3000")!, options: ["connectParams" : connectParams]);
         print("SOCKET MANAGER INITING");
         
         self.socket.on("newMessage", callback: {(data, ack) in
+            print("NEW MESSAGE");
             if (data.count <= 0){
                 return;
             }
@@ -48,6 +49,38 @@ class SocketManager {
         
         self.socket.connect();
     }
+    
+    func sendMessage(userId: String, message: String, callback : (NSError?, NSDictionary?) -> ()) {
+        let ack = socket.emitWithAck("ChatMessage", ["receiver": userId, "message": message]);
+        
+        ack(timeoutAfter: 5, callback: {(statusArray) in
+            let statusDict = statusArray[1] as? NSDictionary;
+            let statusMessage = statusArray[0] as? String;
+            if (statusMessage == nil || statusMessage! != "success"){
+                if(statusDict != nil){
+                    let error = NSError(domain: "Send Message Error", code: 400, userInfo: statusDict! as [NSObject : AnyObject]);
+                    callback(error, nil);
+                } else {
+                    let error = NSError(domain: "Send Message Error", code: 400, userInfo: nil);
+                    callback(error, nil);
+                }
+            } else {
+                callback(nil, statusDict);
+            }
+        })
+    }
+    /*func sendMessage(userId: String, message: String, callback : (NSError?, NSDictionary) -> ()){
+        self.socket.emitWithAck("ChatMessage", ["receiver": userId, "message": message]){
+            (err, data) in
+            print("IN CALLBACK");
+            if (err != nil) {
+                callback(NSError(err), data);
+                return;
+            } else {
+                callback(nil, data);
+            }
+        };
+    }*/
     
     func initialize(){}
 }
