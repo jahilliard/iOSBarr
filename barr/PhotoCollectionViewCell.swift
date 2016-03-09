@@ -10,8 +10,7 @@ import UIKit
 
 class PhotoCollectionViewCell: UICollectionViewCell {
     
-    var textLabel: UILabel!
-    var galleryImage: UIImageView!
+    var galleryImage: UIImageView = UIImageView()
     
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)!
@@ -19,16 +18,18 @@ class PhotoCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame:frame)
-        
-        galleryImage = UIImageView(frame: CGRect(x: 0, y: 0, width: 159, height: 225))
-        galleryImage.contentMode = UIViewContentMode.ScaleAspectFit
+        self.galleryImage = UIImageView(frame: CGRect(x: 0, y: 0, width: screenSize.width*0.3, height: screenSize.width*0.3))
+        self.galleryImage.contentMode = UIViewContentMode.ScaleAspectFit
         contentView.addSubview(galleryImage)
-        
-        let textFrame = CGRect(x: 0, y: galleryImage.frame.size.height, width: 159, height: 125)
-        textLabel = UILabel(frame: textFrame)
-        textLabel.font = UIFont.systemFontOfSize(UIFont.smallSystemFontSize())
-        textLabel.textAlignment = .Center
-        contentView.addSubview(textLabel)
+    }
+    
+    func setImg(img: UIImage){
+        self.galleryImage.image = img
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        galleryImage.image = nil
     }
     
     override func awakeFromNib() {

@@ -82,8 +82,9 @@ class Location {
         reviewCount = dictionary["review_count"].rawValue as? NSNumber
     }
     
-    func getLocations(completion: (response: JSON) -> Void){
-        AlamoHelper.GET("locations/", parameters: nil, completion: {
+    static func getLocations(lat: Double, lon: Double, completion: (response: JSON) -> Void) {
+        AlamoHelper.GET("api/v1/locations/search/radius", parameters: ["location": [lon, lat], "radius":100000,
+            "x_key": Me.user.userId!, "access_token": Me.user.accessToken!], completion: {
             response in
                 completion(response: response)
         })

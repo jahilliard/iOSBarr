@@ -22,6 +22,15 @@ extension String {
     }
 }
 
+extension Dictionary {
+    init(_ pairs: [Element]) {
+        self.init()
+        for (k, v) in pairs {
+            self[k] = v
+        }
+    }
+}
+
 extension UIApplication {
     class func topViewController(base: UIViewController? = UIApplication.sharedApplication().keyWindow?.rootViewController) -> UIViewController? {
         if let nav = base as? UINavigationController {

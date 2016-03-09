@@ -23,6 +23,11 @@ class GoogleMaps {
         let mapView = GMSMapView.mapWithFrame(CGRectZero, camera: camera)
         mapView.myLocationEnabled = true
         
+        let marker = GMSMarker()
+        marker.position = CLLocationCoordinate2DMake(latitude, longitude)
+        marker.title = "Test"
+        marker.map = mapView 
+        
         completion(mapView: mapView)
     }
     

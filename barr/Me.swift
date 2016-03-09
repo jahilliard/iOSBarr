@@ -18,6 +18,8 @@ class Me {
     var userId: String?
     var accessToken: String?
     
+    var newestValidateInfo = false
+    
     var nickName: String?
     var age: Int?
     
@@ -48,6 +50,7 @@ class Me {
         Me.user.prefs.setValue(Me.user.fbId, forKey: "fbId")
         Me.user.prefs.setValue(Me.user.accessToken, forKey: "barrAuthToken")
         Me.user.prefs.setValue(Me.user.userId, forKey: "barrId")
+        newestValidateInfo = true
     }
     
     func setVariablesFromNSUserDefault() -> Bool{
@@ -74,13 +77,6 @@ class Me {
                 print("error \(error)")
             }
         })
-    }
-    
-    func printVals(){
-        print(Me.user.fbAuthtoken!)
-        print(Me.user.userId!)
-        print(Me.user.accessToken!)
-        print(Me.user.fbId!)
     }
     
     // MARK: CRUD Functionality

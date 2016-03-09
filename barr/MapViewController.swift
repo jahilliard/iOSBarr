@@ -19,7 +19,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-//        Me.user.printVals()
         locationManager.requestAlwaysAuthorization()
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
@@ -71,6 +70,11 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
             self.gMap.makeMap(lat, longitude: long) {
                 mapView in
                     self.view = mapView
+                Location.getLocations(lat, lon: long) {
+                    response in
+                        print("hit")
+                        print(response)
+                }
             }
         } else {
             print("lat long not defined")
