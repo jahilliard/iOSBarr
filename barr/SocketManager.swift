@@ -34,13 +34,8 @@ class SocketManager {
             if let sender = newMessage["from"] as? String,
                 messageText = newMessage["message"] as? String
             {
-                ChatManager.sharedInstance.addChatMessage(sender, message: messageText);
+                ChatManager.sharedInstance.addChatMessage(sender, ownerId: sender, message: messageText);
             }
-            
-            /*let sender = data["from"];
-            let message = data["message"];
-            let chat = chats[sender];
-            chat.addMessage(message, sender)*/
         });
         
         self.socket.on("connect", callback: {(data, ack) in

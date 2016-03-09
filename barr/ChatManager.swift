@@ -33,36 +33,39 @@ class ChatManager {
         NSNotificationCenter.defaultCenter().postNotificationName(self.newMessageNotification, object: self, userInfo: ["chateeId": userId]);
     }
     
-    func addChatMessage(userId: String, message: String){
-        if (self.chats[userId] == nil){
-            self.chats[userId] = Chat(dict: ["chateeId": userId, "messages": []]);
+    func addChatMessage(chateeId: String, ownerId: String, message: String){
+        if (self.chats[chateeId] == nil){
+            self.chats[chateeId] = Chat(dict: ["chateeId": chateeId, "messages": []]);
         }
         
         var containsUnread = false;
-        if (self.currentChateeId != userId && self.currentChateeId != Me.user.userId){
+        if (self.currentChateeId != chateeId &&
+            self.currentChateeId != Me.user.userId)
+        {
             containsUnread = true;
         }
         
-        chats[userId]!.containsUnread = containsUnread;
-        chats[userId]!.addMessage(message, sender: userId);
+        chats[chateeId]!.containsUnread = containsUnread;
+        chats[chateeId]!.addMessage(message, sender: ownerId);
         
         //set the new order of chats
-        if let index = self.chatOrder.indexOf(userId) {
+        if let index = self.chatOrder.indexOf(chateeId) {
             self.chatOrder.removeAtIndex(index);
         }
         
-        self.chatOrder.insert(userId, atIndex: 0);
+        self.chatOrder.insert(chateeId, atIndex: 0);
         print("NOTIFYING CHATS");
-        notifyChats(userId);
+        notifyChats(chateeId);
     }
     
-    func sendMessage(userId: String, message: String) {
-        SocketManager.sharedInstance.sendMessage(userId, message: message, callback: {(err, data) in
+    func sendMessage(chateeId: String, message: String, callback: (NSError?, NSDictionary?) -> ()) {
+        SocketManager.sharedInstance.sendMessage(chateeId, message: message, callback: {(err, data) in
             if (err != nil) {
-                print(err);
+                callback(err, nil);
                 return;
             } else {
-                self.addChatMessage(userId, message: message);
+                self.addChatMessage(chateeId, ownerId: Me.user.userId!, message: message);
+                callback(nil, data);
             }
         });
     }

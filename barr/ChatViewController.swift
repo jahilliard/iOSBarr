@@ -9,27 +9,19 @@
 import UIKit
 
 class ChatViewController: UIViewController, UITableViewDelegate, UITableViewDataSource,
-    UITextFieldDelegate
+    UITextViewDelegate
 {
     @IBOutlet weak var sendMsgButton: UIButton!
-    @IBOutlet weak var messageInputField: UITextField!
+    @IBOutlet weak var messageInputField: UITextView!
     @IBOutlet weak var messagesTableView: UITableView!
     @IBOutlet weak var dockViewHeightConstraint: NSLayoutConstraint!
+    
+    let MARGINS = 10;
+    
     var otherUserId : String! {
         didSet {
             self.title = self.otherUserId;
         }
-    }
-    
-    
-    @IBAction func OnButtonClick(sender: UIButton)
-    {
-        if let text : String = self.messageInputField.text {
-            ChatManager.sharedInstance.sendMessage(self.otherUserId, message: text);
-            self.messageInputField.text = "";
-        }
-        
-        self.messageInputField.endEditing(true);
     }
     
     private var chatMessages : [Message] {
@@ -43,6 +35,102 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad();
+        self.messagesTableView.delegate = self;
+        self.messagesTableView.dataSource = self;
+        self.messageInputField.delegate = self;
+        
+        //add tap gesture recognizer to tableview
+        let tableTapGesture : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "tableViewTapped");
+        
+        self.messagesTableView.addGestureRecognizer(tableTapGesture);
+        
+        // Uncomment the following line to preserve selection between presentations
+        // self.clearsSelectionOnViewWillAppear = false
+
+        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+    }
+
+    override func viewWillAppear(animated: Bool) {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "checkNewMessage:", name: ChatManager.sharedInstance.newMessageNotification, object: nil);
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil);
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil);
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        NSNotificationCenter.defaultCenter().removeObserver(self);
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    /* TODO:
+    deinit{
+        NSNotificationCenter.defaultCenter().removeObserver(self);
+    }*/
+
+    func scrollToBottom(){
+        if(self.chatMessages.count > 0){
+            self.messagesTableView.scrollToRowAtIndexPath(NSIndexPath(forRow: self.chatMessages.count-1 , inSection: 0), atScrollPosition: .Bottom, animated: false)
+        }
+    }
+    
+    func keyboardWillShow(notification: NSNotification) {
+        if let userInfo = notification.userInfo {
+            if let keyboardSize = (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.CGRectValue() {
+                print("SHOWING KEYBOARD");
+                let oldRect = self.view.frame;
+                print(oldRect.height);
+                print(oldRect.origin);
+                print(keyboardSize.height);
+                self.view.frame = CGRectMake(oldRect.origin.x, oldRect.origin.y, oldRect.width, oldRect.height - keyboardSize.height);
+                self.view.layoutIfNeeded();
+                self.scrollToBottom();
+            }
+        }
+    }
+    
+    func keyboardWillHide(notification: NSNotification) {
+        if let userInfo = notification.userInfo {
+            if let keyboardSize = (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.CGRectValue() {
+                print("HIDING KEYBOARD");
+                let oldRect = self.view.frame;
+                print(oldRect.height);
+                print(oldRect.origin);
+                print(keyboardSize.height);
+                self.view.frame = CGRectMake(oldRect.origin.x, oldRect.origin.y, oldRect.width, oldRect.height + keyboardSize.height);
+                self.view.layoutIfNeeded();
+            }
+        }
+    }
+    
+    //MARK: TextView delegate methods
+    /*func textViewDidBeginEditing(textView: UITextView) {
+        //grow the dockview
+        self.view.layoutIfNeeded();
+        UIView.animateWithDuration(0.5, animations: {
+            self.dockViewHeightConstraint.constant = CGFloat(self.KEYBOARD_HEIGHT);
+            self.view.layoutIfNeeded();
+            }, completion: nil);
+    }*/
+    
+    /*func textViewDidEndEditing(textView: UITextView) {
+    }*/
+    
+    func textViewDidChange(textView: UITextView) {
+        let fixedWidth = textView.frame.size.width
+        let newSize : CGSize = textView.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.max));
+        self.dockViewHeightConstraint.constant = newSize.height + CGFloat(self.MARGINS * 2);
+        self.view.layoutIfNeeded();
+    }
+    
+    //MARK: Chat messages methods
     func appendNewMessage(){
         self.messagesTableView.beginUpdates()
         self.messagesTableView.insertRowsAtIndexPaths([
@@ -63,53 +151,10 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
-    func textFieldDidBeginEditing(textField: UITextField) {
-        //grow the dockview
-        self.view.layoutIfNeeded();
-        UIView.animateWithDuration(0.5, animations: {
-            self.dockViewHeightConstraint.constant = 220;
-            self.view.layoutIfNeeded();
-            }, completion: nil);
-    }
-    
-    func textFieldDidEndEditing(textField: UITextField) {
-        //shrink the dockview
-        self.view.layoutIfNeeded();
-        UIView.animateWithDuration(0.5, animations: {
-            self.dockViewHeightConstraint.constant = 60;
-            self.view.layoutIfNeeded();
-            }, completion: nil);
-    }
-    
+    //MARK: Tableview delegate methods
     func tableViewTapped(){
         //Tell textview to end editing
         self.messageInputField.endEditing(true);
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad();
-        self.messagesTableView.delegate = self;
-        self.messagesTableView.dataSource = self;
-        self.messageInputField.delegate = self;
-        
-        //add tap gesture recognizer to tableview
-        let tableTapGesture : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "tableViewTapped");
-        
-        self.messagesTableView.addGestureRecognizer(tableTapGesture);
-        
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "checkNewMessage:", name: ChatManager.sharedInstance.newMessageNotification, object: nil);
-
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     // MARK: - Table view data source
@@ -180,5 +225,35 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         // Pass the selected object to the new view controller.
     }
     */
+    
+    func sendMessage(message: String) {
+        ChatManager.sharedInstance.sendMessage(self.otherUserId, message: message, callback: {(err, data) in
+                if (err != nil) {
+                    let alert = UIAlertController(title: "Error", message: "Failed to send message", preferredStyle: UIAlertControllerStyle.Alert);
+                    alert.addAction(UIAlertAction(title: "Return", style: UIAlertActionStyle.Default, handler: nil));
+                    self.presentViewController(alert, animated: true, completion: nil);
+                } else {
+                    self.scrollToBottom();
+                    self.messageInputField.text = "";
+                    //shrink the dockview
+                    UIView.animateWithDuration(1, animations: {
+                        let fixedWidth = self.messageInputField.frame.size.width;
+                        let newSize : CGSize = self.messageInputField.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.max));
+                        self.dockViewHeightConstraint.constant = newSize.height + CGFloat(self.MARGINS * 2);
+                        self.view.layoutIfNeeded();
+                        }, completion: nil);
+                    
+                    self.messageInputField.endEditing(true);
+                }
+            }
+        );
+    }
+    
+    @IBAction func OnButtonClick(sender: UIButton)
+    {
+        if let text = self.messageInputField.text {
+            self.sendMessage(text);
+        }
+    }
 
 }
