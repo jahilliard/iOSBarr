@@ -19,11 +19,14 @@ struct Auth {
         let params = ["access_token": fbAccessToken]
         AlamoHelper.GET("login/facebook", parameters: params, completion: {
             userAuth -> Void in
-            if let fbId = userAuth["fbId"].rawString(), accessToken = userAuth["authToken"].rawString(), userId = userAuth["id"].rawString(), isCreated = userAuth["isCreated"].rawString()?.toBool() {
-                    self.wasCreated = isCreated
-                    self.completion = completion
-                    Me.user.setVariables(fbAccessToken, fbId: fbId, accessToken: accessToken, userId: userId)
-                    self.wasUserCreated()
+            if let fbId = userAuth["fbId"].rawString(), accessToken = userAuth["authToken"].rawString(), userId = userAuth["id"].rawString(), isCreated = userAuth["isCreated"].rawString()?.toBool()
+            {
+                self.wasCreated = isCreated
+                self.completion = completion
+                Me.user.setVariables(fbAccessToken, fbId: fbId, accessToken: accessToken, userId: userId)
+                self.wasUserCreated()
+                print("STARTING SOCKETS");
+                SocketManager.sharedInstance.initialize();
             }
         })
     }

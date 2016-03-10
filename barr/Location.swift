@@ -1,5 +1,5 @@
 //
-//  Business.swift
+//  Location.swift
 //  barr
 //
 //  Created by Justin Hilliard on 2/10/16.

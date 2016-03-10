@@ -1,6 +1,8 @@
 # Ignored directories #
 ###################
 Pods/*
+barr.xcworkspace/xcuserdata/*
+barr.xcodeproj/xcuserdata/*
 
 # Compiled source #
 ###################

@@ -8,6 +8,12 @@
 
 import UIKit
 
-class CurrentChatViewController: UIViewController {
+class CurrentChatViewController: UIViewController, UITableViewDataSource {
+    private var otherUserId = "";
+    private var chatMessages = ChatManager.chats[otherUserId];
+    
+    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 1;
+    }
     
 }

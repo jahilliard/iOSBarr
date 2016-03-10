@@ -24,16 +24,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         //App launch code
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
-
         if FBSDKAccessToken.currentAccessToken() != nil {
+            print("REFRESHING TOKEN");
             FBSDKAccessToken.refreshCurrentAccessToken( {
                 (connection, result, error : NSError!) -> Void in
+                    print("DOING AUTH");
                     Auth.sendAuthRequest(FBSDKAccessToken.currentAccessToken().tokenString, completion: nil)
             })
             print(Me.user.setVariablesFromNSUserDefault())
         } else {
             let storyboard = UIStoryboard(name: "Login", bundle: nil)
             let initialViewController = storyboard.instantiateViewControllerWithIdentifier("LoginScreen")
+
+            /*let storyboard = UIStoryboard(name: "Chat", bundle: nil);
+            let initialViewController = storyboard.instantiateViewControllerWithIdentifier("ChatScreen")*/
             self.window?.rootViewController = initialViewController
             self.window?.makeKeyAndVisible()
         }
@@ -67,7 +71,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
-
 }
 
