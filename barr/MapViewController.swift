@@ -9,13 +9,15 @@
 import UIKit
 import CoreLocation
 import FBSDKCoreKit
-import Alamofire
+import SwiftyJSON
 
 class MapViewController: UIViewController, CLLocationManagerDelegate {
     
     var gMap = GoogleMaps()
     
     var locationManager = CLLocationManager()
+    
+    var locationArr: [Location] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -72,8 +74,14 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
                     self.view = mapView
                 Location.getLocations(lat, lon: long) {
                     response in
-                        print("hit")
-                        print(response)
+                    let locs = response["locations"].arrayValue
+                    for location in locs {
+                        let lo = Location(dictionary: location)
+                        let marker = self.gMap.makeMarker(lo)
+                        marker.map = mapView
+                        self.locationArr.append(lo)
+                    }
+                    
                 }
             }
         } else {

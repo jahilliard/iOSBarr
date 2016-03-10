@@ -31,10 +31,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     Auth.sendAuthRequest(FBSDKAccessToken.currentAccessToken().tokenString, completion: nil)
             })
             print(Me.user.setVariablesFromNSUserDefault())
-            let storyboard = UIStoryboard(name: "SelectPhotos", bundle: nil)
-            let initialViewController = storyboard.instantiateViewControllerWithIdentifier("seeAlbums")
-            self.window?.rootViewController = initialViewController
-            self.window?.makeKeyAndVisible()
         } else {
             let storyboard = UIStoryboard(name: "Login", bundle: nil)
             let initialViewController = storyboard.instantiateViewControllerWithIdentifier("LoginScreen")

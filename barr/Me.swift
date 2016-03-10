@@ -100,8 +100,8 @@ class Me {
         )
     }
     
-    func updateUser(parameters: [String: String]){
-        let body: [String:AnyObject] = ["fields":  parameters, "fbId" : Me.user.userId!, "access_token": Me.user.accessToken!]
+    func updateUser(parameters: [String: AnyObject]){
+        let body: [String:AnyObject] = ["fields":  parameters, "x_key" : Me.user.userId!, "access_token": Me.user.accessToken!]
         AlamoHelper.POST("api/v1/users/update/" + Me.user.userId!, parameters: body, completion: {
             (response) -> Void in
             print("\(response["message"].rawString())")

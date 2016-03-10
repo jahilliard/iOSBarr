@@ -12,6 +12,12 @@ import SwiftyJSON
 
 class SelectPhotosViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
+    @IBAction func goHome(sender: AnyObject) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewControllerWithIdentifier("TabVC")
+        self.presentViewController(vc, animated: true, completion: nil)
+    }
+    
     static var imageCollection: UICollectionView!
     var picturesArr: [JSON] = []
     
@@ -27,7 +33,7 @@ class SelectPhotosViewController: UIViewController, UICollectionViewDataSource, 
         layout.sectionInset = UIEdgeInsets(top: 100, left: 0, bottom:5, right: 5)
         layout.itemSize = CGSize(width: screenSize.width*0.3, height: screenSize.width*0.3)
         
-        SelectPhotosViewController.imageCollection = UICollectionView(frame: CGRect(x: 5, y: 0, width: self.view.frame.width-5, height: self.view.frame.height), collectionViewLayout: layout)
+        SelectPhotosViewController.imageCollection = UICollectionView(frame: CGRect(x: 5, y: 100, width: self.view.frame.width-5, height: self.view.frame.height-100), collectionViewLayout: layout)
         SelectPhotosViewController.imageCollection.dataSource = self
         SelectPhotosViewController.imageCollection.delegate = self
         SelectPhotosViewController.imageCollection.registerClass(FacebookPhotoCell.self, forCellWithReuseIdentifier: "Cell")
@@ -71,6 +77,17 @@ class SelectPhotosViewController: UIViewController, UICollectionViewDataSource, 
                 print("error \(error)")
             }
         })
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(true)
+        var imageURLS: [String] = [String]()
+        for photo in SelectPhotosViewController.photoArr {
+            if let photoNN = photo {
+                imageURLS.append(photoNN.imgURL)
+            }
+        }
+        Me.user.updateUser(["picture": imageURLS])
     }
     
     static func updatePhotoArr(fbCellInfo: FacebookPhotoCellInfo){

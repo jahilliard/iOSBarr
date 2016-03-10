@@ -23,24 +23,14 @@ class GoogleMaps {
         let mapView = GMSMapView.mapWithFrame(CGRectZero, camera: camera)
         mapView.myLocationEnabled = true
         
-        let marker = GMSMarker()
-        marker.position = CLLocationCoordinate2DMake(latitude, longitude)
-        marker.title = "Test"
-        marker.map = mapView 
-        
         completion(mapView: mapView)
     }
     
-    func makeLocationsOnMap(locations: [Location]?) -> [GMSMarker]{
-        var markers: [GMSMarker]?
-        if let locationsArr = locations {
-            for location in locationsArr {
-                let marker = GMSMarker()
-                marker.position = CLLocationCoordinate2DMake(location.lat as! Double, location.lon as! Double)
-                marker.title = location.name
-                markers?.append(marker)
-            }
-        }
-        return markers!
+    func makeMarker(location: Location) -> GMSMarker {
+        let marker = GMSMarker()
+        marker.position = CLLocationCoordinate2DMake(location.lat as! Double, location.lon as! Double)
+        marker.title = location.name
+        return marker
     }
+    
 }
