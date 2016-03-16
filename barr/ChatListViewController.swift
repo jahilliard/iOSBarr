@@ -10,15 +10,26 @@ import UIKit
 
 class ChatListViewController: UITableViewController {
     var selectedChateeId: String = "";
+    var chatOrder: [String] = [String]();
+    
+    func updateChatOrder(){
+        let chateeIds = Array(ChatManager.sharedInstance.chats.keys);
+        self.chatOrder = self.sortChateeIds(chateeIds);
+    }
+    
+    func sortChateeIds(chateeIds: [String]) -> [String] {
+        return chateeIds.sort({ChatManager.sharedInstance.getChat($0)!.lastUpdate.timeIntervalSince1970 > ChatManager.sharedInstance.getChat($1)!.lastUpdate.timeIntervalSince1970})
+    }
     
     func updateList(notification : NSNotification){
+        print("updateList Called");
+        self.updateChatOrder();
         self.tableView.reloadData();
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateList:", name: ChatManager.sharedInstance.newMessageNotification, object: nil);
-        
+        self.updateChatOrder();
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
         
@@ -30,6 +41,16 @@ class ChatListViewController: UITableViewController {
     deinit{
         NSNotificationCenter.defaultCenter().removeObserver(self);
     }*/
+    
+    override func viewWillAppear(animated: Bool) {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateList:", name: ChatManager.sharedInstance.chatListNotification, object: nil);
+        self.tableView.reloadData();
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        NSNotificationCenter.defaultCenter().removeObserver(self);
+    }
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -45,17 +66,17 @@ class ChatListViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return ChatManager.sharedInstance.chatOrder.count;
+        return self.chatOrder.count;
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("ChatListTableViewCell", forIndexPath: indexPath) as! ChatListTableViewCell;
         
         // Configure the cell...
-        print(ChatManager.sharedInstance.chatOrder);
-        let chatOrder = ChatManager.sharedInstance.chatOrder;
+        print("HEREEE");
+        print(self.chatOrder);
+        let chatOrder = self.chatOrder;
         let chateeId = chatOrder[indexPath.row];
-        print(chateeId);
         cell.initialize(chateeId);
         return cell;
     }
@@ -96,15 +117,16 @@ class ChatListViewController: UITableViewController {
     */
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let selectedChateeId = ChatManager.sharedInstance.chatOrder[indexPath.row];
+        let selectedChateeId = self.chatOrder[indexPath.row];
         self.selectedChateeId = selectedChateeId;
-        ChatManager.sharedInstance.currentChateeId = selectedChateeId;
         
         if (ChatManager.sharedInstance.getChat(selectedChateeId)!.containsUnread){
             ChatManager.sharedInstance.getChat(selectedChateeId)!.containsUnread = false;
+            
+            //TODO: this animation unnecessary if table view rerenders on coming back from the segue
             self.tableView.beginUpdates()
             self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.None);
-            self.tableView.endUpdates()
+            self.tableView.endUpdates();
         }
         
         performSegueWithIdentifier("toChat", sender: self)
@@ -119,7 +141,7 @@ class ChatListViewController: UITableViewController {
         if segue.identifier == "toChat"{
             let chatViewController = segue.destinationViewController as! ChatViewController;
             chatViewController.otherUserId = selectedChateeId;
+            chatViewController.hidesBottomBarWhenPushed = true;
         }
     }
-    
 }

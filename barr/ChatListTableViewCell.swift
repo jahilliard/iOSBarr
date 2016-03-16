@@ -16,9 +16,7 @@ class ChatListTableViewCell: UITableViewCell {
     func initialize(chateeId: String){
         if let chat = ChatManager.sharedInstance.getChat(chateeId) {
             nameLabel.text = chat.chateeId;
-            if (chat.messages.count > 0){
-                preview.text = chat.messages[chat.messages.count-1].message;
-            }
+            preview.text = chat.preview;
             
             if(chat.containsUnread){
                 //do something to signify unread

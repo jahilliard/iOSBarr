@@ -11,32 +11,62 @@ import SwiftyJSON
 class Chat {
     let chateeId: String
     var messages:[Message] //each message contains the message string and the sender
+    var messageNumToMessage: [Int: Message]
     var containsUnread: Bool
+    var preview: String = ""
+    var lastMessageNum = 0; //TODO: Set this when when chatee is added to circle
+    
+    var lastUpdate: NSDate = NSDate.distantPast()
     
     init(dict: JSON){
         self.containsUnread = false;
         self.messages = [];
+        self.messageNumToMessage = [Int: Message]();
         if let chateeId = dict["chateeId"].rawString(), messages = dict["messages"].rawValue as? [NSDictionary]{
             for msg: NSDictionary in messages {
-                let msgString = msg["message"];
-                let owner = msg["owner"];
-                if (msgString != nil && owner != nil){
-                    let newMsg = Message(message: msgString as! String, sender: owner as! String);
+                if let msgString = msg["message"] as? String, owner = msg["owner"] as? String, status = msg["status"] as? Message.MessageStatus, messageNum = msg["messageNum"] as? Int, dateString = msg["date"] as? String, date = Helper.dateFromString(dateString)
+                {
+                    let newMsg = Message(message: msgString, sender: owner, date: date, status: status, messageNum: messageNum);
                     self.messages.append(newMsg);
                 }
                 else {
                     continue;
                 }
             }
-            self.chateeId = chateeId
+            self.chateeId = chateeId;
         } else {
             self.messages = []
-            self.chateeId = "Not Defined"
+            self.chateeId = "Not Defined";
         }
     }
     
-    func addMessage(message: String, sender: String){
-        let newMessage = Message(message: message, sender: sender);
+    func close() {
+        self.preview = "";
+        self.messages = [];
+        self.messageNumToMessage = [Int: Message]();
+    }
+    
+    func getMsgByMsgNumber(msgNumber: Int) -> Message? {
+        return self.messageNumToMessage[msgNumber];
+    }
+    
+    func setMsgByMsgNumber(msgNumber: Int, msg: Message) {
+        self.messageNumToMessage[msgNumber] = msg;
+    }
+    
+    func addMyMessage(message: String, date: NSDate, status: Message.MessageStatus) -> Message{
+        self.lastMessageNum++;
+        let newMessage = Message(message: message, sender: Me.user.userId!, date: date, status: status, messageNum: self.lastMessageNum);
+        self.messageNumToMessage[self.lastMessageNum] = newMessage;
         messages.append(newMessage);
+        self.lastUpdate = date;
+        return newMessage;
+    }
+    
+    func appendMessages(newMessages: [Message]){
+        self.messages += newMessages;
+        if (newMessages.count > 0) {
+            self.lastUpdate = newMessages[newMessages.count - 1].date;
+        }
     }
 }

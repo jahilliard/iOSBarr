@@ -23,7 +23,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         //App launch code
-        FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+        //OLD CODE BEGIN >>>>>>
+        /*FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         if FBSDKAccessToken.currentAccessToken() != nil {
             print("REFRESHING TOKEN");
             FBSDKAccessToken.refreshCurrentAccessToken( {
@@ -39,7 +40,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let initialViewController = storyboard.instantiateViewControllerWithIdentifier("ChatScreen")*/
             self.window?.rootViewController = initialViewController
             self.window?.makeKeyAndVisible()
-        }
+        } 
+        
+        return true
+        <<<<<<OLD CODE END */
+        
+        Auth.sendAuthRequest("", completion: nil);
         return true
 
     }
@@ -56,10 +62,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        SocketManager.sharedInstance.close();
     }
 
     func applicationWillEnterForeground(application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+        SocketManager.sharedInstance.open();
+        ChatManager.sharedInstance.getLatestChats();
     }
 
     func applicationDidBecomeActive(application: UIApplication) {

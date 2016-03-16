@@ -8,12 +8,26 @@
 
 import Foundation
 
-struct Message{
+class Message{
+    enum MessageStatus {
+        case PENDING
+        case RECEIVED
+        case FAILED //failed to send
+        case CHATEEMESSAGE
+    }
+    
     var message: String
     var sender: String
-    init(message: String, sender: String)
+    var date: NSDate
+    var status: MessageStatus
+    var messageNum: Int?
+    
+    init(message: String, sender: String, date: NSDate, status: MessageStatus, messageNum: Int?)
     {
-        self.message = message
-        self.sender = sender
+        self.message = message;
+        self.sender = sender;
+        self.date = date;
+        self.status = status;
+        self.messageNum = messageNum;
     }
 }

@@ -8,15 +8,40 @@
 
 import UIKit
 
+protocol CellResendDelegate {
+    func resendMsg(msg: Message)
+}
+
 class MessageTableViewCell: UITableViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var messageLabel: UILabel!
+    @IBOutlet weak var resendButton: UIButton!
     
-    var msg: Message! {
+    var delegate : CellResendDelegate?
+    var msg : Message?
+    
+    @IBAction func OnButtonClick(sender: UIButton)
+    {
+        self.delegate!.resendMsg(self.msg!);
+    }
+    
+    /*var msg: Message! {
         didSet {
             nameLabel.text = msg.sender;
             messageLabel.text = msg.message;
         }
+    }*/
+    
+    func initialize(msg: Message){
+        self.resendButton.hidden = true;
+        
+        if (msg.status == Message.MessageStatus.FAILED) {
+            self.resendButton.hidden = false;
+        }
+        
+        self.msg = msg;
+        nameLabel.text = msg.sender;
+        messageLabel.text = msg.message;
     }
     
     override func awakeFromNib() {
@@ -29,5 +54,4 @@ class MessageTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-
 }

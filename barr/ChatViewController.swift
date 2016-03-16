@@ -9,7 +9,7 @@
 import UIKit
 
 class ChatViewController: UIViewController, UITableViewDelegate, UITableViewDataSource,
-    UITextViewDelegate
+    UITextViewDelegate, CellResendDelegate
 {
     @IBOutlet weak var sendMsgButton: UIButton!
     @IBOutlet weak var messageInputField: UITextView!
@@ -24,14 +24,15 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
+    private var thisChat: Chat {
+        get {
+            return ChatManager.sharedInstance.getChat(self.otherUserId)!;
+        }
+    }
+    
     private var chatMessages : [Message] {
         get {
-            let chat = ChatManager.sharedInstance.getChat(self.otherUserId);
-            if (chat != nil) {
-                return chat!.messages;
-            } else {
-                return [];
-            }
+            return self.thisChat.messages;
         }
     }
     
@@ -59,10 +60,16 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil);
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil);
+        
+        print("OPENING CHAT");
+        ChatManager.sharedInstance.openChat(otherUserId);
     }
     
     override func viewWillDisappear(animated: Bool) {
+        print("VIEW WILL DISAPPEAR");
         NSNotificationCenter.defaultCenter().removeObserver(self);
+        
+        ChatManager.sharedInstance.closeChat();
     }
     
     override func didReceiveMemoryWarning() {
@@ -128,27 +135,32 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         let newSize : CGSize = textView.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.max));
         self.dockViewHeightConstraint.constant = newSize.height + CGFloat(self.MARGINS * 2);
         self.view.layoutIfNeeded();
+        self.scrollToBottom();
     }
     
     //MARK: Chat messages methods
-    func appendNewMessage(){
-        self.messagesTableView.beginUpdates()
-        self.messagesTableView.insertRowsAtIndexPaths([
-            NSIndexPath(forRow: self.chatMessages.count-1, inSection: 0)
-            ], withRowAnimation: .Automatic)
-        self.messagesTableView.endUpdates()
+    func appendNewMessages(newMessageCount: Int){
+        print(newMessageCount);
+        var updateArray = [NSIndexPath]();
+        for (var i = self.chatMessages.count - newMessageCount; i < self.chatMessages.count; i++){
+            updateArray.append(NSIndexPath(forRow: i, inSection: 0));
+        }
+        
+        self.messagesTableView.beginUpdates();
+        self.messagesTableView.insertRowsAtIndexPaths(updateArray, withRowAnimation: .Automatic)
+        self.messagesTableView.endUpdates();
     }
     
     @objc func checkNewMessage(notification : NSNotification){
-        if let info = notification.userInfo as? Dictionary<String,String> {
-            if let chateeId = info["chateeId"]{
+        if let info = notification.userInfo as? Dictionary<String, AnyObject>,chateeId = info["chateeId"] as? String, count = info["count"] as? Int{
                 if (chateeId == self.otherUserId){
-                    appendNewMessage();
+                    //self.messagesTableView.reloadData();
+                    self.appendNewMessages(count);
+                    self.scrollToBottom();
                 }
-            } else{
+            } else {
                 return;
             }
-        }
     }
     
     //MARK: Tableview delegate methods
@@ -175,12 +187,35 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
 
         // Configure the cell...
         let msg = self.chatMessages[indexPath.row] as Message
-        cell.msg = msg;
-
+        cell.initialize(msg);
+        cell.delegate = self;
+        
         return cell;
     }
 
+    func reloadRow(rowIndex: Int){
+        self.messagesTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: rowIndex, inSection: 0)], withRowAnimation: UITableViewRowAnimation.None);
+    }
 
+    func findRowForMessagNum(messageNum: Int) -> Int {
+        //find row to reload
+        var row = 0;
+        for (var i = 0; i < self.chatMessages.count; i++){
+            if (self.chatMessages[i].messageNum == messageNum){
+                row = i;
+                break;
+            }
+        }
+        return row;
+    }
+    func resendMsg(msg: Message) {
+        self.reloadRow(self.findRowForMessagNum(msg.messageNum!));
+        let alert = UIAlertController(title: "Error", message: "Resend Message?", preferredStyle: UIAlertControllerStyle.Alert);
+        alert.addAction(UIAlertAction(title: "Return", style: UIAlertActionStyle.Default, handler: nil));
+        alert.addAction(UIAlertAction(title: "Resend", style: UIAlertActionStyle.Default, handler: {(alert :UIAlertAction!) in self.sendMessage(msg)}));
+        self.presentViewController(alert, animated: true, completion: nil);
+    }
+    
     /*
     // Override to support conditional editing of the table view.
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
@@ -226,24 +261,45 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     */
     
-    func sendMessage(message: String) {
-        ChatManager.sharedInstance.sendMessage(self.otherUserId, message: message, callback: {(err, data) in
+    func errorForMsgNumber(msgNumber: Int){
+        let alert = UIAlertController(title: "Error", message: "Failed to send message", preferredStyle: UIAlertControllerStyle.Alert);
+        alert.addAction(UIAlertAction(title: "Return", style: UIAlertActionStyle.Default, handler: nil));
+        self.presentViewController(alert, animated: true, completion: nil);
+        
+        let message = self.thisChat.getMsgByMsgNumber(msgNumber)!;
+        message.status = Message.MessageStatus.FAILED;
+        
+        //reload to display resend option
+        self.reloadRow(self.findRowForMessagNum(msgNumber));
+        return;
+    }
+    
+    func addMyMessage(message: String, date: NSDate) -> Message {
+        let myMessage = self.thisChat.addMyMessage(message, date: date, status: Message.MessageStatus.PENDING);
+    
+        //update view with new message
+        self.appendNewMessages(1);
+        return myMessage;
+    }
+    
+    func sendMessage(myMessage: Message) {
+        myMessage.status = Message.MessageStatus.PENDING;
+        self.reloadRow(self.findRowForMessagNum(myMessage.messageNum!));
+        ChatManager.sharedInstance.sendMessage(self.otherUserId, message: myMessage, callback: {(err, data) in
                 if (err != nil) {
-                    let alert = UIAlertController(title: "Error", message: "Failed to send message", preferredStyle: UIAlertControllerStyle.Alert);
-                    alert.addAction(UIAlertAction(title: "Return", style: UIAlertActionStyle.Default, handler: nil));
-                    self.presentViewController(alert, animated: true, completion: nil);
+                    print(err);
+                    self.errorForMsgNumber(myMessage.messageNum!);
+                }
+            
+                if let result = data, message = result["sentMessage"] as? NSDictionary, msgNumber = message["messageNumber"] as? Int, dateString = message["date"] as? String, date = Helper.dateFromString(dateString)
+                {
+                    let message = self.thisChat.getMsgByMsgNumber(msgNumber)!;
+                    //update from local datetime to server datetime
+                    message.date = date;
+                    message.status = Message.MessageStatus.RECEIVED;
                 } else {
-                    self.scrollToBottom();
-                    self.messageInputField.text = "";
-                    //shrink the dockview
-                    UIView.animateWithDuration(1, animations: {
-                        let fixedWidth = self.messageInputField.frame.size.width;
-                        let newSize : CGSize = self.messageInputField.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.max));
-                        self.dockViewHeightConstraint.constant = newSize.height + CGFloat(self.MARGINS * 2);
-                        self.view.layoutIfNeeded();
-                        }, completion: nil);
-                    
-                    self.messageInputField.endEditing(true);
+                    //response was improperly formatted
+                    self.errorForMsgNumber(myMessage.messageNum!);
                 }
             }
         );
@@ -252,7 +308,21 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBAction func OnButtonClick(sender: UIButton)
     {
         if let text = self.messageInputField.text {
-            self.sendMessage(text);
+            //shrink the dockview
+            self.messageInputField.text = "";
+            UIView.animateWithDuration(1, animations: {
+                let fixedWidth = self.messageInputField.frame.size.width;
+                let newSize : CGSize = self.messageInputField.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.max));
+                self.dockViewHeightConstraint.constant = newSize.height + CGFloat(self.MARGINS * 2);
+                self.view.layoutIfNeeded();
+                }, completion: nil);
+            
+            self.messageInputField.endEditing(true);
+            
+            //add chat message to the appropriateChat
+            let myMessage = self.addMyMessage(text, date: NSDate());
+            self.scrollToBottom();
+            self.sendMessage(myMessage);
         }
     }
 

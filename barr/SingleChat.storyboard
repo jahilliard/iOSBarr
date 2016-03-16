@@ -63,8 +63,15 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="84"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SZx-Cd-rHz">
+                                                    <rect key="frame" x="8" y="27" width="52" height="30"/>
+                                                    <state key="normal" title="Resend"/>
+                                                    <connections>
+                                                        <action selector="OnButtonClick:" destination="4o5-9x-iqI" eventType="touchUpInside" id="wGf-gI-es8"/>
+                                                    </connections>
+                                                </button>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="EWZ-4K-lXB">
-                                                    <rect key="frame" x="23" y="8" width="554" height="68"/>
+                                                    <rect key="frame" x="80" y="8" width="497" height="68"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X45-H6-AGP">
                                                             <rect key="frame" x="0.0" y="0.0" width="45" height="47"/>
@@ -82,8 +89,9 @@
                                                 </stackView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="EWZ-4K-lXB" firstAttribute="leading" secondItem="mwr-3y-Xrx" secondAttribute="leadingMargin" constant="15" id="0iZ-mr-YpB"/>
                                                 <constraint firstItem="EWZ-4K-lXB" firstAttribute="top" secondItem="mwr-3y-Xrx" secondAttribute="topMargin" id="HHm-jT-Uai"/>
+                                                <constraint firstItem="SZx-Cd-rHz" firstAttribute="leading" secondItem="mwr-3y-Xrx" secondAttribute="leadingMargin" id="Trt-tY-VMC"/>
+                                                <constraint firstItem="EWZ-4K-lXB" firstAttribute="leading" secondItem="SZx-Cd-rHz" secondAttribute="trailing" constant="20" id="ajp-Vt-Ji0"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="EWZ-4K-lXB" secondAttribute="trailing" constant="15" id="bxS-7n-Ozk"/>
                                                 <constraint firstItem="EWZ-4K-lXB" firstAttribute="bottom" secondItem="mwr-3y-Xrx" secondAttribute="bottomMargin" id="jyj-gX-qfP"/>
                                             </constraints>
@@ -91,6 +99,7 @@
                                         <connections>
                                             <outlet property="messageLabel" destination="lOl-fh-Ijd" id="wdi-9l-Ad3"/>
                                             <outlet property="nameLabel" destination="X45-H6-AGP" id="EDF-Ug-c5l"/>
+                                            <outlet property="resendButton" destination="SZx-Cd-rHz" id="YJ4-TZ-adU"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

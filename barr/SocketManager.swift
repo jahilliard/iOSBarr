@@ -10,7 +10,7 @@ import Foundation
 import SocketIOClientSwift
 
 class SocketManager {
-    let socket : SocketIOClient;
+    var socket : SocketIOClient?;
     
     static let sharedInstance : SocketManager = SocketManager();
 
@@ -18,49 +18,52 @@ class SocketManager {
         socket.on(eventName, callback: {(data, ack) in handler(data) });
     }*/
     
-    private init(){
-        let connectParams = ["id": Me.user.userId!, "access_token": Me.user.accessToken!];
-        self.socket = SocketIOClient(socketURL: NSURL(string: "http://192.168.1.9:3000")!, options: ["connectParams" : connectParams]);
-        print("SOCKET MANAGER INITING");
-        
-        self.socket.on("newMessage", callback: {(data, ack) in
-            print("NEW MESSAGE");
-            if (data.count <= 0){
-                return;
-            }
-            
-            let newMessage = data[0];
-            
-            if let sender = newMessage["from"] as? String,
-                messageText = newMessage["message"] as? String
-            {
-                ChatManager.sharedInstance.addChatMessage(sender, ownerId: sender, message: messageText);
-            }
-        });
-        
-        self.socket.on("connect", callback: {(data, ack) in
-            print("socket connected");
-        });
-        
-        self.socket.connect();
-    }
+    private init(){};
     
-    func sendMessage(userId: String, message: String, callback : (NSError?, NSDictionary?) -> ()) {
-        let ack = socket.emitWithAck("ChatMessage", ["receiver": userId, "message": message]);
+    
+    func sendMessage(userId: String, message: String, messageNumber: Int, callback : (NSError?, NSDictionary?) -> ()) {
+        if self.socket == nil {
+            let error = NSError(domain: "No Connection to Server", code: 400, userInfo: nil);
+            callback(error, nil);
+            return;
+        }
         
+        let ack = socket!.emitWithAck("ChatMessage", ["receiver": userId, "message": message, "messageNumber": messageNumber]);
+    
         ack(timeoutAfter: 5, callback: {(statusArray) in
-            let statusDict = statusArray[1] as? NSDictionary;
-            let statusMessage = statusArray[0] as? String;
-            if (statusMessage == nil || statusMessage! != "success"){
-                if(statusDict != nil){
-                    let error = NSError(domain: "Send Message Error", code: 400, userInfo: statusDict! as [NSObject : AnyObject]);
-                    callback(error, nil);
+            print(statusArray);
+            if (statusArray.count == 2) {
+                let statusDict = statusArray[1] as? NSDictionary;
+                let statusMessage = statusArray[0] as? String;
+                if (statusMessage == nil || statusMessage! != "success"){
+                    if(statusDict != nil){
+                        let error = NSError(domain: "Send Message Error", code: 400, userInfo: statusDict! as [NSObject : AnyObject]);
+                        callback(error, nil);
+                    } else {
+                        let error = NSError(domain: "Send Message Error", code: 400, userInfo: nil);
+                        callback(error, nil);
+                    }
                 } else {
-                    let error = NSError(domain: "Send Message Error", code: 400, userInfo: nil);
-                    callback(error, nil);
+                    callback(nil, statusDict);
                 }
-            } else {
-                callback(nil, statusDict);
+            }
+            
+            else if (statusArray.count == 1){
+                if let msg = statusArray[0] as? String {
+                    if msg == "NO ACK" {
+                        let error = NSError(domain: "Connection Error", code: 400, userInfo: nil);
+                        callback(error, nil);
+                        return;
+                    }
+                }
+                
+                let error = NSError(domain: "Unknown Error", code: 400, userInfo: nil);
+                callback(error, nil);
+            }
+            
+            else {
+                let error = NSError(domain: "Unknown Error", code: 400, userInfo: nil);
+                callback(error, nil);
             }
         })
     }
@@ -77,5 +80,44 @@ class SocketManager {
         };
     }*/
     
-    func initialize(){}
+    func open(){
+        //create new socket
+        let connectParams = ["id": Me.user.userId!, "access_token": Me.user.accessToken!];
+        self.socket = SocketIOClient(socketURL: NSURL(string: "http://10.0.0.3:3000")!, options: ["connectParams" : connectParams]);
+        print("SOCKET MANAGER INITING");
+        
+        self.socket!.on("newMessage", callback: {(data, ack) in
+            print("NEW MESSAGE");
+            print(data);
+            if (data.count <= 0){
+                return;
+            }
+            
+            if let response = data[0] as? NSDictionary, newMessage = response["message"] as? NSDictionary{
+                ChatManager.sharedInstance.processNewMessage(newMessage);
+            }
+            /*ChatManager.sharedInstance.addChatMessage(sender, ownerId: sender, message: messageText);*/
+        });
+        
+        self.socket!.on("connect", callback: {(data, ack) in
+            print("socket connected");
+        });
+        
+        self.socket!.on("disconnect", callback: {(data, ack) in
+            print("socket connected");
+        });
+        
+        
+        self.socket!.on("error", callback: {(data) in
+            print(data);
+        });
+
+        print("SOCKET CONNECTING");
+        self.socket!.connect();
+    }
+    
+    func close(){
+        self.socket!.disconnect();
+        self.socket = nil;
+    }
 }

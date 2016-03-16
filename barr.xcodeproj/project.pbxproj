@@ -48,6 +48,7 @@
 		203B82921C8406EB00711838 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203B82911C8406EB00711838 /* Message.swift */; };
 		203B82961C85804800711838 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203B82951C85804800711838 /* ChatViewController.swift */; };
 		203B82981C858EC100711838 /* MessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203B82971C858EC100711838 /* MessageTableViewCell.swift */; };
+		20E4894F1C9272FC00ED8FB0 /* helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E4894E1C9272FC00ED8FB0 /* helper.swift */; };
 		F5EA423E335AEFD9191DA847 /* Pods_barr.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 916C42F7B8F8814DA6A2EB5E /* Pods_barr.framework */; };
 /* End PBXBuildFile section */
 
@@ -107,6 +108,7 @@
 		203B82911C8406EB00711838 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		203B82951C85804800711838 /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		203B82971C858EC100711838 /* MessageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageTableViewCell.swift; sourceTree = "<group>"; };
+		20E4894E1C9272FC00ED8FB0 /* helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = helper.swift; sourceTree = "<group>"; };
 		36CDFA35C0D7F6EA94DAAE26 /* Pods-barr.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-barr.debug.xcconfig"; path = "Pods/Target Support Files/Pods-barr/Pods-barr.debug.xcconfig"; sourceTree = "<group>"; };
 		433DC74FE6359325AE41CE9E /* Pods-barr.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-barr.release.xcconfig"; path = "Pods/Target Support Files/Pods-barr/Pods-barr.release.xcconfig"; sourceTree = "<group>"; };
 		916C42F7B8F8814DA6A2EB5E /* Pods_barr.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_barr.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -196,6 +198,7 @@
 				0C0ECBD61C6C3EAA00252B51 /* YelpClient.swift */,
 				0C39264D1C6C285500CF343B /* Business.swift */,
 				0C44C6341C7BCC5900B8DF41 /* Match.swift */,
+				20E4894E1C9272FC00ED8FB0 /* helper.swift */,
 			);
 			path = barr;
 			sourceTree = "<group>";
@@ -424,6 +427,7 @@
 				0C44C6391C7C149500B8DF41 /* extension.swift in Sources */,
 				0C44C6311C7BCC4B00B8DF41 /* Circle.swift in Sources */,
 				0C44C6351C7BCC5900B8DF41 /* Match.swift in Sources */,
+				20E4894F1C9272FC00ED8FB0 /* helper.swift in Sources */,
 				0C3DBAF11C6C13AA00401A2E /* MapViewController.swift in Sources */,
 				0C4F14661C80990E0024105D /* CircleViewController.swift in Sources */,
 				0C2B2C4A1C6EA3D800D4562B /* GoogleClient.swift in Sources */,
