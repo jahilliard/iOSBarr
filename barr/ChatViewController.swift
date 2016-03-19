@@ -55,6 +55,8 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
 
     override func viewWillAppear(animated: Bool) {
+        print("VIEW WILL APPEAR");
+        print(self.chatMessages.count);
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "checkNewMessage:", name: ChatManager.sharedInstance.newMessageNotification, object: nil);
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil);
@@ -262,16 +264,16 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     */
     
     func errorForMsgNumber(msgNumber: Int){
-        let alert = UIAlertController(title: "Error", message: "Failed to send message", preferredStyle: UIAlertControllerStyle.Alert);
-        alert.addAction(UIAlertAction(title: "Return", style: UIAlertActionStyle.Default, handler: nil));
-        self.presentViewController(alert, animated: true, completion: nil);
-        
-        let message = self.thisChat.getMsgByMsgNumber(msgNumber)!;
-        message.status = Message.MessageStatus.FAILED;
-        
-        //reload to display resend option
-        self.reloadRow(self.findRowForMessagNum(msgNumber));
-        return;
+        if let message = self.thisChat.getMsgByMsgNumber(msgNumber) {
+            let alert = UIAlertController(title: "Error", message: "Failed to send message", preferredStyle: UIAlertControllerStyle.Alert);
+            alert.addAction(UIAlertAction(title: "Return", style: UIAlertActionStyle.Default, handler: nil));
+            self.presentViewController(alert, animated: true, completion: nil);
+            
+            message.status = Message.MessageStatus.FAILED;
+            
+            //reload to display resend option
+            self.reloadRow(self.findRowForMessagNum(msgNumber));
+        }
     }
     
     func addMyMessage(message: String, date: NSDate) -> Message {
@@ -286,20 +288,25 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         myMessage.status = Message.MessageStatus.PENDING;
         self.reloadRow(self.findRowForMessagNum(myMessage.messageNum!));
         ChatManager.sharedInstance.sendMessage(self.otherUserId, message: myMessage, callback: {(err, data) in
+            print("IN CALLBACK");
                 if (err != nil) {
                     print(err);
-                    self.errorForMsgNumber(myMessage.messageNum!);
+                    if let msgNum = myMessage.messageNum {
+                        self.errorForMsgNumber(msgNum);
+                    }
                 }
             
-                if let result = data, message = result["sentMessage"] as? NSDictionary, msgNumber = message["messageNumber"] as? Int, dateString = message["date"] as? String, date = Helper.dateFromString(dateString)
+                if let result = data, sentMessage = result["sentMessage"] as? NSDictionary, msgNumber = sentMessage["messageNumber"] as? Int, message = self.thisChat.getMsgByMsgNumber(msgNumber), dateString = sentMessage["date"] as? String, date = Helper.dateFromString(dateString)
                 {
-                    let message = self.thisChat.getMsgByMsgNumber(msgNumber)!;
                     //update from local datetime to server datetime
                     message.date = date;
+                    
                     message.status = Message.MessageStatus.RECEIVED;
                 } else {
                     //response was improperly formatted
-                    self.errorForMsgNumber(myMessage.messageNum!);
+                    if let msgNum = myMessage.messageNum {
+                        self.errorForMsgNumber(msgNum);
+                    }
                 }
             }
         );

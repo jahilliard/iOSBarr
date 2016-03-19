@@ -16,7 +16,11 @@ class ChatListTableViewCell: UITableViewCell {
     func initialize(chateeId: String){
         if let chat = ChatManager.sharedInstance.getChat(chateeId) {
             nameLabel.text = chat.chateeId;
-            preview.text = chat.preview;
+            if let previewText = chat.preview {
+                self.preview.text = previewText;
+            } else {
+                self.preview.text = "";
+            }
             
             if(chat.containsUnread){
                 //do something to signify unread

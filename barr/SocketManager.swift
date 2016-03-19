@@ -33,6 +33,7 @@ class SocketManager {
         ack(timeoutAfter: 5, callback: {(statusArray) in
             print(statusArray);
             if (statusArray.count == 2) {
+                print("COUNT IS 2");
                 let statusDict = statusArray[1] as? NSDictionary;
                 let statusMessage = statusArray[0] as? String;
                 if (statusMessage == nil || statusMessage! != "success"){
@@ -49,6 +50,7 @@ class SocketManager {
             }
             
             else if (statusArray.count == 1){
+                print("COUNT IS 1");
                 if let msg = statusArray[0] as? String {
                     if msg == "NO ACK" {
                         let error = NSError(domain: "Connection Error", code: 400, userInfo: nil);
@@ -83,7 +85,7 @@ class SocketManager {
     func open(){
         //create new socket
         let connectParams = ["id": Me.user.userId!, "access_token": Me.user.accessToken!];
-        self.socket = SocketIOClient(socketURL: NSURL(string: "http://10.0.0.3:3000")!, options: ["connectParams" : connectParams]);
+        self.socket = SocketIOClient(socketURL: NSURL(string: "http://10.0.0.2:3000")!, options: ["connectParams" : connectParams]);
         print("SOCKET MANAGER INITING");
         
         self.socket!.on("newMessage", callback: {(data, ack) in
@@ -99,14 +101,30 @@ class SocketManager {
             /*ChatManager.sharedInstance.addChatMessage(sender, ownerId: sender, message: messageText);*/
         });
         
+        self.socket!.on("newCircleMember", callback: {(data, ack) in print("NEW CIRCLE MEMBER")});
+        
         self.socket!.on("connect", callback: {(data, ack) in
+            //retrieve latest chats
+            ChatManager.sharedInstance.getLatestChats();
+            //get latest circle info 
+            
+            //get latest offer info
             print("socket connected");
         });
         
         self.socket!.on("disconnect", callback: {(data, ack) in
-            print("socket connected");
+            //handle disconnect
         });
         
+        self.socket!.on("reconnect", callback: {(data, ack) in
+            //handle reconnect
+            print("RECONNECTING");
+        });
+        
+        self.socket!.on("reconnectAttempt", callback: {(data, ack) in
+            //handle reconnect
+            print("RECONNECT ATTEMPT");
+        });
         
         self.socket!.on("error", callback: {(data) in
             print(data);
@@ -117,7 +135,9 @@ class SocketManager {
     }
     
     func close(){
-        self.socket!.disconnect();
-        self.socket = nil;
+        if let socket = self.socket {
+            socket.disconnect();
+            self.socket = nil;
+        }
     }
 }

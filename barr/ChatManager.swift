@@ -40,7 +40,13 @@ class ChatManager {
     
     func getLatestChats(){
         let subdomain = "api/v1/chats/search";
-        AlamoHelper.authorizedGet(subdomain, parameters: [String: AnyObject](), completion: {result in self.processChats(result)});
+        AlamoHelper.authorizedGet(subdomain, parameters: [String: AnyObject](), completion: {result in
+            if result["message"].string != "success" {
+                self.getLatestChats();
+            } else {
+                self.processChats(result);
+            }
+        });
     }
     
     func processChats(chatDicts: JSON) {
@@ -56,24 +62,44 @@ class ChatManager {
                 dateString = chatDict["date"].string,
                 date = Helper.dateFromString(dateString)
             {
-                let newChat = Chat(dict: ["chateeId": chatee, "messages": []]);
+                
+                var newChat : Chat? = nil;
+                
+                if (self.chats[chatee] != nil) {
+                    newChat = self.chats[chatee];
+                } else {
+                    newChat = Chat(dict: ["chateeId": chatee, "messages": []]);
+                }
+                
                 
                 if let lastMsgNum = chatDict["lastMsgNum"].int {
-                    newChat.lastMessageNum = lastMsgNum;
+                    newChat!.lastMessageNum = lastMsgNum;
                 } else {
-                    newChat.lastMessageNum = 0;
+                    newChat!.lastMessageNum = 0;
                 }
                 
                 let message = chatDict["latestMsg"].string;
                 
-                if (message != nil) {
+                if (message != nil && newChat!.preview == nil) {
                     print("MESSAGE PREVIEW");
-                    newChat.preview = message!;
+                    newChat!.preview = message!;
                 }
                 
-                newChat.containsUnread = (message != nil);
-                newChat.lastUpdate = date;
+                if (!newChat!.containsUnread) {
+                    newChat!.containsUnread = (message != nil);
+                }
+                
+                newChat!.changeLastUpdate(date);
+                
                 self.chats[chatee] = newChat;
+                
+                //only happens on a reconnect, because chat view can only be open
+                //when this function is called if a disconnect + reconnect 
+                //event happens
+                if (self.currentChateeId == chatee){
+                    self.retrieveUnread(chatee);
+                }
+                
                 print("ADDED NEW CHAT");
                 print(self.chats);
             }
@@ -127,7 +153,14 @@ class ChatManager {
     func retrieveUnread(chateeId: String) {
         print("retrieving");
         let subdomain = "api/v1/chats/\(Me.user.userId!)/messages/\(chateeId)";
-        AlamoHelper.authorizedGet(subdomain, parameters: [String: AnyObject](), completion: {result in self.processOpenedMessages(chateeId, chatMessages: result["chatMessages"].arrayValue)});
+        AlamoHelper.authorizedGet(subdomain, parameters: [String: AnyObject](), completion: {result in
+            if (result["message"].string != "success") {
+                self.retrieveUnread(chateeId)
+            }
+            else {
+                self.processOpenedMessages(chateeId, chatMessages: result["chatMessages"].arrayValue)
+            }
+        });
     }
     
     //process a NOTIFICATION of a new message. Only save the message if it is the current active chat (i.e. the user opened it). Also updates the chatList order and preview
@@ -136,6 +169,7 @@ class ChatManager {
             dateString = newMessage["date"] as? String,
             date = Helper.dateFromString(dateString)
         {
+            print("PROCESSING NEW MESSAGE");
             if (self.chats[chateeId] == nil){
                 self.chats[chateeId] = Chat(dict: ["chateeId": chateeId, "messages": []]);
             }
@@ -154,8 +188,8 @@ class ChatManager {
             }
             
             chateeChat.containsUnread = containsUnread;
-            
-            chateeChat.lastUpdate = date;
+    
+            chateeChat.changeLastUpdate(date);
             
             //if is current active chat
             if self.currentChateeId == chateeId {
@@ -178,6 +212,7 @@ class ChatManager {
     }
 
     func closeChat() {
+        print("CHAT CLOSED");
         if (self.currentChateeId == nil) {
             return;
         }
@@ -195,12 +230,21 @@ class ChatManager {
     
     func socketSendMessage(chateeId: String, message: String, messageNumber: Int,callback: (NSError?, NSDictionary?) -> ())
     {
+        let numTimesClosed = self.getChat(chateeId)!.numTimesClosed;
         SocketManager.sharedInstance.sendMessage(chateeId, message: message, messageNumber: messageNumber, callback: {(err, data) in
-            if (err != nil) {
-                callback(err, nil);
-                return;
-            } else {
-                callback(nil, data);
+            if let chat = self.getChat(chateeId) {
+                if chat.numTimesClosed != numTimesClosed {
+                    print("NOT CALLIN CALLBACK");
+                    //chat has been clicked out in the meantime, don't call callbacks
+                    return;
+                }
+                
+                if (err != nil) {
+                    callback(err, nil);
+                    return;
+                } else {
+                    callback(nil, data);
+                }
             }
         });
     }
@@ -209,8 +253,10 @@ class ChatManager {
     func sendMessage(chateeId: String, message: Message, callback: (NSError?, NSDictionary?) -> ()) {
         //add message to the chat it belongs to, date is current system date, will 
         //be updated to server date when response from server comes back
-        
+        let chat = self.getChat(chateeId);
+        let chatTimes = self.chats.keys.map({chateeId in return self.chats[chateeId]!.lastUpdate.timeIntervalSince1970;})
+        let sortedTimes = chatTimes.sort({$0 > $1});
+        chat?.changeLastUpdate(NSDate(timeIntervalSince1970: sortedTimes[0] + 0.001));
         self.socketSendMessage(chateeId, message: message.message, messageNumber: message.messageNum!, callback: callback);
-        
     }
 }

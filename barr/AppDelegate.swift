@@ -23,8 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         //App launch code
-        //OLD CODE BEGIN >>>>>>
-        /*FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+        FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         if FBSDKAccessToken.currentAccessToken() != nil {
             print("REFRESHING TOKEN");
             FBSDKAccessToken.refreshCurrentAccessToken( {
@@ -42,12 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.window?.makeKeyAndVisible()
         } 
         
-        return true
-        <<<<<<OLD CODE END */
-        
-        Auth.sendAuthRequest("", completion: nil);
-        return true
-
+        return true;
     }
     
     func application(app: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
@@ -68,7 +62,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillEnterForeground(application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
         SocketManager.sharedInstance.open();
-        ChatManager.sharedInstance.getLatestChats();
     }
 
     func applicationDidBecomeActive(application: UIApplication) {

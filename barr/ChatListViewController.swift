@@ -30,6 +30,7 @@ class ChatListViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.updateChatOrder();
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
         
@@ -73,8 +74,6 @@ class ChatListViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("ChatListTableViewCell", forIndexPath: indexPath) as! ChatListTableViewCell;
         
         // Configure the cell...
-        print("HEREEE");
-        print(self.chatOrder);
         let chatOrder = self.chatOrder;
         let chateeId = chatOrder[indexPath.row];
         cell.initialize(chateeId);

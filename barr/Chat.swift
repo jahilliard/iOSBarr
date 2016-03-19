@@ -13,12 +13,14 @@ class Chat {
     var messages:[Message] //each message contains the message string and the sender
     var messageNumToMessage: [Int: Message]
     var containsUnread: Bool
-    var preview: String = ""
+    var preview: String?
     var lastMessageNum = 0; //TODO: Set this when when chatee is added to circle
+    var numTimesClosed = 0;
     
     var lastUpdate: NSDate = NSDate.distantPast()
     
     init(dict: JSON){
+        self.preview = nil;
         self.containsUnread = false;
         self.messages = [];
         self.messageNumToMessage = [Int: Message]();
@@ -41,9 +43,10 @@ class Chat {
     }
     
     func close() {
-        self.preview = "";
+        self.preview = nil;
         self.messages = [];
         self.messageNumToMessage = [Int: Message]();
+        self.numTimesClosed++;
     }
     
     func getMsgByMsgNumber(msgNumber: Int) -> Message? {
@@ -67,6 +70,12 @@ class Chat {
         self.messages += newMessages;
         if (newMessages.count > 0) {
             self.lastUpdate = newMessages[newMessages.count - 1].date;
+        }
+    }
+    
+    func changeLastUpdate(date: NSDate){
+        if (date.timeIntervalSince1970 > self.lastUpdate.timeIntervalSince1970){
+            self.lastUpdate = date;
         }
     }
 }

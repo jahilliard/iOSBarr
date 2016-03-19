@@ -17,7 +17,7 @@ let headers = [
 struct AlamoHelper {
 
 //    static let domain = "http://128.237.219.253:3000/"
-    static let domain = "http://10.0.0.3:3000/"
+    static let domain = "http://10.0.0.2:3000/"
 //    static let domain = "http://150.212.45.249:3000/"
 
     static func authorizedGet(subdomain: String, var parameters: [String: AnyObject], completion: (response: JSON) -> Void){
@@ -37,6 +37,10 @@ struct AlamoHelper {
     }
     
     static func GET(subdomain: String, parameters: [String: AnyObject]?, completion: (response: JSON) -> Void){
+        getAttempt(subdomain, parameters: parameters, completion: completion, attempt: 0);
+    }
+    
+    static func getAttempt(subdomain: String, parameters: [String: AnyObject]?, completion: (response: JSON) -> Void, attempt: UInt64){
         if let params = parameters {
             Alamofire.request(.GET, self.domain + subdomain, headers: headers, parameters: params)
                 .validate(statusCode: 200..<300)
@@ -51,7 +55,13 @@ struct AlamoHelper {
                     case .Failure(let error):
                         print(error)
                         print("What happened???")
-//                      ErrorHandler.buidErrorView(error)
+                        completion(response: nil);
+                        //do some sort of backoff
+                        let nextAttempt : UInt64 = attempt + 1;
+                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(2 * nextAttempt * NSEC_PER_SEC)), dispatch_get_main_queue()) {
+                            getAttempt(subdomain, parameters: parameters, completion:  completion, attempt: nextAttempt);
+                            };
+                        //                      ErrorHandler.buidErrorView(error)
                     }
             }
         } else {
@@ -68,12 +78,18 @@ struct AlamoHelper {
                     case .Failure(let error):
                         print(error)
                         print("What happened???")
+                        completion(response: nil);
+                        //do some sort of backoff
+                        let nextAttempt : UInt64 = attempt + 1;
+                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(2 * nextAttempt * NSEC_PER_SEC)), dispatch_get_main_queue()) {
+                            getAttempt(subdomain, parameters: parameters, completion:  completion, attempt: nextAttempt);
+                        };
                         //                      ErrorHandler.buidErrorView(error)
                     }
             }
         }
     }
-    
+
     static func POST(subdomain: String, parameters: [String: AnyObject], completion: ((response: JSON) -> Void)?){
         print(parameters)
         Alamofire.request(.POST, self.domain + subdomain, headers: headers, parameters: parameters, encoding: .JSON)

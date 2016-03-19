@@ -16,7 +16,7 @@ struct Auth {
     static private var wasCreated: Bool?
     
     static func sendAuthRequest(fbAccessToken: String, completion: ((NSError?, Bool) -> Void)?){
-        /*OLDCODE >>>> let params = ["access_token": fbAccessToken]
+        let params = ["access_token": fbAccessToken]
         AlamoHelper.GET("login/facebook", parameters: params, completion: {
             userAuth -> Void in
             if let fbId = userAuth["fbId"].rawString(), accessToken = userAuth["authToken"].rawString(), userId = userAuth["id"].rawString(), isCreated = userAuth["isCreated"].rawString()?.toBool()
@@ -29,15 +29,12 @@ struct Auth {
                 SocketManager.sharedInstance.open();
                 self.wasUserCreated()
             }
-        })>>>OLD CODE*/
+        })
         
-        Me.user.setVariables("", fbId: "", accessToken: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiNTZlNjE5MzMwNDZlOTU3MWNmNWM5OGFhIiwiZXhwIjoxNDU4NTI1MzQwODEwfQ.4ixHj2YZy4bEqHXOX7NBVg2EVn_hB5nsKFTDj2hQWhA", userId: "56e61933046e9571cf5c98aa");
+        /*Me.user.setVariables("", fbId: "", accessToken: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiNTZlNjE5MzMwNDZlOTU3MWNmNWM5OGFhIiwiZXhwIjoxNDU4NTI1MzQwODEwfQ.4ixHj2YZy4bEqHXOX7NBVg2EVn_hB5nsKFTDj2hQWhA", userId: "56e61933046e9571cf5c98aa");
         
         print("STARTING SOCKETS");
-        SocketManager.sharedInstance.open();
-        
-        //retrieve latest chats
-        ChatManager.sharedInstance.getLatestChats();
+        SocketManager.sharedInstance.open();*/
     }
     
     static private func wasUserCreated(){
