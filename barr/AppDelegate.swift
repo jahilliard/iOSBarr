@@ -11,6 +11,7 @@ import UIKit
 import FBSDKCoreKit
 import FBSDKLoginKit
 import SwiftyJSON
+import GoogleMaps
 
 let screenSize: CGRect = UIScreen.mainScreen().bounds
 
@@ -20,8 +21,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        // Request permission to present notifications
+        let notificationSettings = UIUserNotificationSettings(forTypes: UIUserNotificationType.Alert, categories: nil)
+        UIApplication.sharedApplication().registerUserNotificationSettings(notificationSettings)
+        
         //App launch code
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         if FBSDKAccessToken.currentAccessToken() != nil {
@@ -29,6 +33,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             FBSDKAccessToken.refreshCurrentAccessToken( {
                 (connection, result, error : NSError!) -> Void in
                     print("DOING AUTH");
+                    print(Me.user.accessToken)
+                    print(Me.user.userId)
                     Auth.sendAuthRequest(FBSDKAccessToken.currentAccessToken().tokenString, completion: nil)
             })
             print(Me.user.setVariablesFromNSUserDefault())
@@ -44,6 +50,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
 
     }
+
     
     func application(app: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
         return FBSDKApplicationDelegate.sharedInstance().application(app, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
