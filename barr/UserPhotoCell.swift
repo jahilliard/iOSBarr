@@ -6,6 +6,8 @@
 //  Copyright © 2016 barrapp. All rights reserved.
 //
 
+import UIKit
+
 protocol UserInfoDelegate {
     
 }
@@ -14,9 +16,8 @@ class UserPhotoCell: PhotoCollectionViewCell {
     
     var userCellInfo: UserCellPhotoInfo?
     
-    let boxSize = CGFloat(25.0)
     var border: UIView?
-    
+    let boxSize: CGFloat = CGFloat(25.0)
     
     override init(frame: CGRect) {
         super.init(frame:frame)
@@ -32,17 +33,17 @@ class UserPhotoCell: PhotoCollectionViewCell {
     
     func setFbImgInfo(userCellImageInfo: UserCellPhotoInfo){
         self.userCellInfo = userCellImageInfo
-        super.setImg(userCellInfo!.user.img)
-        if self.userCellInfo.hasBorder {
-            self.addBorder(userCellInfo.selPhotoIndex)
-        }
-        if self.userCellInfo.isGreyed {
-            self.greyCell(userCellInfo.selPhotoIndex)
-        }
+//        super.setImg(userCellInfo!.user.img)
+//        if self.userCellInfo.hasBorder {
+//            self.addBorder(userCellInfo.selPhotoIndex)
+//        }
+//        if self.userCellInfo.isGreyed {
+//            self.greyCell(userCellInfo.selPhotoIndex)
+//        }
     }
     
     func cellTapped(sender: UIImageView)  {
-        if self.userCellInfo?.isGreyed {
+        if (self.userCellInfo?.isGreyed == true) {
             return;
         }
         
@@ -51,7 +52,7 @@ class UserPhotoCell: PhotoCollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         self.deleteBorder()
-        self.fbCellInfo = nil
+        self.userCellInfo = nil
     }
     
     override func awakeFromNib() {
@@ -59,8 +60,8 @@ class UserPhotoCell: PhotoCollectionViewCell {
     }
     
     func addBorder(index: Int){
-        if numberSelected == nil || label == nil {
-            numberSelected = UIView(frame: CGRect(x: self.layer.frame.width-boxSize, y: self.layer.frame.height-boxSize, width: boxSize, height: boxSize))
+        if self.border == nil {
+            self.border = UIView(frame: CGRect(x: self.layer.frame.width-boxSize, y: self.layer.frame.height-boxSize, width: boxSize, height: boxSize))
             self.layer.borderColor = UIColor.redColor().CGColor
         }
         if let bord = self.border {
