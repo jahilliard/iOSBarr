@@ -16,12 +16,7 @@ let headers = [
 
 struct AlamoHelper {
 
-    static let domain = "http://192.168.0.10:3000/"
-//    static let domain = "http://10.0.0.47:3000/"
-//    static let domain = "http://192.168.0.10:3000/"
-//    static let domain = "http://128.237.219.253:3000/"
-//    static let domain = "http://192.168.1.9:3000/"
-//    static let domain = "http://150.212.45.249:3000/"
+    static let domain = "http://128.237.132.141:3000/"
 
 
     static func GET(subdomain: String, parameters: [String: AnyObject]?, completion: (response: JSON) -> Void){
@@ -58,13 +53,10 @@ struct AlamoHelper {
                         print(error)
                         print(response.result.value?.message)
                         print("What happened???")
-                        //                      ErrorHandler.buidErrorView(error)
                     }
             }
         }
     }
-    
-    //            .validate(statusCode: 200..<300)
 
     
     static func POST(subdomain: String, parameters: [String: AnyObject], completion: ((response: JSON) -> Void)?){

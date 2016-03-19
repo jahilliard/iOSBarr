@@ -28,6 +28,11 @@ class Circle {
         }
     }
     
+    func checkToAddUserCircle(){
+        // Call to server
+        
+    }
+    
     func addMember(dictionary: NSDictionary) {
         let dicJSON = JSON(dictionary)
         let singleMember = UserInfo(userInfo: dicJSON["userInfo"]);
@@ -36,5 +41,19 @@ class Circle {
     
     func deleteMember(userId: String){
         self.members.removeValueForKey(userId);
+    }
+    
+    static func getPreview(locationId : String) -> [String]{
+        var picArr: [String]
+        AlamoHelper.GET("api/v1/room/locations/" + locationId, parameters: ["x_key": Me.user.userId!, "access_token": Me.user.accessToken!], completion: {
+            result in
+            print(result)
+            if let member = result["room"]["members"].arrayObject {
+                let rand = Int(arc4random_uniform(UInt32(member.count)))
+                print(member)
+                
+            }
+        })
+        return []
     }
 }
