@@ -26,16 +26,11 @@ class GoogleMaps {
         completion(mapView: mapView)
     }
     
-    func makeLocationsOnMap(locations: [Location]?) -> [GMSMarker]{
-        var markers: [GMSMarker]?
-        if let locationsArr = locations {
-            for location in locationsArr {
-                let marker = GMSMarker()
-                marker.position = CLLocationCoordinate2DMake(location.lat as! Double, location.lon as! Double)
-                marker.title = location.name
-                markers?.append(marker)
-            }
-        }
-        return markers!
+    func makeMarker(location: Location) -> GMSMarker {
+        let marker = GMSMarker()
+        marker.position = CLLocationCoordinate2DMake(location.lat as! Double, location.lon as! Double)
+        marker.title = location.name
+        return marker
     }
+    
 }

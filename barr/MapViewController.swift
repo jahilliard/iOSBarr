@@ -9,17 +9,18 @@
 import UIKit
 import CoreLocation
 import FBSDKCoreKit
-import Alamofire
+import SwiftyJSON
 
 class MapViewController: UIViewController, CLLocationManagerDelegate {
     
     var gMap = GoogleMaps()
     
     var locationManager = CLLocationManager()
+    
+    var locationArr: [Location] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
-//        Me.user.printVals()
         locationManager.requestAlwaysAuthorization()
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
@@ -71,6 +72,17 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
             self.gMap.makeMap(lat, longitude: long) {
                 mapView in
                     self.view = mapView
+                Location.getLocations(lat, lon: long) {
+                    response in
+                    let locs = response["locations"].arrayValue
+                    for location in locs {
+                        let lo = Location(dictionary: location)
+                        let marker = self.gMap.makeMarker(lo)
+                        marker.map = mapView
+                        self.locationArr.append(lo)
+                    }
+                    
+                }
             }
         } else {
             print("lat long not defined")

@@ -13,6 +13,8 @@ import Alamofire
 
 class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
     
+    let facebookReadPermissions = ["public_profile", "email", "user_friends", "user_photos", "user_birthday"]
+    
     @IBAction func loginFB(sender: AnyObject) {
         let fbLoginManager : FBSDKLoginManager = FBSDKLoginManager()
         fbLoginManager.loginBehavior = FBSDKLoginBehavior.Native
@@ -40,8 +42,6 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
             }
         )
     }
-    
-    let facebookReadPermissions = ["public_profile", "email", "user_friends"]
     
     func loginToFacebookWithSuccess(successBlock: (FBSDKLoginManagerLoginResult) -> Void, andFailure failureBlock: (NSError?) -> Void) {
         

@@ -15,7 +15,8 @@ let headers = [
 
 
 struct AlamoHelper {
-
+//    static let domain = "http://10.0.0.47:3000/"
+//    static let domain = "http://192.168.0.10:3000/"
 //    static let domain = "http://128.237.219.253:3000/"
     static let domain = "http://10.0.0.2:3000/"
 //    static let domain = "http://150.212.45.249:3000/"
@@ -42,7 +43,7 @@ struct AlamoHelper {
     
     static func getAttempt(subdomain: String, parameters: [String: AnyObject]?, completion: (response: JSON) -> Void, attempt: UInt64){
         if let params = parameters {
-            Alamofire.request(.GET, self.domain + subdomain, headers: headers, parameters: params)
+            Alamofire.request(.GET, self.domain + subdomain, headers: headers, parameters: params, encoding: .URL)
                 .validate(statusCode: 200..<300)
                 .validate(contentType: ["application/json"])
                 .responseJSON { response in
@@ -54,6 +55,7 @@ struct AlamoHelper {
                         }
                     case .Failure(let error):
                         print(error)
+                        print(response.result.value?.message)
                         print("What happened???")
                         completion(response: nil);
                         //do some sort of backoff
@@ -65,7 +67,7 @@ struct AlamoHelper {
                     }
             }
         } else {
-            Alamofire.request(.GET, self.domain + subdomain, headers: headers, parameters: parameters)
+            Alamofire.request(.GET, self.domain + subdomain, headers: headers, encoding: .URL)
                 .validate(statusCode: 200..<300)
                 .validate(contentType: ["application/json"])
                 .responseJSON { response in
@@ -77,6 +79,7 @@ struct AlamoHelper {
                         }
                     case .Failure(let error):
                         print(error)
+                        print(response.result.value?.message)
                         print("What happened???")
                         completion(response: nil);
                         //do some sort of backoff
@@ -89,9 +92,8 @@ struct AlamoHelper {
             }
         }
     }
-
+    
     static func POST(subdomain: String, parameters: [String: AnyObject], completion: ((response: JSON) -> Void)?){
-        print(parameters)
         Alamofire.request(.POST, self.domain + subdomain, headers: headers, parameters: parameters, encoding: .JSON)
             .validate(statusCode: 200..<300)
             .validate(contentType: ["application/json"])
@@ -106,6 +108,10 @@ struct AlamoHelper {
                     }
                 case .Failure(let error):
                     print(error)
+                    if let value = response.result.value {
+                        let json = JSON(value)
+                        print(json["message"])
+                    }
                 }
         }
     }

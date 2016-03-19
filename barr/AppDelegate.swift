@@ -31,6 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     print("DOING AUTH");
                     Auth.sendAuthRequest(FBSDKAccessToken.currentAccessToken().tokenString, completion: nil)
             })
+            print(Me.user.setVariablesFromNSUserDefault())
         } else {
             let storyboard = UIStoryboard(name: "Login", bundle: nil)
             let initialViewController = storyboard.instantiateViewControllerWithIdentifier("LoginScreen")

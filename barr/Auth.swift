@@ -57,18 +57,4 @@ struct Auth {
         }
     }
     
-    
-//    static func populateNewUser(fbAuthtoken: String){
-//        print("Graph Call")
-//        currUser.makeFbGraphCall(["fields":"email,first_name,last_name,picture"], completion:
-//            {
-//                response in
-//                    updateUserInfo(currUser, firstName: response["first_name"].rawString()!, lastName: response["last_name"].rawString()!, email: response["email"].rawString()!, picture: response["print"].rawString()!)
-//            })
-//    }
-//    
-//    static func updateUserInfo(currUser: User, firstName: String, lastName: String, email: String, picture: String){
-//        print(picture)
-//        currUser.updateUser(["lastName": lastName, "firstName": firstName, "email": email])
-//    }
 }

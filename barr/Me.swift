@@ -18,6 +18,8 @@ class Me {
     var userId: String?
     var accessToken: String?
     
+    var newestValidateInfo = false
+    
     var nickName: String?
     var age: Int?
     
@@ -48,6 +50,7 @@ class Me {
         Me.user.prefs.setValue(Me.user.fbId, forKey: "fbId")
         Me.user.prefs.setValue(Me.user.accessToken, forKey: "barrAuthToken")
         Me.user.prefs.setValue(Me.user.userId, forKey: "barrId")
+        newestValidateInfo = true
     }
     
     func setVariablesFromNSUserDefault() -> Bool{
@@ -76,13 +79,6 @@ class Me {
         })
     }
     
-    func printVals(){
-        print(Me.user.fbAuthtoken!)
-        print(Me.user.userId!)
-        print(Me.user.accessToken!)
-        print(Me.user.fbId!)
-    }
-    
     // MARK: CRUD Functionality
     
     func createUser(){
@@ -104,8 +100,8 @@ class Me {
         )
     }
     
-    func updateUser(parameters: [String: String]){
-        let body: [String:AnyObject] = ["fields":  parameters, "fbId" : Me.user.userId!, "access_token": Me.user.accessToken!]
+    func updateUser(parameters: [String: AnyObject]){
+        let body: [String:AnyObject] = ["fields":  parameters, "x_key" : Me.user.userId!, "access_token": Me.user.accessToken!]
         AlamoHelper.POST("api/v1/users/update/" + Me.user.userId!, parameters: body, completion: {
             (response) -> Void in
             print("\(response["message"].rawString())")

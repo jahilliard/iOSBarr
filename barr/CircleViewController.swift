@@ -15,18 +15,17 @@ class CircleViewController: UIViewController, UICollectionViewDataSource, UIColl
     
     let heartButton: UIButton = UIButton()
     let drinkButton: UIButton = UIButton()
-    let heartDrinkButton: UIButton = UIButton()
     
     var heartDepressed: Bool = false
     var drinkDepressed: Bool = false
-    var heartDrinkDepressed: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 10, right: 10)
-        layout.itemSize = CGSize(width: 90, height: 120)
+        layout.sectionInset = UIEdgeInsets(top: 100, left: 0, bottom: 10, right: 0)
+        let picSize = screenSize.width*0.7
+        layout.itemSize = CGSize(width: picSize, height: picSize)
         
         circleCollection = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
         circleCollection.dataSource = self
@@ -38,8 +37,16 @@ class CircleViewController: UIViewController, UICollectionViewDataSource, UIColl
     }
     
     func defineToggleView(){
-        toggleBar.frame = CGRect(x: 0, y: 0, width: screenSize.size.width, height: screenSize.size.height*0.15)
+        toggleBar.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: screenSize.size.height*0.15)
         toggleBar.backgroundColor = UIColor.blackColor()
+        heartButton.frame = CGRect(x: 0, y: 0, width: 70, height: 50)
+        drinkButton.frame = CGRect(x: toggleBar.frame.size.width*0.5, y: 0, width: 70, height: 50)
+        heartButton.addTarget(self, action: "heartButtonPressed:", forControlEvents: .TouchUpInside)
+        drinkButton.addTarget(self, action: "drinkButtonPressed:", forControlEvents: .TouchUpInside)
+        heartButton.backgroundColor = UIColor.purpleColor()
+        drinkButton.backgroundColor = UIColor.orangeColor()
+        toggleBar.addSubview(heartButton)
+        toggleBar.addSubview(drinkButton)
         self.view.addSubview(toggleBar)
     }
     
@@ -50,7 +57,7 @@ class CircleViewController: UIViewController, UICollectionViewDataSource, UIColl
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as! PhotoCollectionViewCell
         cell.backgroundColor = UIColor.orangeColor()
-        downloadImage(NSURL(string: "http://a4.files.biography.com/image/upload/c_fill,cs_srgb,dpr_1.0,g_face,h_300,q_80,w_300/MTE1ODA0OTcxNjMzNjQwOTcz.jpg")!, cell: cell)
+//        DownloadImage.downloadImage(NSURL(string: "http://a4.files.biography.com/image/upload/c_fill,cs_srgb,dpr_1.0,g_face,h_300,q_80,w_300/MTE1ODA0OTcxNjMzNjQwOTcz.jpg")!, cell: cell)
         return cell
     }
     
@@ -70,7 +77,7 @@ class CircleViewController: UIViewController, UICollectionViewDataSource, UIColl
                 print("Download Finished")
                 cell.galleryImage = UIImageView()
                 cell.galleryImage.sizeToFit()
-                cell.galleryImage.frame.size = CGSize(width: self.view.frame.width*0.33, height: cell.frame.height)
+                cell.galleryImage.frame.size = CGSize(width: cell.frame.width, height: cell.frame.height)
                 cell.galleryImage.frame.origin = CGPoint(x: 0, y: 0)
                 cell.galleryImage.image = UIImage(data: data)
                 cell.addSubview(cell.galleryImage)
@@ -79,8 +86,7 @@ class CircleViewController: UIViewController, UICollectionViewDataSource, UIColl
     }
     
     func heartButtonPressed(sender: UIButton!){
-        drinkDepressed = false
-        heartDrinkDepressed = false
+        print("heart Hit")
         if heartDepressed == true {
            heartDepressed = false
         } else {
@@ -89,8 +95,7 @@ class CircleViewController: UIViewController, UICollectionViewDataSource, UIColl
     }
     
     func drinkButtonPressed(sender: UIButton!){
-        heartDepressed = false
-        heartDrinkDepressed = false
+        print("drink Hit")
         if drinkDepressed == true {
             drinkDepressed = false
         } else {
@@ -98,13 +103,4 @@ class CircleViewController: UIViewController, UICollectionViewDataSource, UIColl
         }
     }
     
-    func heartDrinkButtonPressed(sender: UIButton!){
-        heartDepressed = false
-        drinkDepressed = false
-        if heartDrinkDepressed == true {
-            heartDrinkDepressed = false
-        } else {
-            heartDrinkDepressed = true
-        }
-    }
 }
