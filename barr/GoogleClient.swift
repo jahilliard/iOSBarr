@@ -11,26 +11,22 @@ import GoogleMaps
 
 class GoogleMaps {
     
-    let gMapsAPIKey = "AIzaSyB0Ri7k31AAY9EjPXDhAQc1NpTzKaon6RM"
     
-    init() {
-        GMSServices.provideAPIKey(self.gMapsAPIKey)
-    }
-    
-    func makeMap(latitude: Double, longitude: Double, completion: (mapView: GMSMapView) -> Void) -> Void{
+    func makeMap(latitude: Double, longitude: Double, zoom: Float) -> GMSMapView {
         let camera = GMSCameraPosition.cameraWithLatitude(latitude,
-            longitude: longitude, zoom: 13)
+            longitude: longitude, zoom: zoom)
         let mapView = GMSMapView.mapWithFrame(CGRectZero, camera: camera)
         mapView.myLocationEnabled = true
         
-        completion(mapView: mapView)
+        return mapView
     }
     
-    func makeMarker(location: Location) -> GMSMarker {
-        let marker = GMSMarker()
+    func makeMarker(location: Location) -> GMSMarkerLocation {
+        let marker = GMSMarkerLocation(location: location)
         marker.position = CLLocationCoordinate2DMake(location.lat as! Double, location.lon as! Double)
         marker.title = location.name
         return marker
     }
+
     
 }

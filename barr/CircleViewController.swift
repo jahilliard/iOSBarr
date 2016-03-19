@@ -23,8 +23,8 @@ class CircleViewController: UIViewController, UICollectionViewDataSource, UIColl
         super.viewDidLoad()
 
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 100, left: 0, bottom: 10, right: 0)
-        let picSize = screenSize.width*0.7
+        layout.sectionInset = UIEdgeInsets(top: 100, left: 0, bottom: 1, right: 0)
+        let picSize = screenSize.width*0.33 - 0.5
         layout.itemSize = CGSize(width: picSize, height: picSize)
         
         circleCollection = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
@@ -34,6 +34,14 @@ class CircleViewController: UIViewController, UICollectionViewDataSource, UIColl
         circleCollection.backgroundColor = UIColor.whiteColor()
         self.view.addSubview(circleCollection)
         defineToggleView()
+    }
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
+        return 1.0;
+    }
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
+        return 1.0;
     }
     
     func defineToggleView(){
