@@ -17,6 +17,7 @@ class Me {
     var fbAuthtoken: String?
     var userId: String?
     var accessToken: String?
+    var currentCircleId: String?
     
     var newestValidateInfo = false
     
@@ -33,6 +34,11 @@ class Me {
         Me.user.accessToken = accessToken
         Me.user.fbAuthtoken = fbAuthtoken
         storeVariablesToNSUserDefault()
+    }
+    
+    func resetCurrentCircle(currentCircleId: String){
+        Me.user.currentCircleId = currentCircleId
+        Me.user.prefs.setValue(currentCircleId, forKey: "currentCircleId")
     }
     
     func resetFBAccessToken(fbAuthtoken: String){

@@ -332,7 +332,7 @@
 				TargetAttributes = {
 					0C3DBAEA1C6C13AA00401A2E = {
 						CreatedOnToolsVersion = 7.2.1;
-						DevelopmentTeam = HCD8427AVA;
+						DevelopmentTeam = Q3NWX7AS93;
 					};
 					0C3DBAFE1C6C13AA00401A2E = {
 						CreatedOnToolsVersion = 7.2.1;
@@ -603,7 +603,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = barr/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.carlbarrapp.barr;
+				PRODUCT_BUNDLE_IDENTIFIER = com.barrapp.barr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -618,7 +618,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = barr/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.carlbarrapp.barr;
+				PRODUCT_BUNDLE_IDENTIFIER = com.barrapp.barr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};

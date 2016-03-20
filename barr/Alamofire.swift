@@ -15,11 +15,8 @@ let headers = [
 
 
 struct AlamoHelper {
-//    static let domain = "http://10.0.0.47:3000/"
-//    static let domain = "http://192.168.0.10:3000/"
-//    static let domain = "http://128.237.219.253:3000/"
-    static let domain = "http://10.0.0.2:3000/"
-//    static let domain = "http://150.212.45.249:3000/"
+
+    static let domain = "http://10.0.0.47:3000/"
 
     static func authorizedGet(subdomain: String, var parameters: [String: AnyObject], completion: (response: JSON) -> Void){
         if let accessToken = Me.user.accessToken, userId = Me.user.userId {
@@ -43,6 +40,8 @@ struct AlamoHelper {
     
     static func getAttempt(subdomain: String, parameters: [String: AnyObject]?, completion: (response: JSON) -> Void, attempt: UInt64){
         if let params = parameters {
+            print("HIT")
+            print(self.domain + subdomain)
             Alamofire.request(.GET, self.domain + subdomain, headers: headers, parameters: params, encoding: .URL)
                 .validate(statusCode: 200..<300)
                 .validate(contentType: ["application/json"])

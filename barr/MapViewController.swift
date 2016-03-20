@@ -20,6 +20,8 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
     var previewView = UIView()
 
     var locationArr: [Location] = []
+    
+    // Mark: UIViewController Methods
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,8 +31,9 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
         if let lat = LocationTracker.tracker.currentCoord?.latitude, lon = LocationTracker.tracker.currentCoord?.longitude {
             mapview = makeMap(lat, longitude: lon , zoom: 16)
             self.view.addSubview(mapview!)
+            updateMapLocation()
         } else {
-            mapview = makeMap(40.4433, longitude: 79.9436 , zoom: 19)
+            mapview = makeMap(40.4433, longitude: -79.9436 , zoom: 19)
             self.view.addSubview(mapview!)
         }
     }
@@ -42,8 +45,16 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(false)
+        mapview?.delegate = self
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateMapLocation", name: locationNotificationKey, object: nil)
     }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(true)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: locationNotificationKey, object: nil)
+    }
+    
+    // Mark: Map Methods
     
     func makeMap(latitude: Double, longitude: Double, zoom: Float) -> GMSMapView {
         let camera = GMSCameraPosition.cameraWithLatitude(latitude,
@@ -58,26 +69,35 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
         let marker = GMSMarkerLocation(location: location)
         marker.position = CLLocationCoordinate2DMake(location.lat as! Double, location.lon as! Double)
         marker.title = location.name
+        
         return marker
-    }
-    
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(true)
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: locationNotificationKey, object: nil)
     }
     
     func updateMapLocation(){
         if let locationCoords = LocationTracker.tracker.currentCoord {
             mapview!.animateToLocation(locationCoords)
+            Circle.addMemberToCircleByLocation(locationCoords.latitude, lon: locationCoords.longitude)
             Location.getLocations(locationCoords.latitude, lon: locationCoords.longitude, completion: {
                 nearByLocations in
                 for loc in nearByLocations {
+                    print(loc)
                     let currMark = self.makeMarker(loc)
                     currMark.map = self.mapview
                 }
             })
         }
     }
+    
+    // MARK: Delegate Methods
+
+    func mapView(mapView: GMSMapView, didTapMarker marker: GMSMarker) -> Bool {
+        let markLoc = marker as! GMSMarkerLocation
+        print(markLoc.location.id)
+        makePreviewView(markLoc.location.id!)
+        return true
+    }
+    
+    // MARK: Preview Methods
     
     func makePreviewView(locId: String){
         previewView = UIView(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: self.view.frame.width, height: self.view.frame.height)))
@@ -97,47 +117,6 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
             previewView.removeFromSuperview()
         }
     }
-//    
-//    func getLocation(){
-//        
-//            self.gMap.makeMap(lat, longitude: lon , zoom: 13) {
-//                mapView in
-//                    self.makeMap(mapView, hasUserLocation: true)
-//                    Location.getLocations(lat, lon: lon) {
-//                        response in
-//                            let locs = response["locations"].arrayValue
-//                            print(locs)
-//                            for location in locs {
-//                                let lo = Location(dictionary: location)
-//                                let loCL = CLLocationCoordinate2DMake(lo.lat as! Double, lo.lon as! Double)
-//                                let marker = self.gMap.makeMarker(lo)
-//                                marker.map = mapView
-//                                print(CLLocation.distance(LocationTracker.tracker.currentLocation!, to: loCL))
-//                                self.locationArr.append(lo)
-//                        }
-//                    }
-//                }
-//        } else {
-//            print("lat long not defined")
-//            self.gMap.makeMap(40.4433, longitude: 79.9436 , zoom: 19) {
-//                mapView in
-//                    self.makeMap(mapView, hasUserLocation: false)
-//            }
-//        }
-//    }
-    
-    func updateUserLocation(){
-
-    }
-
-    func mapView(mapView: GMSMapView, didTapMarker marker: GMSMarker) -> Bool {
-        let markLoc = marker as! GMSMarkerLocation
-        print(markLoc.location.id)
-        makePreviewView(markLoc.location.id!)
-        return true
-    }
-    
-
 
 }
 

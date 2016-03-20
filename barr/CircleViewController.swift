@@ -30,7 +30,7 @@ class CircleViewController: UIViewController, UICollectionViewDataSource, UIColl
         circleCollection = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
         circleCollection.dataSource = self
         circleCollection.delegate = self
-        circleCollection.registerClass(PhotoCollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
+        circleCollection.registerClass(UserPhotoCell.self, forCellWithReuseIdentifier: "Cell")
         circleCollection.backgroundColor = UIColor.whiteColor()
         self.view.addSubview(circleCollection)
         defineToggleView()
@@ -63,34 +63,31 @@ class CircleViewController: UIViewController, UICollectionViewDataSource, UIColl
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as! PhotoCollectionViewCell
-        cell.backgroundColor = UIColor.orangeColor()
-//        DownloadImage.downloadImage(NSURL(string: "http://a4.files.biography.com/image/upload/c_fill,cs_srgb,dpr_1.0,g_face,h_300,q_80,w_300/MTE1ODA0OTcxNjMzNjQwOTcz.jpg")!, cell: cell)
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as! UserPhotoCell
+        
+        //look through the user Arr
+        
+        //pull the user from the DB
+        
+//        if let pictId = picObj["id"].rawString(), pictURL = picObj["source"].rawString() {
+//            if let fbCellImgInfo = SelectPhotosViewController.imgCache.objectForKey(pictId){
+//                let fbImgInfo = fbCellImgInfo as! FacebookPhotoCellInfo
+//                cell.setFbImgInfo(fbImgInfo)
+//            } else {
+//                DownloadImage.downloadImage(NSURL(string: pictURL)!) {
+//                    img in
+//                    let fbCellImgInfo = FacebookPhotoCellInfo(imgURL: pictURL, pictId: pictId, img: img, indexPath:indexPath)
+//                    cell.setFbImgInfo(fbCellImgInfo)
+//                    SelectPhotosViewController.imgCache.setObject(fbCellImgInfo, forKey: pictId)
+//                }
+//            }
+//        }
+        cell.backgroundColor = UIColor.blueColor()
         return cell
     }
     
-    func getDataFromUrl(url:NSURL, completion: ((data: NSData?, response: NSURLResponse?, error: NSError? ) -> Void)) {
-        NSURLSession.sharedSession().dataTaskWithURL(url) { (data, response, error) in
-            completion(data: data, response: response, error: error)
-            }.resume()
-    }
-    
-    func downloadImage(url: NSURL, cell: PhotoCollectionViewCell){
-        print("Download Started")
-        print("lastPathComponent: " + (url.lastPathComponent ?? ""))
-        getDataFromUrl(url) { (data, response, error)  in
-            dispatch_async(dispatch_get_main_queue()) { () -> Void in
-                guard let data = data where error == nil else { return }
-                print(response?.suggestedFilename ?? "")
-                print("Download Finished")
-                cell.galleryImage = UIImageView()
-                cell.galleryImage.sizeToFit()
-                cell.galleryImage.frame.size = CGSize(width: cell.frame.width, height: cell.frame.height)
-                cell.galleryImage.frame.origin = CGPoint(x: 0, y: 0)
-                cell.galleryImage.image = UIImage(data: data)
-                cell.addSubview(cell.galleryImage)
-            }
-        }
+    func getUsersInCurrentCirle(circleId: String) {
+        //call the API
     }
     
     func heartButtonPressed(sender: UIButton!){

@@ -28,9 +28,12 @@ class Circle {
         }
     }
     
-    func checkToAddUserCircle(){
-        // Call to server
-        
+    static func addMemberToCircleByLocation(lat: Double, lon: Double){
+        let subdomain = "/api/v1/rooms/members/" + Me.user.userId!
+        AlamoHelper.authorizedPost(subdomain, parameters: ["coordinate" : [lon, lat]], completion: {
+            response in
+            print("add member by location");
+        })
     }
     
     func addMember(dictionary: NSDictionary) {

@@ -11,7 +11,7 @@ import FBSDKCoreKit
 import FBSDKLoginKit
 import Alamofire
 
-class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
+class LoginViewController: UIViewController {
     
     let facebookReadPermissions = ["public_profile", "email", "user_friends", "user_photos", "user_birthday"]
     
@@ -26,6 +26,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
                         err
                     } else {
                         if (isCreated) {
+                            print("additional View")
                             let addInfoVC:AdditionalInfoViewController = AdditionalInfoViewController()
                             self.presentViewController(addInfoVC, animated: true, completion: nil)
                         } else {
@@ -82,17 +83,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
                     // Do work
                     let fbToken = result.token.tokenString
                     let fbUserID = result.token.userID
-                    print(fbToken)
-                    print(fbUserID)
-                    //Send fbToken and fbUserID to your web API for processing, or just hang on to that locally if needed
-                    //self.post("myserver/myendpoint", parameters: ["token": fbToken, "userID": fbUserId]) {(error: NSError?) ->() in
-                    //	if error != nil {
-                    //		failureBlock(error)
-                    //	} else {
-                    //		successBlock(maybeSomeInfoHere?)
-                    //	}
-                    //}
-                    
+
                     successBlock(result)
                 } else {
                     failureBlock((nil))
@@ -105,15 +96,6 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("Load Pages")
-        
-        if (FBSDKAccessToken.currentAccessToken() == nil){
-            print("Not Logged in...")
-            notLoggedIn()
-        } else {
-            print("Logged in...")
-            notLoggedIn()
-        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -121,43 +103,4 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    func notLoggedIn(){
-        let screenWidth = screenSize.width
-        let screenHeight = screenSize.height
-        
-        let loginButton = FBSDKLoginButton()
-        let signUpEmail = UITextField(frame: CGRect(x: (screenWidth * 0.125), y: (screenHeight * 0.5), width: screenWidth * 0.75, height: screenHeight * 0.1))
-        signUpEmail.backgroundColor = UIColor.greenColor()
-        loginButton.readPermissions = ["public_profile", "email", "user_friends"]
-        
-        let X_Position:CGFloat = (screenWidth * 0.5) //use your X position here
-        let Y_Position:CGFloat = (screenHeight * 0.75) //use your Y position here
-        
-        loginButton.frame = CGRectMake((X_Position-loginButton.frame.width/2), Y_Position, loginButton.frame.width, loginButton.frame.height)
-        
-        loginButton.delegate = self
-        
-        self.view.addSubview(loginButton)
-        self.view.addSubview(signUpEmail)
-    }
-    
-    func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
-        if (error == nil){
-//            print("\(result.token.tokenString)")
-//            print("\(result.token.expirationDate)")
-            Auth.sendAuthRequest(result.token.tokenString){_,_ in }
-//            print(User.createUser(result.token.tokenString))
-            print("Login Complete...")
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let mapVC = storyboard.instantiateViewControllerWithIdentifier("TabVC")
-            self.presentViewController(mapVC, animated: true, completion: nil)
-        } else {
-            print(error.localizedDescription)
-        }
-        
-    }
-    
-    func loginButtonDidLogOut(loginButton: FBSDKLoginButton!) {
-        print("User Logged Out...")
-    }
 }

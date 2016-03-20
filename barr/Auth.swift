@@ -19,22 +19,17 @@ struct Auth {
         let params = ["access_token": fbAccessToken]
         AlamoHelper.GET("login/facebook", parameters: params, completion: {
             userAuth -> Void in
-            if let fbId = userAuth["fbId"].rawString(), accessToken = userAuth["authToken"].rawString(), userId = userAuth["id"].rawString(), isCreated = userAuth["isCreated"].rawString()?.toBool()
-            {
-                self.wasCreated = isCreated
-                self.completion = completion
-                Me.user.setVariables(fbAccessToken, fbId: fbId, accessToken: accessToken, userId: userId)
+                if let fbId = userAuth["fbId"].rawString(), accessToken = userAuth["authToken"].rawString(), userId = userAuth["id"].rawString(), isCreated = userAuth["isCreated"].rawString()?.toBool()
+                {
+                    self.wasCreated = isCreated
+                    self.completion = completion
+                    Me.user.setVariables(fbAccessToken, fbId: fbId, accessToken: accessToken, userId: userId)
                 
-                print("STARTING SOCKETS");
-                SocketManager.sharedInstance.open();
-                self.wasUserCreated()
-            }
-        })
-        
-        /*Me.user.setVariables("", fbId: "", accessToken: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiNTZlNjE5MzMwNDZlOTU3MWNmNWM5OGFhIiwiZXhwIjoxNDU4NTI1MzQwODEwfQ.4ixHj2YZy4bEqHXOX7NBVg2EVn_hB5nsKFTDj2hQWhA", userId: "56e61933046e9571cf5c98aa");
-        
-        print("STARTING SOCKETS");
-        SocketManager.sharedInstance.open();*/
+                    print("STARTING SOCKETS");
+                    SocketManager.sharedInstance.open();
+                    self.wasUserCreated()
+                }
+        });
     }
     
     static private func wasUserCreated(){
@@ -43,6 +38,10 @@ struct Auth {
             if (isCreated == true) {
                 print("User was Created")
                 Me.user.createUser()
+                if let compBlock = completion {
+                    print("User NOT was Created")
+                    compBlock(nil, isCreated)
+                }
             } else {
                 if let compBlock = completion {
                     print("User NOT was Created")
