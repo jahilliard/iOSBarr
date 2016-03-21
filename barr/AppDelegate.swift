@@ -34,7 +34,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     print("DOING AUTH");
                     print(Me.user.accessToken)
                     print(Me.user.userId)
-                    Auth.sendAuthRequest(FBSDKAccessToken.currentAccessToken().tokenString, completion: nil)
+                if (error != nil) {
+                    //TODO: handle being unable to refresh token
+                    return;
+                }
+                Auth.sendAuthRequest(FBSDKAccessToken.currentAccessToken().tokenString, completion: {err, isCreated in
+                    if ((err) != nil) {
+                        //TODO: handle error case, server could not authenticate
+                    } else {
+                        print("STARTING SOCKETS");
+                        SocketManager.sharedInstance.open();
+                    }
+                })
             })
             print(Me.user.setVariablesFromNSUserDefault())
         } else {

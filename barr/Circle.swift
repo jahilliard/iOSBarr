@@ -11,25 +11,30 @@ import Alamofire
 import SwiftyJSON
 
 class Circle {
-    let locationId : String?;
-    var members : [String: UserInfo];
+    var locationId : String?;
+    var circleId: String?;
+    var members : [String: UserInfo] = [String: UserInfo]();
+    static let sharedInstance : Circle = Circle();
     
-    init(dictionary: NSDictionary) {
-        self.locationId = dictionary["businessId"] as? String;
-        let members = dictionary["members"] as? [NSDictionary];
+    private init(){}
+    
+    func initCircle(dictionary: JSON) {
+        self.circleId = dictionary["circleId"].string;
+        let members = dictionary["members"].arrayValue;
         
         self.members = [String: UserInfo]();
-        if (members != nil){
-            for dictionary in members!{
-                let dicJSON = JSON(dictionary)
-                let singleMember = UserInfo(userInfo: dicJSON["userInfo"]);
-                self.members[singleMember.userId] = singleMember;
-            }
+        for userInfo in members{
+            print(userInfo["_id"].string);
+            let singleMember = UserInfo(userInfo: userInfo);
+            self.members[singleMember.userId] = singleMember;
         }
+        
+        print("MEMBERS");
+        print(self.members);
     }
     
     static func addMemberToCircleByLocation(lat: Double, lon: Double){
-        let subdomain = "/api/v1/rooms/members/" + Me.user.userId!
+        let subdomain = "api/v1/rooms/members/" + Me.user.userId!
         AlamoHelper.authorizedPost(subdomain, parameters: ["coordinate" : [lon, lat]], completion: {
             response in
             print("add member by location");
@@ -44,6 +49,19 @@ class Circle {
     
     func deleteMember(userId: String){
         self.members.removeValueForKey(userId);
+    }
+    
+    func getCircleInfo(){
+        let subdomain = "api/v1/users/\(Me.user.userId!)/circle/";
+
+        AlamoHelper.authorizedGet(subdomain, parameters: [String: AnyObject](), completion: {result in
+            if (result["message"].string != "success") {
+                self.getCircleInfo();
+            }
+            else {
+                self.initCircle(result["data"]);
+            }
+        });
     }
     
     static func getPreview(locationId : String) -> [String]{

@@ -11,49 +11,53 @@ import FBSDKLoginKit
 import SwiftyJSON
 
 struct Auth {
+    static let MAX_CREATE_ATTEMPTS : UInt64 = 10;
     
-    static private var completion:  ((NSError?, Bool) -> Void)?
-    static private var wasCreated: Bool?
-    
-    static func sendAuthRequest(fbAccessToken: String, completion: ((NSError?, Bool) -> Void)?){
+    static func sendAuthRequest(fbAccessToken: String, completion: (NSError?, Bool) -> Void){
         let params = ["access_token": fbAccessToken]
         AlamoHelper.GET("login/facebook", parameters: params, completion: {
             userAuth -> Void in
                 if let fbId = userAuth["fbId"].rawString(), accessToken = userAuth["authToken"].rawString(), userId = userAuth["id"].rawString(), isCreated = userAuth["isCreated"].rawString()?.toBool()
                 {
-                    self.wasCreated = isCreated
-                    self.completion = completion
                     Me.user.setVariables(fbAccessToken, fbId: fbId, accessToken: accessToken, userId: userId)
                 
-                    print("STARTING SOCKETS");
-                    SocketManager.sharedInstance.open();
-                    self.wasUserCreated()
+                    self.wasUserCreated({err in
+                        if ((err) != nil) {
+                            completion(err, isCreated);
+                        } else {
+                            completion(nil, isCreated);
+                        }}, isCreated: isCreated);
+                } else {
+                    print("There was a Login Error")
+                    completion(NSError(domain: "Response improperly formatted", code: 100, userInfo: nil), false);
                 }
         });
-    }
+        }
     
-    static private func wasUserCreated(){
-        print(wasCreated)
-        if let isCreated = wasCreated {
-            if (isCreated == true) {
-                print("User was Created")
-                Me.user.createUser()
-                if let compBlock = completion {
-                    print("User NOT was Created")
-                    compBlock(nil, isCreated)
-                }
-            } else {
-                if let compBlock = completion {
-                    print("User NOT was Created")
-                    compBlock(nil, isCreated)
+    static private func wasUserCreated(completion: (NSError?) -> Void, isCreated: Bool){
+        if isCreated {
+            print("User was Created")
+            var createAttempts : UInt64 = 0;
+            func callback(err : NSError?) -> Void {
+                if (err != nil) {
+                    //reached maximum attempts
+                    if (createAttempts == MAX_CREATE_ATTEMPTS) {
+                        completion(err);
+                    } else {
+                        //try updating user again
+                        createAttempts += 1;
+                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(2 * createAttempts * NSEC_PER_SEC)), dispatch_get_main_queue()) {
+                            Me.user.createUser(callback: callback);
+                        }
+                    }
+                } else {
+                    completion(nil);
                 }
             }
+        
+            Me.user.createUser(callback: callback);
         } else {
-            if let compBlock = completion {
-                print("There was a Login Error")
-                compBlock(NSError(domain: "isCreated not defined", code: 100, userInfo: nil), false)
-            }
+            completion(nil);
         }
     }
-    
 }

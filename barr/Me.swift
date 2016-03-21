@@ -73,34 +73,46 @@ class Me {
     
     // MARK: FBSDK Call
     
-    func makeFbGraphCall(parameters: [String: String], completion: (response: JSON) -> Void){
+    func makeFbGraphCall(parameters: [String: String], completion: (err: NSError?, response: JSON?) -> Void){
         print(Me.user.fbAuthtoken)
         let req = FBSDKGraphRequest(graphPath: "me", parameters: parameters, tokenString: Me.user.fbAuthtoken, version: nil, HTTPMethod: "GET")
         req.startWithCompletionHandler({ (connection, result, error : NSError!) -> Void in
             if(error == nil) {
-                completion(response: JSON(result))
+                completion(err: nil, response: JSON(result))
             } else {
-                print("error \(error)")
+                completion(err: error, response: nil);
             }
         })
     }
     
     // MARK: CRUD Functionality
     
-    func createUser(){
-        makeFbGraphCall(["fields":"email,first_name,last_name,picture"], completion:
-            { (response) in
-                print(response["picture"]["url"].rawString())
+    func createUser(callback callback: (NSError?) -> Void){
+        self.makeFbGraphCall(["fields":"email,first_name,last_name,picture"], completion:
+            { (err, response) in
+                if (err != nil) {
+                    callback(err!);
+                    return;
+                }
                 
-                if let firstName = response["first_name"].rawString(), lastName = response["last_name"].rawString(), email = response["email"].rawString() {
+                print(response!["picture"]["url"].rawString())
+                
+                if let firstName = response!["first_name"].rawString(), lastName = response!["last_name"].rawString(), email = response!["email"].rawString() {
                     
                     if let _ = Me.user.fbId, accessToken = Me.user.accessToken, userId = Me.user.userId {
                         
                         let body: [String:AnyObject] = ["fields":  ["firstName": firstName, "lastName": lastName, "email": email], "x_key" : userId, "access_token": accessToken]
                         
-                        AlamoHelper.POST("api/v1/users/update/" + userId, parameters: body, completion: nil)
+                        AlamoHelper.POST("api/v1/users/update/" + userId, parameters: body, completion: {response in
+                            if let message = response["message"].string {
+                                if message != "success" {
+                                    callback(NSError(domain: "Failed to update user", code: 400, userInfo: nil));
+                                } else {
+                                    callback(nil);
+                                }
+                            }
+                        })
                     }
-                    
                 }
             }
         )

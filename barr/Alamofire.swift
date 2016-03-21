@@ -16,7 +16,7 @@ let headers = [
 
 struct AlamoHelper {
 
-    static let domain = "http://10.0.0.47:3000/"
+    static let domain = "http://10.0.0.2:3000/"
 
     static func authorizedGet(subdomain: String, var parameters: [String: AnyObject], completion: (response: JSON) -> Void){
         if let accessToken = Me.user.accessToken, userId = Me.user.userId {
@@ -55,11 +55,11 @@ struct AlamoHelper {
                     case .Failure(let error):
                         print(error)
                         print(response.result.value?.message)
-                        print("What happened???")
-                        completion(response: nil);
+                        print("What happened???");
                         //do some sort of backoff
                         let nextAttempt : UInt64 = attempt + 1;
                         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(2 * nextAttempt * NSEC_PER_SEC)), dispatch_get_main_queue()) {
+                            print(nextAttempt);
                             getAttempt(subdomain, parameters: parameters, completion:  completion, attempt: nextAttempt);
                             };
                         //                      ErrorHandler.buidErrorView(error)
@@ -80,7 +80,6 @@ struct AlamoHelper {
                         print(error)
                         print(response.result.value?.message)
                         print("What happened???")
-                        completion(response: nil);
                         //do some sort of backoff
                         let nextAttempt : UInt64 = attempt + 1;
                         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(2 * nextAttempt * NSEC_PER_SEC)), dispatch_get_main_queue()) {

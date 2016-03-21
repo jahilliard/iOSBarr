@@ -21,23 +21,32 @@ class LoginViewController: UIViewController {
         loginToFacebookWithSuccess(
             { result in
                 Auth.sendAuthRequest(result.token.tokenString){
-                    err, isCreated in
-                    if err != nil{
-                        err
-                    } else {
-                        if (isCreated) {
-                            print("additional View")
-                            let addInfoVC:AdditionalInfoViewController = AdditionalInfoViewController()
-                            self.presentViewController(addInfoVC, animated: true, completion: nil)
+                    (err, isCreated) in
+                        if err != nil{
+                            //TODO: handle when fails to auth with our server, notify user
+                            //TEST by setting connection address to wrong string
+                            err
                         } else {
-                            print("HIT")
-                            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                            let mapVC: UIViewController = storyboard.instantiateViewControllerWithIdentifier("TabVC")
-                            self.presentViewController(mapVC, animated: true, completion: nil)
+                            if (isCreated) {
+                                //TODO: move socket init into after info has been filled out by the user in additionalinfocontroller
+                                print("STARTING SOCKETS");
+                                SocketManager.sharedInstance.open();
+                                
+                                print("additional View")
+                                let addInfoVC:AdditionalInfoViewController = AdditionalInfoViewController()
+                                self.presentViewController(addInfoVC, animated: true, completion: nil)
+                            } else {
+                                print("STARTING SOCKETS");
+                                SocketManager.sharedInstance.open();
+                                print("additional View")
+                                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                                let mapVC: UIViewController = storyboard.instantiateViewControllerWithIdentifier("TabVC")
+                                self.presentViewController(mapVC, animated: true, completion: nil)
+                            }
                         }
-                    }
                 }
             }, andFailure: {
+                //TODO: when fb credentials/login fail
                 err in
                     err
             }
@@ -50,7 +59,7 @@ class LoginViewController: UIViewController {
             //For debugging, when we want to ensure that facebook login always happens
             //FBSDKLoginManager().logOut()
             //Otherwise do:
-            return
+            return;
         }
         
         FBSDKLoginManager().logInWithReadPermissions(self.facebookReadPermissions, fromViewController: self, handler: { (result:FBSDKLoginManagerLoginResult!, error:NSError!) -> Void in

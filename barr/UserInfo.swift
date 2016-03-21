@@ -11,11 +11,19 @@ import Alamofire
 import SwiftyJSON
 
 class UserInfo {
+    enum OfferOptions {
+        case HEART
+        case DRINK
+    }
+    
     let userId : String;
     let nickname : String;
     let firstName: String;
     let lastName: String;
-    let img: String;
+    let picture: String;
+    var yourOffers: [OfferOptions]
+    var otherOffers: [OfferOptions]
+    var matchId: String?;
     
     enum sentRequest {
         case Nothing
@@ -32,19 +40,70 @@ class UserInfo {
     }
     
     init(userInfo: JSON) {
-        if let userId = userInfo["userId"].rawString(), nickname = userInfo["nickname"].rawString(), firstName = userInfo["firstName"].rawString(), lastName = userInfo["lastName"].rawString(), img = userInfo["img"].rawString() {
-            self.userId = userId;
-            self.nickname = nickname;
-            self.firstName = firstName;
-            self.lastName = lastName;
-            self.img = img;
+        if let userId = userInfo["_id"].rawString(){
+            self.userId = userId
         } else {
-            print("User Values not defined")
-            self.userId = "userId";
-            self.nickname = "nickname";
-            self.firstName = "firstName";
-            self.lastName = "lastName";
-            self.img = "img";
+            self.userId = ""
         }
+        if let nickname = userInfo["nickname"].rawString(){
+            self.nickname = nickname;
+        } else {
+            self.nickname = "nickname";
+        }
+        
+        if let firstName = userInfo["firstName"].rawString(){
+            self.firstName = firstName;
+        } else {
+            self.firstName = "firstName";
+        }
+        
+        if let lastName = userInfo["lastName"].rawString(){
+            self.lastName = lastName;
+        } else {
+            self.lastName = "lastName";
+        }
+        
+        if let picture = userInfo["picture"].rawString() {
+            self.picture = picture;
+        } else {
+            self.picture = "picture";
+        }
+
+        self.yourOffers = [];
+        self.otherOffers = [];
+        self.matchId = nil;
+        
+        if userInfo["matches"] != nil{
+            let matchInfo = userInfo["matches"];
+            let yourOffers = matchInfo["yourOffers"];
+            let otherOffers = matchInfo["otherOffers"];
+            let matchId = matchInfo["matchId"].string;
+            
+            if yourOffers != nil{
+                self.yourOffers = parseOffers(yourOffers.arrayValue);
+            }
+            
+            if otherOffers != nil{
+                self.otherOffers = parseOffers(otherOffers.arrayValue);
+            }
+            
+            if matchId != nil {
+                self.matchId = matchId;
+            }
+        }
+    }
+    
+    func parseOffers(offers: [JSON]) -> [OfferOptions] {
+        var result : [OfferOptions] = [];
+        for offer in offers {
+            if offer.int == 0 {
+                result.append(OfferOptions.HEART);
+            }
+            
+            else if offer.int == 1 {
+                result.append(OfferOptions.DRINK);
+            }
+        }
+        return result;
     }
 }
