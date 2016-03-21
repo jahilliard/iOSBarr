@@ -12,17 +12,19 @@ import FBSDKCoreKit
 class Me {
     static let user: Me = Me()
     
-    var email: String?
     var fbId: String?
     var fbAuthtoken: String?
     var userId: String?
     var accessToken: String?
-    var currentCircleId: String?
     
     var newestValidateInfo = false
     
+    var currentCircleId: String?
+    var firstName: String?
+    var lastName: String?
+    var email: String?
     var nickName: String?
-    var age: Int?
+    var picturesArr: [String]?
     
     let prefs = NSUserDefaults.standardUserDefaults()
     
@@ -41,10 +43,10 @@ class Me {
         Me.user.prefs.setValue(currentCircleId, forKey: "currentCircleId")
     }
     
-    func resetFBAccessToken(fbAuthtoken: String){
-        Me.user.fbAuthtoken = fbAuthtoken
-        Me.user.prefs.setValue(fbAuthtoken, forKey: "fbAuthtoken")
-    }
+//    func resetFBAccessToken(fbAuthtoken: String){
+//        Me.user.fbAuthtoken = fbAuthtoken
+//        Me.user.prefs.setValue(fbAuthtoken, forKey: "fbAuthtoken")
+//    }
     
     func resetBarrAccessToken(accessToken: String){
         Me.user.accessToken = accessToken
@@ -125,6 +127,25 @@ class Me {
             print("\(response["message"].rawString())")
         })
         
+    }
+    
+    func getUserAttrs(){
+        if let userId = Me.user.userId {
+            AlamoHelper.authorizedGet("api/v1/users/" + userId, parameters: [String: AnyObject](), completion: {
+                response in
+                print(response)
+                    Me.user.currentCircleId = response["user"]["currentCircle"].rawString()
+                    Me.user.firstName = response["user"]["firstName"].rawString()
+                    Me.user.lastName = response["user"]["lastName"].rawString()
+                    Me.user.email = response["user"]["email"].rawString()
+                    Me.user.picturesArr = response["user"]["picture"].rawValue as? [String]
+                print(Me.user.currentCircleId)
+                print(Me.user.firstName)
+                print(Me.user.lastName)
+                print(Me.user.email)
+                print(Me.user.picturesArr)
+            });
+        }
     }
     
 }

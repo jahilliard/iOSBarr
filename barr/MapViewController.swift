@@ -45,6 +45,10 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(false)
+        print("Checking to see if there is a picture: ")
+        if let picURL = Me.user.picturesArr?[0] {
+            print(picURL)
+        }
         mapview?.delegate = self
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateMapLocation", name: locationNotificationKey, object: nil)
     }

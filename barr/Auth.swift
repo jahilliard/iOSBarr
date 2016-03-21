@@ -20,7 +20,8 @@ struct Auth {
                 if let fbId = userAuth["fbId"].rawString(), accessToken = userAuth["authToken"].rawString(), userId = userAuth["id"].rawString(), isCreated = userAuth["isCreated"].rawString()?.toBool()
                 {
                     Me.user.setVariables(fbAccessToken, fbId: fbId, accessToken: accessToken, userId: userId)
-                
+                    Me.user.getUserAttrs()
+                    
                     self.wasUserCreated({err in
                         if ((err) != nil) {
                             completion(err, isCreated);

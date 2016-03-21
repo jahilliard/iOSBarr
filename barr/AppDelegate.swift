@@ -38,7 +38,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     //TODO: handle being unable to refresh token
                     return;
                 }
-                Auth.sendAuthRequest(FBSDKAccessToken.currentAccessToken().tokenString, completion: {err, isCreated in
+                Auth.sendAuthRequest(FBSDKAccessToken.currentAccessToken().tokenString, completion: {
+                    err, isCreated in
                     if ((err) != nil) {
                         //TODO: handle error case, server could not authenticate
                     } else {
