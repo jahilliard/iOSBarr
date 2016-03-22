@@ -12,7 +12,6 @@ import FBSDKCoreKit
 class Me {
     static let user: Me = Me()
     
-    var email: String?
     var fbId: String?
     var firstName: String?
     var lastName: String?
@@ -20,18 +19,18 @@ class Me {
     var fbAuthtoken: String?
     var userId: String?
     var accessToken: String?
-    var currentCircleId: String?
+    var email: String?
     
     var newestValidateInfo = false
     
-    var nickName: String?
-    var age: Int?
+    var currentCircleId: String?
+    var picturesArr: [String]?
     
     let prefs = NSUserDefaults.standardUserDefaults()
     
     private init() {}
     
-    func setVariables(fbAuthtoken: String, fbId: String, accessToken: String, userId: String, firstName: String, lastName: String, nickname: String, email: String) {
+    func setVariables(fbAuthtoken: String, fbId: String, accessToken: String, userId: String, firstName: String, lastName: String, nickname: String, email: String, pictures: [String]) {
         self.userId = userId
         self.fbId = fbId
         self.accessToken = accessToken
@@ -40,6 +39,7 @@ class Me {
         self.lastName = lastName
         self.nickname = nickname
         self.email = email
+        self.picturesArr = pictures
         storeVariablesToNSUserDefault()
     }
     
@@ -48,10 +48,10 @@ class Me {
         Me.user.prefs.setValue(currentCircleId, forKey: "currentCircleId")
     }
     
-    func resetFBAccessToken(fbAuthtoken: String){
-        Me.user.fbAuthtoken = fbAuthtoken
-        Me.user.prefs.setValue(fbAuthtoken, forKey: "fbAuthtoken")
-    }
+//    func resetFBAccessToken(fbAuthtoken: String){
+//        Me.user.fbAuthtoken = fbAuthtoken
+//        Me.user.prefs.setValue(fbAuthtoken, forKey: "fbAuthtoken")
+//    }
     
     func resetBarrAccessToken(accessToken: String){
         Me.user.accessToken = accessToken
@@ -142,5 +142,28 @@ class Me {
             completion(nil);
         })
         
+    }
+    
+    func getUserAttrs(){
+        if let userId = Me.user.userId {
+            AlamoHelper.authorizedGet("api/v1/users/" + userId, parameters: [String: AnyObject](), completion: {
+                err, response in
+                if err != nil {
+                    //TODO: handle err
+                    return;
+                }
+                print(response)
+                    Me.user.currentCircleId = response!["user"]["currentCircle"].rawString()
+                    Me.user.firstName = response!["user"]["firstName"].rawString()
+                    Me.user.lastName = response!["user"]["lastName"].rawString()
+                    Me.user.email = response!["user"]["email"].rawString()
+                    Me.user.picturesArr = response!["user"]["picture"].rawValue as? [String]
+                print(Me.user.currentCircleId)
+                print(Me.user.firstName)
+                print(Me.user.lastName)
+                print(Me.user.email)
+                print(Me.user.picturesArr)
+            });
+        }
     }
 }

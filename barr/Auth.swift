@@ -26,7 +26,7 @@ struct Auth {
             if userInfo != nil {
                 if let fbId = userInfo["fbId"].rawString(), userId = userInfo["_id"].rawString(), firstName = userInfo["firstName"].rawString(), lastName = userInfo["lastName"].rawString(), email = userInfo["email"].rawString(), nickname = userInfo["nickname"].rawString(), isCreated = userAuth!["isCreated"].rawString()?.toBool(), accessToken = userAuth!["authToken"].rawString()
                 {
-                    Me.user.setVariables(fbAccessToken, fbId: fbId, accessToken: accessToken, userId: userId, firstName: firstName, lastName: lastName, nickname: nickname, email: email);
+                    Me.user.setVariables(fbAccessToken, fbId: fbId, accessToken: accessToken, userId: userId, firstName: firstName, lastName: lastName, nickname: nickname, email: email, pictures: userInfo["picture"].arrayValue.filter({ $0.string != nil }).map({ $0.string!}));
                     
                     completion(nil, isCreated);
                     /*self.wasUserCreated({err in

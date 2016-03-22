@@ -12,7 +12,6 @@
 		0C2346011C8B6FC100250B3E /* SelectPhotos.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C2346001C8B6FC100250B3E /* SelectPhotos.storyboard */; };
 		0C2346031C8B70B400250B3E /* SelectPhotosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2346021C8B70B400250B3E /* SelectPhotosViewController.swift */; };
 		0C2346061C8BB64D00250B3E /* DownImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2346051C8BB64D00250B3E /* DownImage.swift */; };
-		0C2B2C4A1C6EA3D800D4562B /* GoogleClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2B2C491C6EA3D800D4562B /* GoogleClient.swift */; };
 		0C3DBAEF1C6C13AA00401A2E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3DBAEE1C6C13AA00401A2E /* AppDelegate.swift */; };
 		0C3DBAF11C6C13AA00401A2E /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3DBAF01C6C13AA00401A2E /* MapViewController.swift */; };
 		0C3DBAF41C6C13AA00401A2E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C3DBAF21C6C13AA00401A2E /* Main.storyboard */; };
@@ -70,7 +69,6 @@
 		0C2346001C8B6FC100250B3E /* SelectPhotos.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SelectPhotos.storyboard; sourceTree = "<group>"; };
 		0C2346021C8B70B400250B3E /* SelectPhotosViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectPhotosViewController.swift; sourceTree = "<group>"; };
 		0C2346051C8BB64D00250B3E /* DownImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownImage.swift; sourceTree = "<group>"; };
-		0C2B2C491C6EA3D800D4562B /* GoogleClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleClient.swift; sourceTree = "<group>"; };
 		0C3DBAEB1C6C13AA00401A2E /* barr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = barr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C3DBAEE1C6C13AA00401A2E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0C3DBAF01C6C13AA00401A2E /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
@@ -139,7 +137,6 @@
 			isa = PBXGroup;
 			children = (
 				0CE32B4C1C759E3000C61F98 /* Alamofire.swift */,
-				0C2B2C491C6EA3D800D4562B /* GoogleClient.swift */,
 				0CC194651C92AA8000F3BD7A /* GMSMarkerLocation.swift */,
 			);
 			name = API;
@@ -448,7 +445,6 @@
 				0C3DBAF11C6C13AA00401A2E /* MapViewController.swift in Sources */,
 				0C4F14661C80990E0024105D /* CircleViewController.swift in Sources */,
 				0CDF95631C9CE92A007631AB /* UserCellPhotoInfo.swift in Sources */,
-				0C2B2C4A1C6EA3D800D4562B /* GoogleClient.swift in Sources */,
 				0CAE28711C776B4400CE4F92 /* Auth.swift in Sources */,
 				0CC194661C92AA8000F3BD7A /* GMSMarkerLocation.swift in Sources */,
 				0C5CBD3C1C8D2D360057B0C4 /* FacebookPhotoCell.swift in Sources */,
