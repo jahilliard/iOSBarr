@@ -33,8 +33,12 @@ class LoginViewController: UIViewController {
                                 SocketManager.sharedInstance.open();
                                 
                                 print("additional View")
-                                let addInfoVC:AdditionalInfoViewController = AdditionalInfoViewController()
-                                self.presentViewController(addInfoVC, animated: true, completion: nil)
+                                /*let addInfoVC:AdditionalInfoViewController = AdditionalInfoViewController()
+                                self.presentViewController(addInfoVC, animated: true, completion: nil)*/
+                                //TODO: move this code into after additionalviewcontroller is finished
+                                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                                let mapVC: UIViewController = storyboard.instantiateViewControllerWithIdentifier("TabVC");
+                                self.presentViewController(mapVC, animated: true, completion: nil);
                             } else {
                                 print("STARTING SOCKETS");
                                 SocketManager.sharedInstance.open();

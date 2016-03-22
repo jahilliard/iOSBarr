@@ -11,8 +11,7 @@ import FBSDKLoginKit
 import SwiftyJSON
 
 struct Auth {
-    static let MAX_CREATE_ATTEMPTS : UInt64 = 10;
-    
+    //static let MAX_CREATE_ATTEMPTS : UInt64 = 10;
     static func sendAuthRequest(fbAccessToken: String, completion: (NSError?, Bool) -> Void){
         let params = ["access_token": fbAccessToken]
         AlamoHelper.GET("login/facebook", parameters: params, completion: {

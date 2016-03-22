@@ -48,6 +48,9 @@
 		203B82921C8406EB00711838 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203B82911C8406EB00711838 /* Message.swift */; };
 		203B82961C85804800711838 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203B82951C85804800711838 /* ChatViewController.swift */; };
 		203B82981C858EC100711838 /* MessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203B82971C858EC100711838 /* MessageTableViewCell.swift */; };
+		207FCF2F1CA0E8FB0077BB35 /* InitialScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 207FCF2E1CA0E8FB0077BB35 /* InitialScreen.storyboard */; };
+		207FCF311CA10DDD0077BB35 /* 1.png in Resources */ = {isa = PBXBuildFile; fileRef = 207FCF301CA10DDD0077BB35 /* 1.png */; };
+		207FCF331CA1162A0077BB35 /* InitialScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207FCF321CA1162A0077BB35 /* InitialScreenViewController.swift */; };
 		20E4894F1C9272FC00ED8FB0 /* helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E4894E1C9272FC00ED8FB0 /* helper.swift */; };
 		6C53F475284FCDC6D9E0BB24 /* Pods_barr.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E57B0860CCB306E6589A125 /* Pods_barr.framework */; };
 /* End PBXBuildFile section */
@@ -109,6 +112,9 @@
 		203B82911C8406EB00711838 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		203B82951C85804800711838 /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		203B82971C858EC100711838 /* MessageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageTableViewCell.swift; sourceTree = "<group>"; };
+		207FCF2E1CA0E8FB0077BB35 /* InitialScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = InitialScreen.storyboard; sourceTree = "<group>"; };
+		207FCF301CA10DDD0077BB35 /* 1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = 1.png; path = "../../Downloads/Screens V2/1.png"; sourceTree = "<group>"; };
+		207FCF321CA1162A0077BB35 /* InitialScreenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitialScreenViewController.swift; sourceTree = "<group>"; };
 		20E4894E1C9272FC00ED8FB0 /* helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = helper.swift; sourceTree = "<group>"; };
 		36CDFA35C0D7F6EA94DAAE26 /* Pods-barr.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-barr.debug.xcconfig"; path = "Pods/Target Support Files/Pods-barr/Pods-barr.debug.xcconfig"; sourceTree = "<group>"; };
 		433DC74FE6359325AE41CE9E /* Pods-barr.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-barr.release.xcconfig"; path = "Pods/Target Support Files/Pods-barr/Pods-barr.release.xcconfig"; sourceTree = "<group>"; };
@@ -172,6 +178,7 @@
 		0C3DBAE21C6C13AA00401A2E = {
 			isa = PBXGroup;
 			children = (
+				207FCF301CA10DDD0077BB35 /* 1.png */,
 				0C3DBAED1C6C13AA00401A2E /* barr */,
 				0C3DBAEC1C6C13AA00401A2E /* Products */,
 				8E1BF388F794BBA402184DB1 /* Pods */,
@@ -225,6 +232,7 @@
 				0C2346001C8B6FC100250B3E /* SelectPhotos.storyboard */,
 				203053111C8AA78E00FCC5DC /* ChatList.storyboard */,
 				203053171C8CE0F100FCC5DC /* SingleChat.storyboard */,
+				207FCF2E1CA0E8FB0077BB35 /* InitialScreen.storyboard */,
 			);
 			name = Storyboards;
 			sourceTree = "<group>";
@@ -242,6 +250,7 @@
 				203053131C8AAF2100FCC5DC /* ChatListTableViewCell.swift */,
 				203B82951C85804800711838 /* ChatViewController.swift */,
 				203053151C8BD01D00FCC5DC /* ChatListViewController.swift */,
+				207FCF321CA1162A0077BB35 /* InitialScreenViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -362,6 +371,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				207FCF311CA10DDD0077BB35 /* 1.png in Resources */,
 				0C2346011C8B6FC100250B3E /* SelectPhotos.storyboard in Resources */,
 				203053121C8AA78E00FCC5DC /* ChatList.storyboard in Resources */,
 				0C4F14671C80A1350024105D /* JoinCircle.storyboard in Resources */,
@@ -371,6 +381,7 @@
 				203053181C8CE0F100FCC5DC /* SingleChat.storyboard in Resources */,
 				0CAE28731C78C72E00CE4F92 /* Login.storyboard in Resources */,
 				0C3EA74A1C713A9D0039193B /* Account.storyboard in Resources */,
+				207FCF2F1CA0E8FB0077BB35 /* InitialScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -440,6 +451,7 @@
 				203B82901C83FBCC00711838 /* ChatManager.swift in Sources */,
 				203B82981C858EC100711838 /* MessageTableViewCell.swift in Sources */,
 				0C44C6311C7BCC4B00B8DF41 /* Circle.swift in Sources */,
+				207FCF331CA1162A0077BB35 /* InitialScreenViewController.swift in Sources */,
 				20E4894F1C9272FC00ED8FB0 /* helper.swift in Sources */,
 				0C3E1CD71C8A87C300BF5B81 /* extension.swift in Sources */,
 				0C3DBAF11C6C13AA00401A2E /* MapViewController.swift in Sources */,
@@ -595,6 +607,7 @@
 			baseConfigurationReference = 36CDFA35C0D7F6EA94DAAE26 /* Pods-barr.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = barr/Info.plist;
@@ -610,6 +623,7 @@
 			baseConfigurationReference = 433DC74FE6359325AE41CE9E /* Pods-barr.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = barr/Info.plist;

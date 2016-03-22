@@ -110,6 +110,8 @@ class SocketManager {
             Circle.sharedInstance.getCircleInfo();
             //get latest offer info
             print("socket connected");
+            //display map view controller
+            
         });
         
         self.socket!.on("disconnect", callback: {(data, ack) in
