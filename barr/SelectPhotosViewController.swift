@@ -87,7 +87,12 @@ class SelectPhotosViewController: UIViewController, UICollectionViewDataSource, 
                 imageURLS.append(photoNN.imgURL)
             }
         }
-        Me.user.updateUser(["picture": imageURLS])
+        
+        
+        Me.user.updateUser(["picture": imageURLS],
+            completion: {err in
+                //TODO: handler error, maybe shouldn't updateuser on view disappearing
+        })
     }
     
     static func updatePhotoArr(fbCellInfo: FacebookPhotoCellInfo){

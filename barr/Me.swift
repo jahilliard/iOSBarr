@@ -14,6 +14,9 @@ class Me {
     
     var email: String?
     var fbId: String?
+    var firstName: String?
+    var lastName: String?
+    var nickname: String?
     var fbAuthtoken: String?
     var userId: String?
     var accessToken: String?
@@ -28,11 +31,15 @@ class Me {
     
     private init() {}
     
-    func setVariables(fbAuthtoken: String, fbId: String, accessToken: String, userId: String) {
-        Me.user.userId = userId
-        Me.user.fbId = fbId
-        Me.user.accessToken = accessToken
-        Me.user.fbAuthtoken = fbAuthtoken
+    func setVariables(fbAuthtoken: String, fbId: String, accessToken: String, userId: String, firstName: String, lastName: String, nickname: String, email: String) {
+        self.userId = userId
+        self.fbId = fbId
+        self.accessToken = accessToken
+        self.fbAuthtoken = fbAuthtoken
+        self.firstName = firstName
+        self.lastName = lastName
+        self.nickname = nickname
+        self.email = email
         storeVariablesToNSUserDefault()
     }
     
@@ -87,7 +94,7 @@ class Me {
     
     // MARK: CRUD Functionality
     
-    func createUser(callback callback: (NSError?) -> Void){
+    /*func createUser(callback callback: (NSError?) -> Void){
         self.makeFbGraphCall(["fields":"email,first_name,last_name,picture"], completion:
             { (err, response) in
                 if (err != nil) {
@@ -116,15 +123,24 @@ class Me {
                 }
             }
         )
-    }
+    }*/
     
-    func updateUser(parameters: [String: AnyObject]){
-        let body: [String:AnyObject] = ["fields":  parameters, "x_key" : Me.user.userId!, "access_token": Me.user.accessToken!]
-        AlamoHelper.POST("api/v1/users/update/" + Me.user.userId!, parameters: body, completion: {
-            (response) -> Void in
-            print("\(response["message"].rawString())")
+    func updateUser(parameters: [String: AnyObject], completion: (NSError?) -> Void){
+        let body: [String:AnyObject] = ["fields":  parameters];
+        AlamoHelper.authorizedPost("api/v1/users/update/" + Me.user.userId!, parameters: body, completion: {
+            (err, response) -> Void in
+            if (err != nil) {
+                completion(err);
+                return;
+            }
+            
+            else if (response!["message"].string != "success") {
+                completion(NSError(domain: "Internal Server Error", code: 400, userInfo: nil));
+                return;
+            }
+            
+            completion(nil);
         })
         
     }
-    
 }

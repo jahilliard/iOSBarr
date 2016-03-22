@@ -36,7 +36,11 @@ class Circle {
     static func addMemberToCircleByLocation(lat: Double, lon: Double){
         let subdomain = "api/v1/rooms/members/" + Me.user.userId!
         AlamoHelper.authorizedPost(subdomain, parameters: ["coordinate" : [lon, lat]], completion: {
-            response in
+            err, response in
+            if (err != nil) {
+                //TODO: handle
+                return;
+            }
             print("add member by location");
         })
     }
@@ -54,12 +58,20 @@ class Circle {
     func getCircleInfo(){
         let subdomain = "api/v1/users/\(Me.user.userId!)/circle/";
 
-        AlamoHelper.authorizedGet(subdomain, parameters: [String: AnyObject](), completion: {result in
-            if (result["message"].string != "success") {
+        AlamoHelper.authorizedGet(subdomain, parameters: [String: AnyObject](), completion: {err, result in
+            if (err != nil){
+                //TODO: handle this better
                 self.getCircleInfo();
+                return;
             }
+                
+            else if (result!["message"].string != "success") {
+                self.getCircleInfo();
+                return;
+            }
+                
             else {
-                self.initCircle(result["data"]);
+                self.initCircle(result!["data"]);
             }
         });
     }
@@ -67,9 +79,13 @@ class Circle {
     static func getPreview(locationId : String) -> [String]{
         var picArr: [String]
         AlamoHelper.GET("api/v1/room/locations/" + locationId, parameters: ["x_key": Me.user.userId!, "access_token": Me.user.accessToken!], completion: {
-            result in
+            err, result in
+            if ((err) != nil) {
+                //TODO: handle
+                return;
+            }
             print(result)
-            if let member = result["room"]["members"].arrayObject {
+            if let member = result!["room"]["members"].arrayObject {
                 let rand = Int(arc4random_uniform(UInt32(member.count)))
                 print(member)
                 
