@@ -27,22 +27,14 @@ class LoginViewController: UIViewController {
                             //TEST by setting connection address to wrong string
                             err
                         } else {
-                            if (isCreated) {
-                                //TODO: move socket init into after info has been filled out by the user in additionalinfocontroller
-                                print("STARTING SOCKETS");
-                                SocketManager.sharedInstance.open();
-                                
-                                print("additional View")
-                                let addInfoVC:AdditionalInfoViewController = AdditionalInfoViewController()
-                                self.presentViewController(addInfoVC, animated: true, completion: nil)
-                            } else {
                                 print("STARTING SOCKETS");
                                 SocketManager.sharedInstance.open();
                                 print("additional View")
                                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                                let mapVC: UIViewController = storyboard.instantiateViewControllerWithIdentifier("TabVC")
-                                self.presentViewController(mapVC, animated: true, completion: nil)
-                            }
+                                let accountVC: UITabBarController = storyboard.instantiateViewControllerWithIdentifier("TabVC")
+                                    as! UITabBarController
+                                accountVC.selectedIndex = 2
+                                self.presentViewController(accountVC, animated: true, completion: nil)
                         }
                 }
             }, andFailure: {

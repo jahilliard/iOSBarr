@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Account View Controller-->
@@ -17,40 +18,82 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="raO-dl-UJG">
-                                <rect key="frame" x="20" y="80" width="168" height="68"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="raO-dl-UJG">
+                                <rect key="frame" x="20" y="449" width="168" height="68"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="168" id="aOb-w6-5GJ"/>
+                                </constraints>
                                 <state key="normal" title="Login"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4GZ-5s-ljN">
+                                <rect key="frame" x="251" y="456" width="168" height="68"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="168" id="ojp-34-6xv"/>
+                                </constraints>
+                                <state key="normal" title="Logout"/>
                                 <connections>
-                                    <segue destination="ftA-9S-g56" kind="show" identifier="LoginSeg" animates="NO" id="kp6-Am-DC5"/>
+                                    <action selector="logoutButton:" destination="zbk-Bs-QxS" eventType="touchUpInside" id="3N7-9L-Js6"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="mSc-Nv-4yG" firstAttribute="top" secondItem="4GZ-5s-ljN" secondAttribute="bottom" constant="27" id="1Me-Zx-w5Q"/>
+                            <constraint firstItem="mSc-Nv-4yG" firstAttribute="top" secondItem="raO-dl-UJG" secondAttribute="bottom" constant="34" id="8V6-rR-3s7"/>
+                            <constraint firstItem="4GZ-5s-ljN" firstAttribute="top" secondItem="dRe-JJ-yJz" secondAttribute="bottom" constant="392" id="DYm-yT-sEF"/>
+                            <constraint firstItem="4GZ-5s-ljN" firstAttribute="leading" secondItem="raO-dl-UJG" secondAttribute="trailing" constant="63" id="bJg-c4-XJO"/>
+                            <constraint firstItem="raO-dl-UJG" firstAttribute="top" secondItem="dRe-JJ-yJz" secondAttribute="bottom" constant="385" id="g9N-hS-gce"/>
+                            <constraint firstItem="raO-dl-UJG" firstAttribute="leading" secondItem="R2V-fd-JzJ" secondAttribute="leadingMargin" id="oub-dC-Ry8"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="1uo-nf-ryQ"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <segue destination="NBV-Xz-waU" kind="show" identifier="selectAlb" id="Ynp-Qc-iB9"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pnd-Kc-KKG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1347" y="324"/>
+            <point key="canvasLocation" x="1415" y="408"/>
         </scene>
-        <!--Login View Controller-->
-        <scene sceneID="y7y-Bc-I8i">
+        <!--albumView-->
+        <scene sceneID="jlK-1V-iBu">
             <objects>
-                <viewController storyboardIdentifier="LoginScreen" id="ftA-9S-g56" customClass="LoginViewController" customModule="barr" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="albumView" id="NBV-Xz-waU" customClass="SelectAlbumViewController" customModule="barr" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="Llk-Cs-2Vx"/>
-                        <viewControllerLayoutGuide type="bottom" id="7qs-Pa-zMo"/>
+                        <viewControllerLayoutGuide type="top" id="fNb-DT-Z2e"/>
+                        <viewControllerLayoutGuide type="bottom" id="f3Q-M7-p7V"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="2j2-l1-ba0">
+                    <view key="view" contentMode="scaleToFill" id="AJY-iX-Tca">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <segue destination="OZF-YJ-hqA" kind="show" identifier="selectPhoto" id="pmC-Gv-Gxe"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="laX-UG-93V" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2067" y="408"/>
+        </scene>
+        <!--albumPicView-->
+        <scene sceneID="2BI-gj-ma0">
+            <objects>
+                <viewController title="albumPicView" id="OZF-YJ-hqA" customClass="SelectPhotosViewController" customModule="barr" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Uye-dd-uGa"/>
+                        <viewControllerLayoutGuide type="bottom" id="fJq-lt-qhM"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="gCC-Ts-x1t">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="bp1-iD-5Hm" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nq5-a6-dOM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2033" y="324"/>
+            <point key="canvasLocation" x="2758" y="408"/>
         </scene>
         <!--Item-->
         <scene sceneID="CAI-1O-0wp">

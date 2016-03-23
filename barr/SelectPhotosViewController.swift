@@ -10,7 +10,7 @@ import FBSDKCoreKit
 import UIKit
 import SwiftyJSON
 
-class SelectPhotosViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class SelectPhotosViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, InfoToPhotoDelegate {
     
     @IBAction func goHome(sender: AnyObject) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -77,6 +77,13 @@ class SelectPhotosViewController: UIViewController, UICollectionViewDataSource, 
                 print("error \(error)")
             }
         })
+    }
+    
+    func sendAlbumAndIndexInfo(isUserPhotos: Bool, albumName: String, albumId: String, index: Int) {
+        print(isUserPhotos)
+        print(albumName)
+        print(albumId)
+        print(index)
     }
     
     override func viewWillDisappear(animated: Bool) {

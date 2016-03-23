@@ -8,10 +8,6 @@
 
 import UIKit
 
-protocol UserInfoDelegate {
-    
-}
-
 class UserPhotoCell: PhotoCollectionViewCell {
     
     var userCellInfo: UserCellPhotoInfo?

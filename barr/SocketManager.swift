@@ -85,7 +85,7 @@ class SocketManager {
     func open(){
         //create new socket
         let connectParams = ["id": Me.user.userId!, "access_token": Me.user.accessToken!];
-        self.socket = SocketIOClient(socketURL: NSURL(string: "http://128.237.176.81:3000")!, options: ["connectParams" : connectParams]);
+        self.socket = SocketIOClient(socketURL: NSURL(string: "http://10.0.0.47:3000")!, options: ["connectParams" : connectParams]);
         print("SOCKET MANAGER INITING");
         
         self.socket!.on("newMessage", callback: {(data, ack) in
