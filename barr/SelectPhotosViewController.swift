@@ -78,7 +78,16 @@ class SelectPhotosViewController: UIViewController, UICollectionViewDataSource, 
         Me.user.picturesArr![self.indexToMod!] = (cell.fbCellInfo?.imgURL)!
         print(Me.user.picturesArr)
         
-        Me.user.updateUser(["picture": Me.user.picturesArr!])
+        func callback(err: NSError?) {
+            if err != nil {
+                //TODO: notify user
+                Me.user.updateUser(["picture": Me.user.picturesArr!], completion: callback);
+                return;
+            }
+        }
+        
+        Me.user.updateUser(["picture": Me.user.picturesArr!], completion: callback);
+        
         let vcArr = self.navigationController?.viewControllers
         self.navigationController!.popToViewController(vcArr![vcArr!.count - 3], animated: true);
     }
