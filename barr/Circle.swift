@@ -10,27 +10,34 @@ import Foundation
 import Alamofire
 import SwiftyJSON
 
+let CircleUpdateNotification = "barr.com.app.CircleUpdateNotification";
+
 class Circle {
     var locationId : String?;
     var circleId: String?;
     var members : [String: UserInfo] = [String: UserInfo]();
+    var memberArray: [UserInfo] = [UserInfo]();
+    
     static let sharedInstance : Circle = Circle();
+    let userCellPhotoInfoCache : NSCache = NSCache();
     
     private init(){}
     
     func initCircle(dictionary: JSON) {
+        self.memberArray = [UserInfo]();
+        self.members = [String: UserInfo]();
         self.circleId = dictionary["circleId"].string;
         let members = dictionary["members"].arrayValue;
         
-        self.members = [String: UserInfo]();
         for userInfo in members{
-            print(userInfo["_id"].string);
-            let singleMember = UserInfo(userInfo: userInfo);
-            self.members[singleMember.userId] = singleMember;
+            self.addMember(userInfo);
         }
         
-        print("MEMBERS");
-        print(self.members);
+        if members.count > 0 {
+            self.notifyCircle();
+        }
+        
+        print(memberArray.count);
     }
     
     static func addMemberToCircleByLocation(lat: Double, lon: Double){
@@ -45,14 +52,69 @@ class Circle {
         })
     }
     
-    func addMember(dictionary: NSDictionary) {
-        let dicJSON = JSON(dictionary)
-        let singleMember = UserInfo(userInfo: dicJSON["userInfo"]);
+    func notifyCircle(){
+        NSNotificationCenter.defaultCenter().postNotificationName(CircleUpdateNotification, object: self, userInfo: nil);
+    }
+    
+    func addMember(userInfo: JSON) {
+        let singleMember = UserInfo(userInfo: userInfo);
+        var insertIndex = self.memberArray.count;
+        if let userId = userInfo["_id"].string {
+            if (self.members[userId] != nil) {
+                //find index of existing user in memberArray
+                insertIndex = self.memberArray.indexOf({$0.userId == userId})!;
+                self.memberArray.removeAtIndex(insertIndex);
+            }
+        } else {
+            //TODO: error handling
+            print("malformed userInfo from server");
+            return;
+        }
+        
         self.members[singleMember.userId] = singleMember;
+        self.memberArray.insert(singleMember, atIndex: insertIndex);
+        notifyCircle();
     }
     
     func deleteMember(userId: String){
-        self.members.removeValueForKey(userId);
+        if (self.members[userId] != nil) {
+            //find index of existing user in memberArray
+            let removeIndex = self.memberArray.indexOf({$0.userId == userId})!;
+            self.memberArray.removeAtIndex(removeIndex);
+            self.members.removeValueForKey(userId);
+        }
+        
+        notifyCircle();
+    }
+    
+    func sendOffer(to: String, offers: [UserInfo.OfferOptions]) {
+        if let otherUser = self.members[to] {
+            let intOffers = offers.map({UserInfo.convertToInt($0)!});
+            var body = [String: AnyObject]();
+            var fields = [String: AnyObject]();
+            body["fields"] = fields;
+            fields["offers"] = intOffers;
+            AlamoHelper.authorizedPost("api/v1/matches/\(Me.user.userId!)/offers/\(to)", parameters: body, completion: {(err, resp) in
+                if (err != nil) {
+                    //TODO: alert user
+                    self.sendOffer(to, offers: offers);
+                    return;
+                }
+            })
+            
+            //update own offers
+            otherUser.updateYourOffers(intOffers);
+        }
+    }
+    
+    func updateOffers(from: String, matchId: String, newOffers: [Int]){
+        print(self.memberArray);
+        if let member = self.members[from] {
+            member.matchId = matchId;
+            member.updateOtherOffers(newOffers);
+        }
+        
+        //notify user now
     }
     
     func getCircleInfo(){

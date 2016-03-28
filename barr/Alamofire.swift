@@ -14,7 +14,7 @@ let headers = [
 ]
 
 struct AlamoHelper {
-    static let MAX_ATTEMPTS : UInt64 = 2;
+    static let MAX_ATTEMPTS : UInt64 = 5;
 
     static let domain = "http://10.0.0.2:3000/"
 

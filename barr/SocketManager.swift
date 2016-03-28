@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftyJSON
 import SocketIOClientSwift
 
 class SocketManager {
@@ -85,7 +86,7 @@ class SocketManager {
     func open(){
         //create new socket
         let connectParams = ["id": Me.user.userId!, "access_token": Me.user.accessToken!];
-        self.socket = SocketIOClient(socketURL: NSURL(string: "http://128.237.176.81:3000")!, options: ["connectParams" : connectParams]);
+        self.socket = SocketIOClient(socketURL: NSURL(string: "http://10.0.0.2:3000")!, options: ["connectParams" : connectParams]);
         print("SOCKET MANAGER INITING");
         
         self.socket!.on("newMessage", callback: {(data, ack) in
@@ -112,6 +113,39 @@ class SocketManager {
             print("socket connected");
             //display map view controller
             
+        });
+        
+        self.socket!.on("newCircleMember", callback: {(data, ack) in
+            if (data.count <= 0){
+                return;
+            }
+            
+            if let data = data[0] as? NSDictionary, newMember = data["newMember"] as? NSDictionary
+            {
+                Circle.sharedInstance.addMember(JSON(newMember));
+            }
+        });
+            
+        self.socket!.on("circleMemberLeave", callback: {(data, ack) in
+            print(data);
+            if (data.count <= 0){
+                return;
+            }
+            
+            if let data = data[0] as? NSDictionary, oldMember = data["oldMember"] as? NSDictionary, userId = oldMember["_id"] as? String {
+                Circle.sharedInstance.deleteMember(userId);
+            }
+        });
+        
+        self.socket!.on("newOffers", callback: {(data, ack) in
+            if (data.count <= 0){
+                return;
+            }
+            
+            print(data[0]);
+            if let data = data[0] as? NSDictionary, from = data["from"] as? String, matchId = data["matchId"] as? String, newOffers = data["newOffers"] as? [Int] {
+                Circle.sharedInstance.updateOffers(from, matchId: matchId, newOffers: newOffers);
+            }
         });
         
         self.socket!.on("disconnect", callback: {(data, ack) in

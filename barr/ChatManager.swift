@@ -43,6 +43,7 @@ class ChatManager {
         AlamoHelper.authorizedGet(subdomain, parameters: [String: AnyObject](), completion: {err, result in
             if (err != nil) {
                 self.getLatestChats();
+                return;
             }
             
             if result!["message"].string != "success" {
@@ -62,19 +63,20 @@ class ChatManager {
         
         print(chatDicts);
         for chatDict in chatArray {
-            if let chatee = chatDict["chatee"].string,
-                dateString = chatDict["date"].string,
-                date = Helper.dateFromString(dateString)
+            let userInfo = chatDict["chatee"];
+            if userInfo == nil {
+                continue;
+            }
+            
+            if let dateString = chatDict["date"].string, date = Helper.dateFromString(dateString),chateeId = userInfo["_id"].string
             {
-                
                 var newChat : Chat? = nil;
                 
-                if (self.chats[chatee] != nil) {
-                    newChat = self.chats[chatee];
+                if (self.chats[chateeId] != nil) {
+                    newChat = self.chats[chateeId];
                 } else {
-                    newChat = Chat(dict: ["chateeId": chatee, "messages": []]);
+                    newChat = Chat(chatee: UserInfo(userInfo: userInfo), messages: []);
                 }
-                
                 
                 if let lastMsgNum = chatDict["lastMsgNum"].int {
                     newChat!.lastMessageNum = lastMsgNum;
@@ -95,13 +97,13 @@ class ChatManager {
                 
                 newChat!.changeLastUpdate(date);
                 
-                self.chats[chatee] = newChat;
+                self.chats[chateeId] = newChat;
                 
                 //only happens on a reconnect, because chat view can only be open
                 //when this function is called if a disconnect + reconnect 
                 //event happens
-                if (self.currentChateeId == chatee){
-                    self.retrieveUnread(chatee);
+                if (self.currentChateeId == chateeId){
+                    self.retrieveUnread(chateeId);
                 }
                 
                 print("ADDED NEW CHAT");
@@ -192,7 +194,13 @@ class ChatManager {
         {
             print("PROCESSING NEW MESSAGE");
             if (self.chats[chateeId] == nil){
-                self.chats[chateeId] = Chat(dict: ["chateeId": chateeId, "messages": []]);
+                if let userInfo = Circle.sharedInstance.members[chateeId] {
+                    self.chats[chateeId] = Chat(chatee: userInfo, messages: []);
+                } else {
+                    //TODO: handle err
+                    print("ERROR: MESSAGE FROM MEMBER NOT IN CIRCLE");
+                    return;
+                }
             }
             
             let chateeChat = self.chats[chateeId]!
@@ -222,14 +230,14 @@ class ChatManager {
         }
     }
     
-    func openChat(chateeId: String){
-        if (self.chats[chateeId] == nil){
-            self.chats[chateeId] = Chat(dict: ["chateeId": chateeId, "messages": []]);
+    func openChat(userInfo: UserInfo){
+        if (self.chats[userInfo.userId] == nil){
+            self.chats[userInfo.userId] = Chat(chatee: userInfo, messages: []);
         } else {
-            self.retrieveUnread(chateeId);
+            self.retrieveUnread(userInfo.userId);
         }
     
-        self.currentChateeId = chateeId;
+        self.currentChateeId = userInfo.userId;
     }
 
     func closeChat() {

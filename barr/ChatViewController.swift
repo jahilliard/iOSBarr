@@ -64,7 +64,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil);
         
         print("OPENING CHAT");
-        ChatManager.sharedInstance.openChat(otherUserId);
+        ChatManager.sharedInstance.openChat(ChatManager.sharedInstance.getChat(self.otherUserId)!.chatee);
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -294,6 +294,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
                     if let msgNum = myMessage.messageNum {
                         self.errorForMsgNumber(msgNum);
                     }
+                    return;
                 }
             
                 if let result = data, sentMessage = result["sentMessage"] as? NSDictionary, msgNumber = sentMessage["messageNumber"] as? Int, message = self.thisChat.getMsgByMsgNumber(msgNumber), dateString = sentMessage["date"] as? String, date = Helper.dateFromString(dateString)

@@ -12,42 +12,43 @@ protocol UserInfoDelegate {
     
 }
 
-class UserPhotoCell: PhotoCollectionViewCell {
+class UserPhotoCell: UICollectionViewCell/*PhotoCollectionViewCell*/ {
     
     var userCellInfo: UserCellPhotoInfo?
     
     var border: UIView?
     let boxSize: CGFloat = CGFloat(25.0)
+    @IBOutlet weak var picture: UIImageView!
     
-    override init(frame: CGRect) {
+    /*override init(frame: CGRect) {
         super.init(frame:frame)
         
         let tapGestureRecognizer = UITapGestureRecognizer(target:self, action:Selector("cellTapped:"))
         super.galleryImage.userInteractionEnabled = true
         super.galleryImage.addGestureRecognizer(tapGestureRecognizer)
-    }
+    }*/
     
-    required init(coder aDecoder: NSCoder) {
+    /*required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
+    }*/
     
     func setFbImgInfo(userCellImageInfo: UserCellPhotoInfo){
         self.userCellInfo = userCellImageInfo
-//        super.setImg(userCellInfo!.user.img)
-//        if self.userCellInfo.hasBorder {
-//            self.addBorder(userCellInfo.selPhotoIndex)
-//        }
-//        if self.userCellInfo.isGreyed {
-//            self.greyCell(userCellInfo.selPhotoIndex)
-//        }
+        picture.image = userCellInfo!.img;
+        /*if self.userCellInfo!.hasBorder {
+            self.addBorder(userCellInfo!.selPhotoIndex)
+        }*/
+        if self.userCellInfo!.isGreyed {
+            //TODO: self.greyCell(userCellInfo.selPhotoIndex)
+        }
     }
     
-    func cellTapped(sender: UIImageView)  {
+    /*func cellTapped(sender: UIImageView)  {
         if (self.userCellInfo?.isGreyed == true) {
             return;
         }
         
-    }
+    }*/
     
     override func prepareForReuse() {
         super.prepareForReuse()

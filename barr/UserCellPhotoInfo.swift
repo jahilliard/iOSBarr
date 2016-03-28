@@ -11,14 +11,18 @@ import UIKit
 class UserCellPhotoInfo {
     let user: UserInfo!
     let indexPath: NSIndexPath
+    let img: UIImage
+    let imgURL: String
     
     var hasBorder: Bool = false
     var isGreyed: Bool = false
     var selPhotoIndex: Int = -1
     
-    init (user: UserInfo, indexPath: NSIndexPath){
+    init (user: UserInfo, indexPath: NSIndexPath, img: UIImage, imgURL: String){
         self.user = user;
         self.indexPath = indexPath;
+        self.img = img;
+        self.imgURL = imgURL;
     }
     
 }

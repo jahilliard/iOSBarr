@@ -9,7 +9,7 @@
 import SwiftyJSON
 
 class Chat {
-    let chateeId: String
+    var chatee: UserInfo;
     var messages:[Message] //each message contains the message string and the sender
     var messageNumToMessage: [Int: Message]
     var containsUnread: Bool
@@ -19,26 +19,22 @@ class Chat {
     
     var lastUpdate: NSDate = NSDate.distantPast()
     
-    init(dict: JSON){
+    init(chatee: UserInfo, messages : [NSDictionary]){
         self.preview = nil;
         self.containsUnread = false;
         self.messages = [];
         self.messageNumToMessage = [Int: Message]();
-        if let chateeId = dict["chateeId"].rawString(), messages = dict["messages"].rawValue as? [NSDictionary]{
-            for msg: NSDictionary in messages {
-                if let msgString = msg["message"] as? String, owner = msg["owner"] as? String, status = msg["status"] as? Message.MessageStatus, messageNum = msg["messageNum"] as? Int, dateString = msg["date"] as? String, date = Helper.dateFromString(dateString)
-                {
-                    let newMsg = Message(message: msgString, sender: owner, date: date, status: status, messageNum: messageNum);
-                    self.messages.append(newMsg);
-                }
-                else {
-                    continue;
-                }
+        self.chatee = chatee;
+        
+        for msg: NSDictionary in messages {
+            if let msgString = msg["message"] as? String, owner = msg["owner"] as? String, status = msg["status"] as? Message.MessageStatus, messageNum = msg["messageNum"] as? Int, dateString = msg["date"] as? String, date = Helper.dateFromString(dateString)
+            {
+                let newMsg = Message(message: msgString, sender: owner, date: date, status: status, messageNum: messageNum);
+                self.messages.append(newMsg);
             }
-            self.chateeId = chateeId;
-        } else {
-            self.messages = []
-            self.chateeId = "Not Defined";
+            else {
+                continue;
+            }
         }
     }
     

@@ -26,6 +26,7 @@ class LoginViewController: UIViewController {
                             //TODO: handle when fails to auth with our server, notify user
                             //TEST by setting connection address to wrong string
                             err
+                            return;
                         } else {
                             if (isCreated) {
                                 //TODO: move socket init into after info has been filled out by the user in additionalinfocontroller

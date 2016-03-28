@@ -80,6 +80,12 @@ class ChatListViewController: UITableViewController {
         return cell;
     }
     
+    /*override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        let tHeight = tableView.bounds.height
+        
+        return tHeight/5;
+    }*/
+    
     /*
     // Override to support conditional editing of the table view.
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {

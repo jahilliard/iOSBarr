@@ -13,31 +13,17 @@ import SwiftyJSON
 class UserInfo {
     enum OfferOptions {
         case HEART
-        case DRINK
+        case POKE
     }
     
     let userId : String;
     let nickname : String;
     let firstName: String;
     let lastName: String;
-    let picture: String;
-    var yourOffers: [OfferOptions]
-    var otherOffers: [OfferOptions]
+    let pictures: [String];
+    var yourOffers: [OfferOptions : Bool];
+    var otherOffers: [OfferOptions : Bool];
     var matchId: String?;
-    
-    enum sentRequest {
-        case Nothing
-        case heart
-        case heartDrink
-        case Drink
-    }
-    
-    enum pendingRequest {
-        case Nothing
-        case heart
-        case heartDrink
-        case Drink
-    }
     
     init(userInfo: JSON) {
         if let userId = userInfo["_id"].rawString(){
@@ -63,14 +49,12 @@ class UserInfo {
             self.lastName = "lastName";
         }
         
-        if let picture = userInfo["picture"].rawString() {
-            self.picture = picture;
-        } else {
-            self.picture = "picture";
-        }
+        let pictures = userInfo["picture"].arrayValue;
+        self.pictures = pictures.filter({ $0.string != nil }).map({ $0.string!});
+        print(pictures);
 
-        self.yourOffers = [];
-        self.otherOffers = [];
+        self.yourOffers = [OfferOptions : Bool]();
+        self.otherOffers = [OfferOptions : Bool]();
         self.matchId = nil;
         
         if userInfo["matches"] != nil{
@@ -93,15 +77,58 @@ class UserInfo {
         }
     }
     
-    func parseOffers(offers: [JSON]) -> [OfferOptions] {
-        var result : [OfferOptions] = [];
-        for offer in offers {
-            if offer.int == 0 {
-                result.append(OfferOptions.HEART);
-            }
+    static func convertToOption(offer: Int) -> OfferOptions? {
+        if offer == 0 {
+            return OfferOptions.HEART;
+        }
             
-            else if offer.int == 1 {
-                result.append(OfferOptions.DRINK);
+        else if offer == 1 {
+            return OfferOptions.POKE;
+        }
+        
+        else {
+            return nil;
+        }
+    }
+    
+    static func convertToInt(option: OfferOptions) -> Int? {
+        if option == OfferOptions.HEART {
+            return 0;
+        }
+        
+        else if option == OfferOptions.POKE {
+            return 1;
+        }
+        
+        else {
+            return nil;
+        }
+    }
+    
+    func updateOtherOffers(offers: [Int]) {
+        print(self.otherOffers);
+        for offer in offers {
+            if let offerOption = UserInfo.convertToOption(offer){
+                self.otherOffers[offerOption] = true;
+            }
+        }
+    }
+    
+    func updateYourOffers(offers: [Int]) {
+        for offer in offers {
+            if let offerOption = UserInfo.convertToOption(offer){
+                self.yourOffers[offerOption] = true;
+            }
+        }
+    }
+    
+    func parseOffers(offers: [JSON]) -> [OfferOptions : Bool] {
+        var result : [OfferOptions : Bool] = [OfferOptions : Bool]();
+        for offer in offers {
+            if let offerInt = offer.int {
+                if let offerOption = UserInfo.convertToOption(offerInt){
+                    result[offerOption] = true;
+                }
             }
         }
         return result;
