@@ -34,7 +34,6 @@ class LocationTracker : NSObject, CLLocationManagerDelegate {
     // MARK: Application in background
     func applicationEnterBackground() {
         LocationTracker.tracker.locationManager.startMonitoringVisits()
-        LocationTracker.tracker.locationManager.stopMonitoringSignificantLocationChanges()
     }
     
     func updateLocation(){
@@ -69,7 +68,6 @@ class LocationTracker : NSObject, CLLocationManagerDelegate {
             break
         case .AuthorizedAlways:
             LocationTracker.tracker.locationManager.startUpdatingLocation()
-            LocationTracker.tracker.locationManager.startMonitoringSignificantLocationChanges()
             break
         case .Restricted:
             // restricted by e.g. parental controls. User can't enable Location Services
@@ -87,8 +85,6 @@ class LocationTracker : NSObject, CLLocationManagerDelegate {
     }
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print("Locations")
-        showNotification("Sig Location change triggered")
         var newestLocation: CLLocation = locations[0] as CLLocation
         for oldLocation in locations {
             if oldLocation.timestamp.isGreaterThanDate(newestLocation.timestamp) {
@@ -107,15 +103,7 @@ class LocationTracker : NSObject, CLLocationManagerDelegate {
     }
     
     func locationManager(manager: CLLocationManager, didVisit visit: CLVisit) {
-        if visit.departureDate.isEqualToDate(NSDate.distantFuture()) {
-            // User has arrived, but not left, the location
-            
-        } else {
-            // The visit is complete
-        }
-        print("Visit: \(visit)")
         showNotification("Visit: \(visit)")
-        // I find that sending this to a UILocalNotification is handy for debugging
     }
     
     

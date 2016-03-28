@@ -12,33 +12,31 @@ import SwiftyJSON
 
 class SelectPhotosViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, InfoToPhotoDelegate {
     
-    @IBAction func goHome(sender: AnyObject) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewControllerWithIdentifier("TabVC")
-        self.presentViewController(vc, animated: true, completion: nil)
-    }
+    var indexToMod: Int?
     
-    static var imageCollection: UICollectionView!
+    var morePictsPath: String?
+    
+    var isUserPhotos: Bool?
+    var albumName: String?
+    var albumId: String?
+    
+    var imageCollection: UICollectionView!
     var picturesArr: [JSON] = []
     
-    static let imgCache: NSCache = NSCache()
-    
-    static var photoArr: [FacebookPhotoCellInfo?] = [nil, nil, nil]
-    static var currentIndex: Int = 0
+    let imgCache: NSCache = NSCache()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        getFBAlbums()
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 100, left: 0, bottom:5, right: 5)
         layout.itemSize = CGSize(width: screenSize.width*0.3, height: screenSize.width*0.3)
         
-        SelectPhotosViewController.imageCollection = UICollectionView(frame: CGRect(x: 5, y: 100, width: self.view.frame.width-5, height: self.view.frame.height-100), collectionViewLayout: layout)
-        SelectPhotosViewController.imageCollection.dataSource = self
-        SelectPhotosViewController.imageCollection.delegate = self
-        SelectPhotosViewController.imageCollection.registerClass(FacebookPhotoCell.self, forCellWithReuseIdentifier: "Cell")
-        SelectPhotosViewController.imageCollection.backgroundColor = UIColor.whiteColor()
-        self.view.addSubview(SelectPhotosViewController.imageCollection)
+        imageCollection = UICollectionView(frame: CGRect(x: 5, y: 100, width: self.view.frame.width-5, height: self.view.frame.height-100), collectionViewLayout: layout)
+        imageCollection.dataSource = self
+        imageCollection.delegate = self
+        imageCollection.registerClass(FacebookPhotoCell.self, forCellWithReuseIdentifier: "Cell")
+        imageCollection.backgroundColor = UIColor.whiteColor()
+        self.view.addSubview(imageCollection)
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -48,9 +46,16 @@ class SelectPhotosViewController: UIViewController, UICollectionViewDataSource, 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as! FacebookPhotoCell
         
+        if (indexPath.row == picturesArr.count - 1) {
+            if morePictsPath != "null" {
+                getFBPhotos(morePictsPath!)
+            }
+            print(morePictsPath)
+        }
+        
         let picObj = self.picturesArr[indexPath.item]
         if let pictId = picObj["id"].rawString(), pictURL = picObj["source"].rawString() {
-            if let fbCellImgInfo = SelectPhotosViewController.imgCache.objectForKey(pictId){
+            if let fbCellImgInfo = imgCache.objectForKey(pictId){
                 let fbImgInfo = fbCellImgInfo as! FacebookPhotoCellInfo
                 cell.setFbImgInfo(fbImgInfo)
             } else {
@@ -58,7 +63,7 @@ class SelectPhotosViewController: UIViewController, UICollectionViewDataSource, 
                     img in
                     let fbCellImgInfo = FacebookPhotoCellInfo(imgURL: pictURL, pictId: pictId, img: img, indexPath:indexPath)
                     cell.setFbImgInfo(fbCellImgInfo)
-                    SelectPhotosViewController.imgCache.setObject(fbCellImgInfo, forKey: pictId)
+                    self.imgCache.setObject(fbCellImgInfo, forKey: pictId)
                 }
             }
         }
@@ -67,56 +72,62 @@ class SelectPhotosViewController: UIViewController, UICollectionViewDataSource, 
         return cell
     }
     
-    func getFBAlbums() {
-        let req = FBSDKGraphRequest(graphPath: "me/photos", parameters: ["fields": "id, source"], tokenString: Me.user.fbAuthtoken, version: nil, HTTPMethod: "GET")
-        req.startWithCompletionHandler({ (connection, result, error : NSError!) -> Void in
-            if(error == nil) {
-                self.picturesArr = JSON(result)["data"].arrayValue
-                SelectPhotosViewController.imageCollection.reloadData()
-            } else {
-                print("error \(error)")
-            }
-        })
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        let cell: FacebookPhotoCell = collectionView.cellForItemAtIndexPath(indexPath)! as! FacebookPhotoCell
+        
+        Me.user.picturesArr![self.indexToMod!] = (cell.fbCellInfo?.imgURL)!
+        print(Me.user.picturesArr)
+        
+        Me.user.updateUser(["picture": Me.user.picturesArr!])
+        let vcArr = self.navigationController?.viewControllers
+        self.navigationController!.popToViewController(vcArr![vcArr!.count - 3], animated: true);
+    }
+    
+    func getFBPhotos(path: String) {
+            let req = FBSDKGraphRequest(graphPath: path, parameters: ["fields": "id, source"], tokenString: Me.user.fbAuthtoken, version: nil, HTTPMethod: "GET")
+            req.startWithCompletionHandler({ (connection, result, error : NSError!) -> Void in
+                if(error == nil) {
+                    if self.picturesArr.count == 0 {
+                        self.picturesArr = JSON(result)["data"].arrayValue
+                    } else {
+                        for item in JSON(result)["data"].arrayValue {
+                            self.picturesArr.append(item);
+                        }
+                    }
+                    print(self.picturesArr.count)
+                    print(JSON(result)["paging"]["next"].rawString())
+                    if let newPath = JSON(result)["paging"]["next"].rawString() {
+                        if newPath != "null" {
+                            self.morePictsPath = newPath.substringFromIndex(newPath.startIndex.advancedBy(32))
+                            self.imageCollection.reloadData()
+                        } else {
+                            if self.morePictsPath == nil {
+                                self.imageCollection.reloadData()
+                            }
+                            self.morePictsPath = newPath
+                            
+                        }
+                    }
+                } else {
+                    print("error \(error)")
+                }
+            })
     }
     
     func sendAlbumAndIndexInfo(isUserPhotos: Bool, albumName: String, albumId: String, index: Int) {
-        print(isUserPhotos)
-        print(albumName)
-        print(albumId)
-        print(index)
+        self.isUserPhotos = isUserPhotos
+        self.albumName = albumName
+        self.albumId = albumId
+        self.indexToMod = index
+        if (isUserPhotos == true) {
+            getFBPhotos("me/photos")
+        } else {
+            getFBPhotos(albumId + "/photos")
+        }
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(true)
-        var imageURLS: [String] = [String]()
-        for photo in SelectPhotosViewController.photoArr {
-            if let photoNN = photo {
-                imageURLS.append(photoNN.imgURL)
-            }
-        }
-        Me.user.updateUser(["picture": imageURLS])
-    }
-    
-    static func updatePhotoArr(fbCellInfo: FacebookPhotoCellInfo){
-        if let oldPic = photoArr[currentIndex]{
-            oldPic.hasBorder = false
-            oldPic.selPhotoIndex = -1
-            imgCache.setObject(oldPic, forKey: oldPic.pictId)
-            if let cell = SelectPhotosViewController.imageCollection.cellForItemAtIndexPath(oldPic.indexPath) as?FacebookPhotoCell {
-                cell.deleteBorder()
-            }
-        }
-        
-        fbCellInfo.hasBorder = true
-        fbCellInfo.selPhotoIndex = currentIndex
-        photoArr[currentIndex] = fbCellInfo
-        imgCache.setObject(fbCellInfo, forKey: fbCellInfo.pictId)
-        
-        if currentIndex == 2 {
-            currentIndex = 0
-        } else {
-            currentIndex++
-        }
     }
     
 }

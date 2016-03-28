@@ -51,25 +51,12 @@ class SelectAlbumViewController: UIViewController, UITableViewDelegate, UITableV
             for item in itterItems {
                 self.fbAlbums.append(item)
             }
-            print(self.fbAlbums)
             self.tableView.reloadData()
         })
     }
     
     func cellIndexToAlbum(index: Int) {
         indexToMod = index
-    }
-    
-    func getFBAlbums() {
-        let req = FBSDKGraphRequest(graphPath: "me/photos", parameters: ["fields": "id, source"], tokenString: Me.user.fbAuthtoken, version: nil, HTTPMethod: "GET")
-        req.startWithCompletionHandler({ (connection, result, error : NSError!) -> Void in
-            if(error == nil) {
-//                self.picturesArr = JSON(result)["data"].arrayValue
-                SelectPhotosViewController.imageCollection.reloadData()
-            } else {
-                print("error \(error)")
-            }
-        })
     }
     
     //MARK: - Tableview Delegate & Datasource

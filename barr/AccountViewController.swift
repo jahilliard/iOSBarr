@@ -22,6 +22,11 @@ class AccountViewController: UIViewController, UICollectionViewDataSource, UICol
     var photoCollection: UICollectionView!
     let imgCache: NSCache = NSCache()
     
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(true);
+        photoCollection.reloadData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
@@ -82,7 +87,7 @@ class AccountViewController: UIViewController, UICollectionViewDataSource, UICol
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as! AccountPictureCell
         cell.index = indexPath.row
         cell.delegate = self
-        print(Me.user.picturesArr)
+        if indexPath.item < Me.user.picturesArr?.count && Me.user.picturesArr?[indexPath.item] != "null" {
         if let picURL = Me.user.picturesArr?[indexPath.item] {
             if let accountCellImg = imgCache.objectForKey(picURL){
                 cell.setImg(accountCellImg as! UIImage)
@@ -93,6 +98,7 @@ class AccountViewController: UIViewController, UICollectionViewDataSource, UICol
                     self.imgCache.setObject(img, forKey: picURL)
                 }
             }
+        }
         }
 
         
