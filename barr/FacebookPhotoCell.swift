@@ -19,10 +19,10 @@ class FacebookPhotoCell: PhotoCollectionViewCell {
 
     override init(frame: CGRect) {
         super.init(frame:frame)
-        
-        let tapGestureRecognizer = UITapGestureRecognizer(target:self, action:Selector("cellTapped:"))
-        super.galleryImage.userInteractionEnabled = true
-        super.galleryImage.addGestureRecognizer(tapGestureRecognizer)
+//        
+//        let tapGestureRecognizer = UITapGestureRecognizer(target:self, action:Selector("cellTapped:"))
+//        super.galleryImage.userInteractionEnabled = true
+//        super.galleryImage.addGestureRecognizer(tapGestureRecognizer)
     }
     
 
@@ -38,21 +38,14 @@ class FacebookPhotoCell: PhotoCollectionViewCell {
         }
     }
     
-    func cellTapped(sender: UIImageView)  {
-        for fbCellImgInfo in SelectPhotosViewController.photoArr {
-            if let fbcellInfo = fbCellImgInfo, selfFbCellInfo = self.fbCellInfo {
-                if selfFbCellInfo.pictId == fbcellInfo.pictId {
-                    return
-                }
-            }
-        }
-        
-        if let selfFbCellInfo = self.fbCellInfo {
-            self.addBorder(SelectPhotosViewController.currentIndex)
-            SelectPhotosViewController.updatePhotoArr(selfFbCellInfo)
-        }
-
-    }
+//    func passIndex(indexToMod: Int) {
+//        
+//    }
+//    
+//    func cellTapped(sender: UIImageView)  {
+//        Me.user
+//
+//    }
     
     override func prepareForReuse() {
         super.prepareForReuse()

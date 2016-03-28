@@ -13,7 +13,6 @@ protocol UserInfoDelegate {
 }
 
 class UserPhotoCell: UICollectionViewCell/*PhotoCollectionViewCell*/ {
-    
     var userCellInfo: UserCellPhotoInfo?
     
     var border: UIView?

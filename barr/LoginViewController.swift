@@ -28,15 +28,11 @@ class LoginViewController: UIViewController {
                             err
                             return;
                         } else {
-                            if (isCreated) {
+                            if (isCreated == false) {
                                 //TODO: move socket init into after info has been filled out by the user in additionalinfocontroller
                                 print("STARTING SOCKETS");
                                 SocketManager.sharedInstance.open();
                                 
-                                print("additional View")
-                                /*let addInfoVC:AdditionalInfoViewController = AdditionalInfoViewController()
-                                self.presentViewController(addInfoVC, animated: true, completion: nil)*/
-                                //TODO: move this code into after additionalviewcontroller is finished
                                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
                                 let mapVC: UIViewController = storyboard.instantiateViewControllerWithIdentifier("TabVC");
                                 self.presentViewController(mapVC, animated: true, completion: nil);
@@ -45,10 +41,12 @@ class LoginViewController: UIViewController {
                                 SocketManager.sharedInstance.open();
                                 print("additional View")
                                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                                let mapVC: UIViewController = storyboard.instantiateViewControllerWithIdentifier("TabVC")
-                                self.presentViewController(mapVC, animated: true, completion: nil)
-                            }
+                                let accountVC: UITabBarController = storyboard.instantiateViewControllerWithIdentifier("TabVC")
+                                    as! UITabBarController
+                                accountVC.selectedIndex = 2
+                                self.presentViewController(accountVC, animated: true, completion: nil)
                         }
+                    }
                 }
             }, andFailure: {
                 //TODO: when fb credentials/login fail
