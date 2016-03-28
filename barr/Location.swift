@@ -46,8 +46,14 @@ class Location {
         nearbyLocations = [Location]()
         AlamoHelper.GET("api/v1/locations/search/radius", parameters: ["location": [lon, lat], "radius":100000,
             "x_key": Me.user.userId!, "access_token": Me.user.accessToken!], completion: {
-            response in
-                let locs = response["locations"].arrayValue
+            err, response in
+                if (err != nil) {
+                    print(err);
+                    //TODO: handle failure to get locations, maybe retry?
+                    return;
+                }
+                
+                let locs = response!["locations"].arrayValue
                 for location in locs {
                     let lo = Location(dictionary: location)
                     Location.nearbyLocations.append(lo)

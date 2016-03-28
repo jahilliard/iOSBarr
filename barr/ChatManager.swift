@@ -40,11 +40,15 @@ class ChatManager {
     
     func getLatestChats(){
         let subdomain = "api/v1/chats/search";
-        AlamoHelper.authorizedGet(subdomain, parameters: [String: AnyObject](), completion: {result in
-            if result["message"].string != "success" {
+        AlamoHelper.authorizedGet(subdomain, parameters: [String: AnyObject](), completion: {err, result in
+            if (err != nil) {
+                self.getLatestChats();
+            }
+            
+            if result!["message"].string != "success" {
                 self.getLatestChats();
             } else {
-                self.processChats(result);
+                self.processChats(result!);
             }
         });
     }
@@ -143,22 +147,39 @@ class ChatManager {
         if (newMessages.count > 0) {
             //tell server you have gotten these messages
             //TODO: WHAT HAPPENS IF THIS FAILS (do something with completion block?)
-            let subdomain = "api/v1/chats/\(Me.user.userId!)/messages/\(chateeId)/isRead";
-            AlamoHelper.authorizedPost(subdomain, parameters: ["messageIds": messageIds], completion: nil);
+            self.confirmRead(chateeId, messageIds: messageIds);
+            
             chat.appendMessages(newMessages);
             notifyChats(chateeId, count: newMessages.count);
         }
     }
     
+    func confirmRead(chateeId: String, messageIds:[String]) {
+        let subdomain = "api/v1/chats/\(Me.user.userId!)/messages/\(chateeId)/isRead";
+        AlamoHelper.authorizedPost(subdomain, parameters: ["messageIds": messageIds], completion: {(err, resp) in
+                if (err != nil){
+                    self.confirmRead(chateeId, messageIds: messageIds);
+                    return;
+                }
+            }
+        );
+    }
+    
     func retrieveUnread(chateeId: String) {
         print("retrieving");
         let subdomain = "api/v1/chats/\(Me.user.userId!)/messages/\(chateeId)";
-        AlamoHelper.authorizedGet(subdomain, parameters: [String: AnyObject](), completion: {result in
-            if (result["message"].string != "success") {
+        AlamoHelper.authorizedGet(subdomain, parameters: [String: AnyObject](), completion: {err, result in
+            if (err != nil) {
+                self.retrieveUnread(chateeId);
+                //handle it better with user notification
+                return;
+            }
+            
+            if (result!["message"].string != "success") {
                 self.retrieveUnread(chateeId)
             }
             else {
-                self.processOpenedMessages(chateeId, chatMessages: result["chatMessages"].arrayValue)
+                self.processOpenedMessages(chateeId, chatMessages: result!["chatMessages"].arrayValue)
             }
         });
     }

@@ -27,6 +27,15 @@ class LoginViewController: UIViewController {
                             //TEST by setting connection address to wrong string
                             err
                         } else {
+                            if (isCreated == false) {
+                                //TODO: move socket init into after info has been filled out by the user in additionalinfocontroller
+                                print("STARTING SOCKETS");
+                                SocketManager.sharedInstance.open();
+                                
+                                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                                let mapVC: UIViewController = storyboard.instantiateViewControllerWithIdentifier("TabVC");
+                                self.presentViewController(mapVC, animated: true, completion: nil);
+                            } else {
                                 print("STARTING SOCKETS");
                                 SocketManager.sharedInstance.open();
                                 print("additional View")
@@ -36,6 +45,7 @@ class LoginViewController: UIViewController {
                                 accountVC.selectedIndex = 2
                                 self.presentViewController(accountVC, animated: true, completion: nil)
                         }
+                    }
                 }
             }, andFailure: {
                 //TODO: when fb credentials/login fail

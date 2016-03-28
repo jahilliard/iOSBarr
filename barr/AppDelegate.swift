@@ -13,7 +13,7 @@ import SwiftyJSON
 import GoogleMaps
 
 let screenSize: CGRect = UIScreen.mainScreen().bounds
-
+let readyNotification = "readyNotification";
 @UIApplicationMain
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -43,12 +43,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     if ((err) != nil) {
                         //TODO: handle error case, server could not authenticate
                     } else {
+                        NSNotificationCenter.defaultCenter().postNotificationName(readyNotification, object: self, userInfo: nil);
                         print("STARTING SOCKETS");
                         SocketManager.sharedInstance.open();
                     }
                 })
             })
-            print(Me.user.setVariablesFromNSUserDefault())
+            print(Me.user.setVariablesFromNSUserDefault());
+            
+            let storyboard = UIStoryboard(name: "InitialScreen", bundle: nil)
+            let initialViewController = storyboard.instantiateViewControllerWithIdentifier("InitialScreen")
+            self.window?.rootViewController = initialViewController;
+            self.window?.makeKeyAndVisible();
         } else {
             let storyboard = UIStoryboard(name: "Login", bundle: nil)
             let initialViewController = storyboard.instantiateViewControllerWithIdentifier("LoginScreen")

@@ -13,28 +13,33 @@ class Me {
     static let user: Me = Me()
     
     var fbId: String?
+    var firstName: String?
+    var lastName: String?
+    var nickname: String?
     var fbAuthtoken: String?
     var userId: String?
     var accessToken: String?
+    var email: String?
     
     var newestValidateInfo = false
     
     var currentCircleId: String?
-    var firstName: String?
-    var lastName: String?
-    var email: String?
-    var nickName: String?
     var picturesArr: [String]?
     
     let prefs = NSUserDefaults.standardUserDefaults()
     
     private init() {}
     
-    func setVariables(fbAuthtoken: String, fbId: String, accessToken: String, userId: String) {
-        Me.user.userId = userId
-        Me.user.fbId = fbId
-        Me.user.accessToken = accessToken
-        Me.user.fbAuthtoken = fbAuthtoken
+    func setVariables(fbAuthtoken: String, fbId: String, accessToken: String, userId: String, firstName: String, lastName: String, nickname: String, email: String, pictures: [String]) {
+        self.userId = userId
+        self.fbId = fbId
+        self.accessToken = accessToken
+        self.fbAuthtoken = fbAuthtoken
+        self.firstName = firstName
+        self.lastName = lastName
+        self.nickname = nickname
+        self.email = email
+        self.picturesArr = pictures
         storeVariablesToNSUserDefault()
     }
     
@@ -89,7 +94,7 @@ class Me {
     
     // MARK: CRUD Functionality
     
-    func createUser(callback callback: (NSError?) -> Void){
+    /*func createUser(callback callback: (NSError?) -> Void){
         self.makeFbGraphCall(["fields":"email,first_name,last_name,picture"], completion:
             { (err, response) in
                 if (err != nil) {
@@ -118,13 +123,23 @@ class Me {
                 }
             }
         )
-    }
+    }*/
     
-    func updateUser(parameters: [String: AnyObject]){
-        let body: [String:AnyObject] = ["fields":  parameters, "x_key" : Me.user.userId!, "access_token": Me.user.accessToken!]
-        AlamoHelper.POST("api/v1/users/update/" + Me.user.userId!, parameters: body, completion: {
-            (response) -> Void in
-            print("\(response["message"].rawString())")
+    func updateUser(parameters: [String: AnyObject], completion: (NSError?) -> Void){
+        let body: [String:AnyObject] = ["fields":  parameters];
+        AlamoHelper.authorizedPost("api/v1/users/update/" + Me.user.userId!, parameters: body, completion: {
+            (err, response) -> Void in
+            if (err != nil) {
+                completion(err);
+                return;
+            }
+            
+            else if (response!["message"].string != "success") {
+                completion(NSError(domain: "Internal Server Error", code: 400, userInfo: nil));
+                return;
+            }
+            
+            completion(nil);
         })
         
     }
@@ -132,13 +147,17 @@ class Me {
     func getUserAttrs(){
         if let userId = Me.user.userId {
             AlamoHelper.authorizedGet("api/v1/users/" + userId, parameters: [String: AnyObject](), completion: {
-                response in
+                err, response in
+                if err != nil {
+                    //TODO: handle err
+                    return;
+                }
                 print(response)
-                    Me.user.currentCircleId = response["user"]["currentCircle"].rawString()
-                    Me.user.firstName = response["user"]["firstName"].rawString()
-                    Me.user.lastName = response["user"]["lastName"].rawString()
-                    Me.user.email = response["user"]["email"].rawString()
-                    Me.user.picturesArr = response["user"]["picture"].rawValue as? [String]
+                    Me.user.currentCircleId = response!["user"]["currentCircle"].rawString()
+                    Me.user.firstName = response!["user"]["firstName"].rawString()
+                    Me.user.lastName = response!["user"]["lastName"].rawString()
+                    Me.user.email = response!["user"]["email"].rawString()
+                    Me.user.picturesArr = response!["user"]["picture"].rawValue as? [String]
                 print(Me.user.currentCircleId)
                 print(Me.user.firstName)
                 print(Me.user.lastName)
@@ -147,5 +166,4 @@ class Me {
             });
         }
     }
-    
 }
