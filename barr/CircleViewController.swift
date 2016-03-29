@@ -10,7 +10,7 @@ import UIKit
 import FBSDKCoreKit
 import SwiftyJSON
 
-class CircleViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate {
+class CircleViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, UIPopoverPresentationControllerDelegate {
     
     let toggleBar: UIView = UIView()
     private let sectionInsets = UIEdgeInsets(top: 10.0, left: 0, bottom: 50.0, right: 0);
@@ -149,7 +149,7 @@ class CircleViewController: UIViewController, UICollectionViewDataSource, UIColl
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         if let cell = collectionView.cellForItemAtIndexPath(indexPath) {
-            //performSegueWithIdentifier("showProfile", sender: cell)
+            performSegueWithIdentifier("showProfile", sender: cell)
         } else {
             // Error indexPath is not on screen: this should never happen.
         }
@@ -160,11 +160,25 @@ class CircleViewController: UIViewController, UICollectionViewDataSource, UIColl
         // Pass the selected object to the new view controller.
         if segue.identifier == "showProfile"{
             print("HERE");
-            /*let chatViewController = segue.destinationViewController as! ChatViewController;
-            chatViewController.otherUserId = selectedChateeId;
-            chatViewController.hidesBottomBarWhenPushed = true;*/
+            if let cell = sender as? UserPhotoCell, cellInfo = cell.userCellInfo, userInfo = cellInfo.user
+            {
+                let profileController = segue.destinationViewController as! UserProfileViewController;
+                profileController.userInfo = userInfo;
+                // This is the important part
+                let popPC = profileController.popoverPresentationController;
+                popPC!.delegate = self;
+            }
         }
     }
+    
+    func adaptivePresentationStyleForPresentationController(
+        controller: UIPresentationController) -> UIModalPresentationStyle {
+            return .None
+    }
+    
+    /*func popoverPresentationControllerDidDismissPopover(popoverPresentationController: UIPopoverPresentationController) {
+        print("dismissed")
+    }*/
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("UserPhotoCell", forIndexPath: indexPath) as! UserPhotoCell

@@ -91,11 +91,22 @@
                         <outlet property="HeartButton" destination="dji-YN-AKP" id="kc7-ZM-ZYf"/>
                         <outlet property="PokeButton" destination="ocX-DW-iuH" id="egB-82-xqP"/>
                         <outlet property="circleCollection" destination="XQe-A7-2Ot" id="3D2-Nl-HfD"/>
+                        <segue destination="eE5-C6-p0w" kind="popoverPresentation" identifier="showProfile" popoverAnchorView="XQe-A7-2Ot" id="ZMX-vO-FuL">
+                            <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                        </segue>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aqB-eh-N9M" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="549" y="298"/>
+        </scene>
+        <!--UserProfile-->
+        <scene sceneID="sLS-Cl-0v4">
+            <objects>
+                <viewControllerPlaceholder storyboardName="UserProfile" id="eE5-C6-p0w" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="l6i-eE-QY5" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1028" y="192"/>
         </scene>
     </scenes>
 </document>

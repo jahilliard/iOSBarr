@@ -51,7 +51,6 @@ class UserInfo {
         
         let pictures = userInfo["picture"].arrayValue;
         self.pictures = pictures.filter({ $0.string != nil }).map({ $0.string!});
-        print(pictures);
 
         self.yourOffers = [OfferOptions : Bool]();
         self.otherOffers = [OfferOptions : Bool]();

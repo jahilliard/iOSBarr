@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="14F1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="7Vt-jL-P2k">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <scenes>
+        <!--User Profile View Controller-->
+        <scene sceneID="ZQM-lc-DDG">
+            <objects>
+                <viewController id="7Vt-jL-P2k" customClass="UserProfileViewController" customModule="barr" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="yTg-xq-vBs"/>
+                        <viewControllerLayoutGuide type="bottom" id="tfv-xH-6zH"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="HAr-IC-cUv">
+                        <rect key="frame" x="0.0" y="0.0" width="400" height="400"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fFG-M9-z0K">
+                                <rect key="frame" x="20" y="60" width="360" height="227"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nickname" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1zl-1e-8eN">
+                                <rect key="frame" x="20" y="20" width="360" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="HWH-Kk-QbK"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="9Uv-NC-CNV">
+                                <rect key="frame" x="20" y="342" width="360" height="50"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sp8-C8-xxx">
+                                        <rect key="frame" x="0.0" y="0.0" width="120" height="50"/>
+                                        <state key="normal" title="Heart"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MTw-uT-UvY">
+                                        <rect key="frame" x="120" y="0.0" width="120" height="50"/>
+                                        <state key="normal" title="Chat"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KJG-82-JEs">
+                                        <rect key="frame" x="240" y="0.0" width="120" height="50"/>
+                                        <state key="normal" title="Poke"/>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="V6c-Qb-SXA"/>
+                                </constraints>
+                            </stackView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Status Displayed Here" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="bo2-CM-Bfz">
+                                <rect key="frame" x="20" y="297" width="360" height="45"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="45" id="MhN-pj-sQV"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="fFG-M9-z0K" firstAttribute="leading" secondItem="HAr-IC-cUv" secondAttribute="leadingMargin" id="Bet-yt-BPw"/>
+                            <constraint firstItem="9Uv-NC-CNV" firstAttribute="leading" secondItem="HAr-IC-cUv" secondAttribute="leadingMargin" id="D4q-Rq-zUK"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="9Uv-NC-CNV" secondAttribute="trailing" id="Lst-9c-LY8"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="fFG-M9-z0K" secondAttribute="trailing" id="OO0-vJ-Mhv"/>
+                            <constraint firstItem="1zl-1e-8eN" firstAttribute="top" secondItem="yTg-xq-vBs" secondAttribute="bottom" id="RdL-aW-eaO"/>
+                            <constraint firstItem="1zl-1e-8eN" firstAttribute="leading" secondItem="HAr-IC-cUv" secondAttribute="leadingMargin" id="SA5-Ad-IN1"/>
+                            <constraint firstItem="9Uv-NC-CNV" firstAttribute="top" secondItem="bo2-CM-Bfz" secondAttribute="bottom" id="SDF-pM-6vY"/>
+                            <constraint firstItem="fFG-M9-z0K" firstAttribute="top" secondItem="1zl-1e-8eN" secondAttribute="bottom" id="UdE-Tu-YPB"/>
+                            <constraint firstItem="bo2-CM-Bfz" firstAttribute="top" secondItem="fFG-M9-z0K" secondAttribute="bottom" constant="10" id="caq-xr-phD"/>
+                            <constraint firstItem="tfv-xH-6zH" firstAttribute="top" secondItem="9Uv-NC-CNV" secondAttribute="bottom" constant="8" symbolic="YES" id="e2o-PN-plJ"/>
+                            <constraint firstItem="bo2-CM-Bfz" firstAttribute="leading" secondItem="HAr-IC-cUv" secondAttribute="leadingMargin" id="f5w-cj-v1O"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="bo2-CM-Bfz" secondAttribute="trailing" id="vpi-7n-ntk"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="1zl-1e-8eN" secondAttribute="trailing" id="zUl-bA-MVz"/>
+                        </constraints>
+                    </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="400" height="400"/>
+                    <connections>
+                        <outlet property="chatButton" destination="MTw-uT-UvY" id="wgq-G4-tUz"/>
+                        <outlet property="heartButton" destination="Sp8-C8-xxx" id="vNl-re-myl"/>
+                        <outlet property="nickName" destination="1zl-1e-8eN" id="TDA-CJ-2gl"/>
+                        <outlet property="pokeButton" destination="KJG-82-JEs" id="I60-9w-vcw"/>
+                        <outlet property="profilePicture" destination="fFG-M9-z0K" id="1g0-nA-PN6"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ofo-qg-yVq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="208" y="293"/>
+        </scene>
+    </scenes>
+</document>
