@@ -9,18 +9,20 @@
 import UIKit
 import SwiftyJSON
 
-class UserProfileViewController: UIViewController {
+class UserProfileViewController: UIViewController, UIScrollViewDelegate {
 
     @IBOutlet weak var profilePicture: UIImageView!
     @IBOutlet weak var chatButton: UIButton!
     @IBOutlet weak var pokeButton: UIButton!
     @IBOutlet weak var nickName: UILabel!
     @IBOutlet weak var heartButton: UIButton!
+    @IBOutlet weak var pictureScrollView: UIScrollView!
     
     var userInfo : UserInfo = UserInfo(userInfo: JSON(NSDictionary(dictionary: [:])));
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.pictureScrollView.delegate = self;
         self.nickName.text = userInfo.nickname;
         //load the photos in
         if self.userInfo.pictures.count > 0 {
@@ -38,6 +40,8 @@ class UserProfileViewController: UIViewController {
                     //TODO: set cell to default
                 }
             }
+        } else {
+            //TODO: set cell to default
         }
         // Do any additional setup after loading the view.
     }
@@ -47,6 +51,9 @@ class UserProfileViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
+        return self.profilePicture;
+    }
 
     /*
     // MARK: - Navigation
