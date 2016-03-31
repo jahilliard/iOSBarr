@@ -56,6 +56,10 @@ class CircleViewController: UIViewController, UICollectionViewDataSource, UIColl
         self.memberArray = Circle.sharedInstance.memberArray.filter({self.shouldMemberDisplay($0)});
     }
     
+    override func viewDidLayoutSubviews() {
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.makeMemberArray();
