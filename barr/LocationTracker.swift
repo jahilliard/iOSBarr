@@ -103,7 +103,17 @@ class LocationTracker : NSObject, CLLocationManagerDelegate {
     }
     
     func locationManager(manager: CLLocationManager, didVisit visit: CLVisit) {
+        Location.storeLocation(visit.coordinate.latitude, lon: visit.coordinate.longitude, errorMargin: visit.horizontalAccuracy, arrivalTime: visit.arrivalDate, departureTime: visit.departureDate) {
+            (res) in
+        
+                self.showNotification("Visit: \(res)")
+            }
+        Circle.addMemberToCircleByLocation(visit.coordinate.latitude, lon: visit.coordinate.longitude) {
+            (res) in
+                self.showNotification("added to room \(res["message"])")
+        }
         showNotification("Visit: \(visit)")
+        
     }
     
     

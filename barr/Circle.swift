@@ -40,15 +40,16 @@ class Circle {
         print(memberArray.count);
     }
     
-    static func addMemberToCircleByLocation(lat: Double, lon: Double){
+    static func addMemberToCircleByLocation(lat: Double, lon: Double, completion: (res: JSON) -> Void){
         let subdomain = "api/v1/rooms/members/" + Me.user.userId!
         AlamoHelper.authorizedPost(subdomain, parameters: ["coordinate" : [lon, lat]], completion: {
             err, response in
             if (err != nil) {
                 //TODO: handle
                 return;
+            } else {
+                completion(res: response!)
             }
-            print("add member by location");
         })
     }
     

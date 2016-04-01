@@ -82,7 +82,10 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
     func updateMapLocation(){
         if let locationCoords = LocationTracker.tracker.currentCoord {
             mapview!.animateToLocation(locationCoords)
-            Circle.addMemberToCircleByLocation(locationCoords.latitude, lon: locationCoords.longitude)
+            Circle.addMemberToCircleByLocation(locationCoords.latitude, lon: locationCoords.longitude){
+                _ in
+                //ADD NOTIFICATION SAYING YOUR IN CIRCLE
+            }
             Location.getLocations(locationCoords.latitude, lon: locationCoords.longitude, completion: {
                 nearByLocations in
                 for loc in nearByLocations {

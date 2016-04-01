@@ -62,4 +62,16 @@ class Location {
         })
     }
     
+    static func storeLocation(lat: Double, lon: Double, errorMargin: Double, arrivalTime: NSDate, departureTime: NSDate, completion: (response: JSON) -> Void){
+        AlamoHelper.authorizedPost("usertracker/save", parameters: ["userId": Me.user.userId!, "latitude": lat, "longitude" : lon, "accuracyHorizontal": errorMargin, "arrivalTime": arrivalTime, "departureTime": departureTime]) {
+            (err, response) in
+            if (err != nil) {
+                // Handle the Error
+                return;
+            } else {
+                completion(response: response!)
+            }
+        }
+    }
+    
 }
