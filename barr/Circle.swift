@@ -31,13 +31,12 @@ class Circle {
         
         for userInfo in members{
             self.addMember(userInfo);
+            print(userInfo);
         }
         
         if members.count > 0 {
             self.notifyCircle();
         }
-        
-        print(memberArray.count);
     }
     
     static func addMemberToCircleByLocation(lat: Double, lon: Double, completion: (res: JSON) -> Void){
@@ -58,23 +57,28 @@ class Circle {
     }
     
     func addMember(userInfo: JSON) {
-        let singleMember = UserInfo(userInfo: userInfo);
-        var insertIndex = self.memberArray.count;
-        if let userId = userInfo["_id"].string {
-            if (self.members[userId] != nil) {
-                //find index of existing user in memberArray
-                insertIndex = self.memberArray.indexOf({$0.userId == userId})!;
-                self.memberArray.removeAtIndex(insertIndex);
+        if let singleMember = UserInfo(userInfo: userInfo) {
+            var insertIndex = self.memberArray.count;
+            if let userId = userInfo["_id"].string {
+                if (self.members[userId] != nil) {
+                    //find index of existing user in memberArray
+                    insertIndex = self.memberArray.indexOf({$0.userId == userId})!;
+                    self.memberArray.removeAtIndex(insertIndex);
+                }
+            } else {
+                //TODO: error handling
+                print("malformed userInfo from server");
+                return;
             }
+            
+            self.members[singleMember.userId] = singleMember;
+            self.memberArray.insert(singleMember, atIndex: insertIndex);
+            notifyCircle();
         } else {
             //TODO: error handling
             print("malformed userInfo from server");
             return;
         }
-        
-        self.members[singleMember.userId] = singleMember;
-        self.memberArray.insert(singleMember, atIndex: insertIndex);
-        notifyCircle();
     }
     
     func deleteMember(userId: String){

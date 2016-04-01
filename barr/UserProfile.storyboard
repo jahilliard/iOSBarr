@@ -21,7 +21,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nickname" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1zl-1e-8eN">
                                 <rect key="frame" x="20" y="20" width="360" height="40"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="HWH-Kk-QbK"/>
+                                    <constraint firstAttribute="height" constant="40" identifier="NickNameHeight" id="HWH-Kk-QbK"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -33,47 +33,44 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sp8-C8-xxx">
                                         <rect key="frame" x="0.0" y="0.0" width="120" height="50"/>
                                         <state key="normal" title="Heart"/>
+                                        <connections>
+                                            <action selector="onHeartPressed:" destination="7Vt-jL-P2k" eventType="touchUpInside" id="xqS-Ve-pj8"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MTw-uT-UvY">
                                         <rect key="frame" x="120" y="0.0" width="120" height="50"/>
                                         <state key="normal" title="Chat"/>
+                                        <connections>
+                                            <action selector="onChatPressed:" destination="7Vt-jL-P2k" eventType="touchUpInside" id="mnG-tR-eYp"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KJG-82-JEs">
                                         <rect key="frame" x="240" y="0.0" width="120" height="50"/>
                                         <state key="normal" title="Poke"/>
+                                        <connections>
+                                            <action selector="onPokePressed:" destination="7Vt-jL-P2k" eventType="touchUpInside" id="gvs-yX-kCd"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="V6c-Qb-SXA"/>
+                                    <constraint firstAttribute="height" constant="50" identifier="StackViewHeight" id="V6c-Qb-SXA"/>
                                 </constraints>
                             </stackView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Status Displayed Here" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="bo2-CM-Bfz">
                                 <rect key="frame" x="20" y="297" width="360" height="45"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="45" id="MhN-pj-sQV"/>
+                                    <constraint firstAttribute="height" constant="45" identifier="textViewHeight" id="MhN-pj-sQV"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7ZA-J3-9V5">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7ZA-J3-9V5">
                                 <rect key="frame" x="20" y="60" width="360" height="227"/>
-                                <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fFG-M9-z0K">
-                                        <rect key="frame" x="0.0" y="0.0" width="360" height="360"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="360" id="D5G-2F-4Gj"/>
-                                            <constraint firstAttribute="width" constant="360" id="zAu-e7-RdJ"/>
-                                        </constraints>
-                                    </imageView>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="fFG-M9-z0K" secondAttribute="bottom" id="GS5-BT-nhJ"/>
-                                    <constraint firstItem="fFG-M9-z0K" firstAttribute="leading" secondItem="7ZA-J3-9V5" secondAttribute="leading" id="SLx-Gl-qjp"/>
-                                    <constraint firstAttribute="trailing" secondItem="fFG-M9-z0K" secondAttribute="trailing" id="Tvb-id-n9I"/>
-                                    <constraint firstItem="fFG-M9-z0K" firstAttribute="top" secondItem="7ZA-J3-9V5" secondAttribute="top" id="ZXu-pF-PHJ"/>
-                                </constraints>
                             </scrollView>
+                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="9j7-C5-fDd" colorLabel="IBBuiltInLabel-Red">
+                                <rect key="frame" x="20" y="250" width="360" height="37"/>
+                            </pageControl>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -82,12 +79,15 @@
                             <constraint firstItem="7ZA-J3-9V5" firstAttribute="leading" secondItem="HAr-IC-cUv" secondAttribute="leadingMargin" id="JUY-zF-6TA"/>
                             <constraint firstAttribute="trailingMargin" secondItem="9Uv-NC-CNV" secondAttribute="trailing" id="Lst-9c-LY8"/>
                             <constraint firstItem="7ZA-J3-9V5" firstAttribute="top" secondItem="1zl-1e-8eN" secondAttribute="bottom" id="MS7-e4-vQT"/>
+                            <constraint firstItem="9j7-C5-fDd" firstAttribute="leading" secondItem="HAr-IC-cUv" secondAttribute="leadingMargin" id="MVK-6z-fOb"/>
+                            <constraint firstItem="9j7-C5-fDd" firstAttribute="bottom" secondItem="7ZA-J3-9V5" secondAttribute="bottom" id="OJb-g8-ad4"/>
                             <constraint firstItem="1zl-1e-8eN" firstAttribute="top" secondItem="yTg-xq-vBs" secondAttribute="bottom" id="RdL-aW-eaO"/>
                             <constraint firstItem="1zl-1e-8eN" firstAttribute="leading" secondItem="HAr-IC-cUv" secondAttribute="leadingMargin" id="SA5-Ad-IN1"/>
                             <constraint firstItem="9Uv-NC-CNV" firstAttribute="top" secondItem="bo2-CM-Bfz" secondAttribute="bottom" id="SDF-pM-6vY"/>
                             <constraint firstItem="tfv-xH-6zH" firstAttribute="top" secondItem="9Uv-NC-CNV" secondAttribute="bottom" constant="8" symbolic="YES" id="e2o-PN-plJ"/>
                             <constraint firstItem="bo2-CM-Bfz" firstAttribute="leading" secondItem="HAr-IC-cUv" secondAttribute="leadingMargin" id="f5w-cj-v1O"/>
                             <constraint firstAttribute="trailingMargin" secondItem="7ZA-J3-9V5" secondAttribute="trailing" id="m8a-Ai-x4d"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="9j7-C5-fDd" secondAttribute="trailing" id="qp3-uV-mJi"/>
                             <constraint firstAttribute="trailingMargin" secondItem="bo2-CM-Bfz" secondAttribute="trailing" id="vpi-7n-ntk"/>
                             <constraint firstAttribute="trailingMargin" secondItem="1zl-1e-8eN" secondAttribute="trailing" id="zUl-bA-MVz"/>
                         </constraints>
@@ -98,9 +98,9 @@
                         <outlet property="chatButton" destination="MTw-uT-UvY" id="wgq-G4-tUz"/>
                         <outlet property="heartButton" destination="Sp8-C8-xxx" id="vNl-re-myl"/>
                         <outlet property="nickName" destination="1zl-1e-8eN" id="TDA-CJ-2gl"/>
+                        <outlet property="pageControl" destination="9j7-C5-fDd" id="tGL-vC-uTk"/>
                         <outlet property="pictureScrollView" destination="7ZA-J3-9V5" id="YnH-Gc-TNE"/>
                         <outlet property="pokeButton" destination="KJG-82-JEs" id="I60-9w-vcw"/>
-                        <outlet property="profilePicture" destination="fFG-M9-z0K" id="1g0-nA-PN6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ofo-qg-yVq" userLabel="First Responder" sceneMemberID="firstResponder"/>

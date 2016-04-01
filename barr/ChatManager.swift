@@ -63,25 +63,31 @@ class ChatManager {
         
         print(chatDicts);
         for chatDict in chatArray {
-            let userInfo = chatDict["chatee"];
-            if userInfo == nil {
+            var userInfoJSON = chatDict["chatee"];
+            if userInfoJSON == nil {
+                //TODO: handle case where there is no userInfo available
                 continue;
             }
             
-            if let dateString = chatDict["date"].string, date = Helper.dateFromString(dateString),chateeId = userInfo["_id"].string
+            if let lastMsgNum = chatDict["lastMsgNum"].int, dateString = chatDict["date"].string, date = Helper.dateFromString(dateString),chateeId = userInfoJSON["_id"].string
             {
                 var newChat : Chat? = nil;
                 
                 if (self.chats[chateeId] != nil) {
                     newChat = self.chats[chateeId];
                 } else {
-                    newChat = Chat(chatee: UserInfo(userInfo: userInfo), messages: []);
+                    userInfoJSON["lastMsgNum"] = JSON(lastMsgNum);
+                    if let userInfo = UserInfo(userInfo: userInfoJSON) {
+                        newChat = Chat(chatee: userInfo, messages: []);
+                    } else {
+                        //should never get here
+                        return;
+                    }
                 }
                 
-                if let lastMsgNum = chatDict["lastMsgNum"].int {
+                if lastMsgNum > newChat!.lastMessageNum {
+                    //should never happen unless it's the first time being created
                     newChat!.lastMessageNum = lastMsgNum;
-                } else {
-                    newChat!.lastMessageNum = 0;
                 }
                 
                 let message = chatDict["latestMsg"].string;
@@ -232,7 +238,10 @@ class ChatManager {
     
     func openChat(userInfo: UserInfo){
         if (self.chats[userInfo.userId] == nil){
-            self.chats[userInfo.userId] = Chat(chatee: userInfo, messages: []);
+            //check if user is in circle
+            //user opened chat for first time by clicking through the circle
+            let newChat = Chat(chatee: userInfo, messages: []);
+            self.chats[userInfo.userId] = newChat;
         } else {
             self.retrieveUnread(userInfo.userId);
         }

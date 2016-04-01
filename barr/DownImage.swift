@@ -16,6 +16,7 @@ struct DownloadImage {
                 if let img = UIImage(data: data) {
                     completion(img)
                 } else {
+                    //TODO: fix errors
                     print("error with making img")
                 }
             }

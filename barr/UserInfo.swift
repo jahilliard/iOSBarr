@@ -16,20 +16,21 @@ class UserInfo {
         case POKE
     }
     
-    let userId : String;
-    let nickname : String;
-    let firstName: String;
-    let lastName: String;
-    let pictures: [String];
-    var yourOffers: [OfferOptions : Bool];
-    var otherOffers: [OfferOptions : Bool];
-    var matchId: String?;
+    var userId : String = "";
+    var nickname : String = "";
+    var firstName: String = "";
+    var lastName: String = "";
+    var pictures: [String] = [String]();
+    var yourOffers: [OfferOptions : Bool] = [OfferOptions : Bool]();
+    var otherOffers: [OfferOptions : Bool] = [OfferOptions : Bool]();
+    var matchId: String? = nil;
+    var lastMsgNum: Int = 0;
     
-    init(userInfo: JSON) {
+    init?(userInfo: JSON) {
         if let userId = userInfo["_id"].rawString(){
             self.userId = userId
         } else {
-            self.userId = ""
+            return nil;
         }
         if let nickname = userInfo["nickname"].rawString(){
             self.nickname = nickname;
@@ -49,18 +50,25 @@ class UserInfo {
             self.lastName = "lastName";
         }
         
+        if let msgNum = userInfo["lastMsgNum"].int {
+            self.lastMsgNum = msgNum;
+        } else {
+            return nil;
+        }
+        
         let pictures = userInfo["picture"].arrayValue;
         self.pictures = pictures.filter({ $0.string != nil }).map({ $0.string!});
 
         self.yourOffers = [OfferOptions : Bool]();
         self.otherOffers = [OfferOptions : Bool]();
-        self.matchId = nil;
         
         if userInfo["matches"] != nil{
             let matchInfo = userInfo["matches"];
             let yourOffers = matchInfo["yourOffers"];
             let otherOffers = matchInfo["otherOffers"];
-            let matchId = matchInfo["matchId"].string;
+            if let matchId = matchInfo["matchId"].string {
+                self.matchId = matchId;
+            }
             
             if yourOffers != nil{
                 self.yourOffers = parseOffers(yourOffers.arrayValue);
@@ -68,10 +76,6 @@ class UserInfo {
             
             if otherOffers != nil{
                 self.otherOffers = parseOffers(otherOffers.arrayValue);
-            }
-            
-            if matchId != nil {
-                self.matchId = matchId;
             }
         }
     }

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="14F1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="FXB-9b-cbo">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="14F1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="rbU-9s-thy">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Item-->
+        <!--Circle-->
         <scene sceneID="Mbs-LI-3gi">
             <objects>
                 <viewController id="FXB-9b-cbo" customClass="CircleViewController" customModule="barr" customModuleProvider="target" sceneMemberID="viewController">
@@ -18,8 +18,27 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="tzA-A2-glu">
+                                <rect key="frame" x="0.0" y="64" width="600" height="30"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dji-YN-AKP">
+                                        <rect key="frame" x="0.0" y="0.0" width="300" height="30"/>
+                                        <state key="normal" title="Heart"/>
+                                        <connections>
+                                            <action selector="onHeartButtonPress:" destination="FXB-9b-cbo" eventType="touchUpInside" id="hxA-LD-XVo"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ocX-DW-iuH">
+                                        <rect key="frame" x="300" y="0.0" width="300" height="30"/>
+                                        <state key="normal" title="Poke"/>
+                                        <connections>
+                                            <action selector="onPokeButtonPress:" destination="FXB-9b-cbo" eventType="touchUpInside" id="srv-YV-yfw"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="XQe-A7-2Ot">
-                                <rect key="frame" x="0.0" y="50" width="600" height="501"/>
+                                <rect key="frame" x="0.0" y="94" width="600" height="457"/>
                                 <edgeInsets key="layoutMargins" top="8" left="0.0" bottom="8" right="0.0"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="WKK-VN-95R">
                                     <size key="itemSize" width="108" height="108"/>
@@ -53,39 +72,19 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
-                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="tzA-A2-glu">
-                                <rect key="frame" x="0.0" y="20" width="600" height="30"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dji-YN-AKP">
-                                        <rect key="frame" x="0.0" y="0.0" width="300" height="30"/>
-                                        <state key="normal" title="Heart"/>
-                                        <connections>
-                                            <action selector="onHeartButtonPress:" destination="FXB-9b-cbo" eventType="touchUpInside" id="hxA-LD-XVo"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ocX-DW-iuH">
-                                        <rect key="frame" x="300" y="0.0" width="300" height="30"/>
-                                        <state key="normal" title="Poke"/>
-                                        <connections>
-                                            <action selector="onPokeButtonPress:" destination="FXB-9b-cbo" eventType="touchUpInside" id="srv-YV-yfw"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="XQe-A7-2Ot" firstAttribute="top" secondItem="tzA-A2-glu" secondAttribute="bottom" id="5QU-H4-6e1"/>
-                            <constraint firstAttribute="trailing" secondItem="tzA-A2-glu" secondAttribute="trailing" id="Fn4-y2-gS0"/>
+                            <constraint firstItem="tzA-A2-glu" firstAttribute="top" secondItem="oz4-22-PFf" secondAttribute="bottom" id="0sH-uy-5ew"/>
+                            <constraint firstAttribute="trailing" secondItem="tzA-A2-glu" secondAttribute="trailing" id="Kle-OU-6vV"/>
                             <constraint firstItem="XQe-A7-2Ot" firstAttribute="trailing" secondItem="MZQ-kW-VUU" secondAttribute="trailing" id="Uvj-VZ-xKU"/>
                             <constraint firstItem="XQe-A7-2Ot" firstAttribute="leading" secondItem="MZQ-kW-VUU" secondAttribute="leading" id="Xv4-ta-OOA"/>
                             <constraint firstItem="b0q-m6-6jf" firstAttribute="top" secondItem="XQe-A7-2Ot" secondAttribute="bottom" id="cpB-pV-YvZ"/>
-                            <constraint firstItem="tzA-A2-glu" firstAttribute="top" secondItem="oz4-22-PFf" secondAttribute="bottom" id="jF4-kR-tsy"/>
-                            <constraint firstItem="tzA-A2-glu" firstAttribute="leading" secondItem="MZQ-kW-VUU" secondAttribute="leading" id="yAH-iQ-7Uu"/>
+                            <constraint firstItem="tzA-A2-glu" firstAttribute="leading" secondItem="MZQ-kW-VUU" secondAttribute="leading" id="xpT-gq-6Sf"/>
+                            <constraint firstItem="XQe-A7-2Ot" firstAttribute="top" secondItem="tzA-A2-glu" secondAttribute="bottom" id="y3i-I2-Eg9"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" id="Std-wZ-5ey"/>
-                    <navigationItem key="navigationItem" id="JVi-5N-V1n"/>
+                    <navigationItem key="navigationItem" title="Circle" id="JVi-5N-V1n"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="HeartButton" destination="dji-YN-AKP" id="kc7-ZM-ZYf"/>
@@ -94,11 +93,12 @@
                         <segue destination="eE5-C6-p0w" kind="popoverPresentation" identifier="showProfile" popoverAnchorView="XQe-A7-2Ot" id="ZMX-vO-FuL">
                             <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
                         </segue>
+                        <segue destination="AOK-Sv-0fe" kind="show" identifier="toChat" id="QFv-Vy-AGP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aqB-eh-N9M" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="549" y="298"/>
+            <point key="canvasLocation" x="1361" y="298"/>
         </scene>
         <!--UserProfile-->
         <scene sceneID="sLS-Cl-0v4">
@@ -106,7 +106,34 @@
                 <viewControllerPlaceholder storyboardName="UserProfile" id="eE5-C6-p0w" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="l6i-eE-QY5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1028" y="192"/>
+            <point key="canvasLocation" x="1840" y="192"/>
+        </scene>
+        <!--SingleChat-->
+        <scene sceneID="gBG-47-odn">
+            <objects>
+                <viewControllerPlaceholder storyboardName="SingleChat" id="AOK-Sv-0fe" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fzS-Lo-Ra1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1807" y="422"/>
+        </scene>
+        <!--Item-->
+        <scene sceneID="Taa-Gu-hsu">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="rbU-9s-thy" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="Std-wZ-5ey"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="WzT-ht-GLZ">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="FXB-9b-cbo" kind="relationship" relationship="rootViewController" id="JhC-uK-Rqt"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Pgk-r9-sWT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="549" y="298"/>
         </scene>
     </scenes>
 </document>
