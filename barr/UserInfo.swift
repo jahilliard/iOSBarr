@@ -50,7 +50,7 @@ class UserInfo {
             self.lastName = "lastName";
         }
         
-        if let msgNum = userInfo["chatNumber"].int {
+        if let msgNum = userInfo["lastMsgNum"].int {
             self.lastMsgNum = msgNum;
         } else {
             return nil;

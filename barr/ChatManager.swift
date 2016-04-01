@@ -76,9 +76,7 @@ class ChatManager {
                 if (self.chats[chateeId] != nil) {
                     newChat = self.chats[chateeId];
                 } else {
-                    var appendChatNumber = [String: Int]();
-                    appendChatNumber["chatNumber"] = lastMsgNum;
-                    userInfoJSON["chatNumber"] = JSON(appendChatNumber);
+                    userInfoJSON["lastMsgNum"] = JSON(lastMsgNum);
                     if let userInfo = UserInfo(userInfo: userInfoJSON) {
                         newChat = Chat(chatee: userInfo, messages: []);
                     } else {

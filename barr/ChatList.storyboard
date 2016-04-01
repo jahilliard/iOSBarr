@@ -22,21 +22,21 @@
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="119"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="gnS-fP-VH7">
+                                        <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="gnS-fP-VH7">
                                             <rect key="frame" x="10" y="8" width="562" height="103"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lBE-3P-2Ol">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lBE-3P-2Ol">
                                                     <rect key="frame" x="0.0" y="0.0" width="103" height="103"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="103" id="4pL-jg-SDy"/>
                                                         <constraint firstAttribute="width" constant="103" id="ULN-SM-q80"/>
                                                     </constraints>
                                                 </imageView>
-                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="2" baselineRelativeArrangement="YES" translatesAutoresizingMaskIntoConstraints="NO" id="e37-Cx-MVL">
-                                                    <rect key="frame" x="103" y="0.0" width="459" height="103"/>
+                                                <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" axis="vertical" spacing="2" baselineRelativeArrangement="YES" translatesAutoresizingMaskIntoConstraints="NO" id="e37-Cx-MVL">
+                                                    <rect key="frame" x="113" y="0.0" width="449" height="103"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sse-Ty-q4Q">
-                                                            <rect key="frame" x="0.0" y="0.0" width="459" height="66"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" misplaced="YES" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sse-Ty-q4Q">
+                                                            <rect key="frame" x="0.0" y="0.0" width="449" height="66"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="66" id="zdd-dE-ldD"/>
                                                             </constraints>
@@ -44,15 +44,14 @@
                                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Preview" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z5B-pU-Wzw">
-                                                            <rect key="frame" x="0.0" y="50" width="459" height="53"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" misplaced="YES" text="Preview" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z5B-pU-Wzw">
+                                                            <rect key="frame" x="0.0" y="50" width="449" height="53"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <color key="textColor" red="0.55350378787878785" green="0.55350378787878785" blue="0.55350378787878785" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
                                                     <constraints>
-                                                        <constraint firstItem="Sse-Ty-q4Q" firstAttribute="leading" secondItem="e37-Cx-MVL" secondAttribute="leading" id="jwQ-Jj-2jZ"/>
                                                         <constraint firstItem="Sse-Ty-q4Q" firstAttribute="top" secondItem="e37-Cx-MVL" secondAttribute="top" id="qSI-uV-gGc"/>
                                                     </constraints>
                                                 </stackView>
