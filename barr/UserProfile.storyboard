@@ -33,14 +33,23 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sp8-C8-xxx">
                                         <rect key="frame" x="0.0" y="0.0" width="120" height="50"/>
                                         <state key="normal" title="Heart"/>
+                                        <connections>
+                                            <action selector="onHeartPressed:" destination="7Vt-jL-P2k" eventType="touchUpInside" id="xqS-Ve-pj8"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MTw-uT-UvY">
                                         <rect key="frame" x="120" y="0.0" width="120" height="50"/>
                                         <state key="normal" title="Chat"/>
+                                        <connections>
+                                            <action selector="onChatPressed:" destination="7Vt-jL-P2k" eventType="touchUpInside" id="mnG-tR-eYp"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KJG-82-JEs">
                                         <rect key="frame" x="240" y="0.0" width="120" height="50"/>
                                         <state key="normal" title="Poke"/>
+                                        <connections>
+                                            <action selector="onPokePressed:" destination="7Vt-jL-P2k" eventType="touchUpInside" id="gvs-yX-kCd"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>

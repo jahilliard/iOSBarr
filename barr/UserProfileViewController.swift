@@ -18,20 +18,53 @@ extension NSLayoutConstraint {
 }
 
 class UserProfileViewController: UIViewController, UIScrollViewDelegate {
-
     //@IBOutlet weak var profilePicture: UIImageView!
-    @IBOutlet weak var chatButton: UIButton!
-    @IBOutlet weak var pokeButton: UIButton!
+    var chatDelegate: ChatDelegate!;
     @IBOutlet weak var nickName: UILabel!
+    @IBOutlet weak var chatButton: UIButton!
+    @IBAction func onChatPressed(sender: AnyObject) {
+        self.chatDelegate.displayChat(self.userInfo!);
+        self.dismissViewControllerAnimated(true, completion: nil);
+    }
+    
+    @IBOutlet weak var pokeButton: UIButton!
+    @IBAction func onPokePressed(sender: AnyObject) {
+        var params = [String: AnyObject]();
+        var offers = [String: AnyObject]();
+        offers["offers"] = [UserInfo.convertToInt(.POKE)!];
+        params["fields"] = offers;
+        let subdomain = "api/v1/matches/\(Me.user.userId!)/offers/\(self.userInfo!.userId)"
+        AlamoHelper.authorizedPost(subdomain, parameters: params) { (err, response) -> Void in
+            if (err != nil) {
+                print(err);
+                //TODO: notify User
+            }
+        };
+    }
+    
     @IBOutlet weak var heartButton: UIButton!
+    @IBAction func onHeartPressed(sender: AnyObject) {
+        var params = [String: AnyObject]();
+        var offers = [String: AnyObject]();
+        offers["offers"] = [UserInfo.convertToInt(.HEART)!];
+        params["fields"] = offers;
+        let subdomain = "api/v1/matches/\(Me.user.userId!)/offers/\(self.userInfo!.userId)"
+        AlamoHelper.authorizedPost(subdomain, parameters: params) { (err, response) -> Void in
+            if (err != nil) {
+                //TODO: notify User
+            }
+        };
+    }
+    
     @IBOutlet weak var pictureScrollView: UIScrollView!
     
-    var userInfo : UserInfo = UserInfo(userInfo: JSON(NSDictionary(dictionary: [:])));
+    //will always be set by the view transferring in
+    var userInfo : UserInfo? = nil;
     @IBOutlet weak var pageControl: UIPageControl!
     var pageViews: [UIImageView?] = [];
     
     override func viewDidLayoutSubviews() {
-        let pageCount = self.userInfo.pictures.count;
+        let pageCount = self.userInfo!.pictures.count;
         pageControl.currentPage = 0;
         pageControl.numberOfPages = pageCount;
         for _ in 0..<pageCount {
@@ -47,7 +80,7 @@ class UserProfileViewController: UIViewController, UIScrollViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.pictureScrollView.delegate = self;
-        self.nickName.text = userInfo.nickname;
+        self.nickName.text = self.userInfo!.nickname;
         self.pageControl.pageIndicatorTintColor = UIColor.blueColor();
         
         //load the photos in
@@ -90,7 +123,7 @@ class UserProfileViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func loadPage(page: Int) {
-        if page < 0 || page >= self.userInfo.pictures.count {
+        if page < 0 || page >= self.userInfo!.pictures.count {
             // If it's outside the range of what you have to display, then do nothing
             return
         }
@@ -109,7 +142,7 @@ class UserProfileViewController: UIViewController, UIScrollViewDelegate {
             // 3
             func completion(err: NSError?, img: UIImage) {
                 if (err != nil) {
-                    getImg(self.userInfo.pictures[page], completion: completion);
+                    getImg(self.userInfo!.pictures[page], completion: completion);
                 } else {
                     let newPageView = UIImageView(image: img)
                     newPageView.contentMode = .ScaleAspectFit
@@ -119,12 +152,12 @@ class UserProfileViewController: UIViewController, UIScrollViewDelegate {
                 }
             }
         
-            getImg(self.userInfo.pictures[page], completion: completion);
+            getImg(self.userInfo!.pictures[page], completion: completion);
         }
     }
     
     func purgePage(page: Int) {
-        if page < 0 || page >= self.userInfo.pictures.count {
+        if page < 0 || page >= self.userInfo!.pictures.count {
             // If it's outside the range of what you have to display, then do nothing
             return
         }
@@ -160,7 +193,7 @@ class UserProfileViewController: UIViewController, UIScrollViewDelegate {
         }
         
         // Purge anything after the last page
-        for var index = lastPage+1; index < self.userInfo.pictures.count; ++index {
+        for var index = lastPage+1; index < self.userInfo!.pictures.count; ++index {
             purgePage(index)
         }
     }

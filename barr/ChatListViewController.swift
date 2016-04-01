@@ -145,7 +145,7 @@ class ChatListViewController: UITableViewController {
         // Pass the selected object to the new view controller.
         if segue.identifier == "toChat"{
             let chatViewController = segue.destinationViewController as! ChatViewController;
-            chatViewController.otherUserId = selectedChateeId;
+            chatViewController.otherUserInfo = ChatManager.sharedInstance.getChat(selectedChateeId)!.chatee;
             chatViewController.hidesBottomBarWhenPushed = true;
         }
     }

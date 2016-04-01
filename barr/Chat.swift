@@ -14,7 +14,7 @@ class Chat {
     var messageNumToMessage: [Int: Message]
     var containsUnread: Bool
     var preview: String?
-    var lastMessageNum = 0; //TODO: Set this when when chatee is added to circle
+    var lastMessageNum : Int; //TODO: Set this when when chatee is added to circle
     var numTimesClosed = 0;
     
     var lastUpdate: NSDate = NSDate.distantPast()
@@ -25,6 +25,7 @@ class Chat {
         self.messages = [];
         self.messageNumToMessage = [Int: Message]();
         self.chatee = chatee;
+        self.lastMessageNum = chatee.lastMsgNum;
         
         for msg: NSDictionary in messages {
             if let msgString = msg["message"] as? String, owner = msg["owner"] as? String, status = msg["status"] as? Message.MessageStatus, messageNum = msg["messageNum"] as? Int, dateString = msg["date"] as? String, date = Helper.dateFromString(dateString)

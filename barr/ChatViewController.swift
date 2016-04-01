@@ -18,15 +18,15 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     let MARGINS = 10;
     
-    var otherUserId : String! {
+    var otherUserInfo : UserInfo! {
         didSet {
-            self.title = self.otherUserId;
+            self.title = self.otherUserInfo.firstName + " " + self.otherUserInfo.lastName;
         }
     }
     
     private var thisChat: Chat {
         get {
-            return ChatManager.sharedInstance.getChat(self.otherUserId)!;
+            return ChatManager.sharedInstance.getChat(self.otherUserInfo.userId)!;
         }
     }
     
@@ -56,7 +56,6 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
 
     override func viewWillAppear(animated: Bool) {
         print("VIEW WILL APPEAR");
-        print(self.chatMessages.count);
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "checkNewMessage:", name: ChatManager.sharedInstance.newMessageNotification, object: nil);
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil);
@@ -64,7 +63,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil);
         
         print("OPENING CHAT");
-        ChatManager.sharedInstance.openChat(ChatManager.sharedInstance.getChat(self.otherUserId)!.chatee);
+        ChatManager.sharedInstance.openChat(self.otherUserInfo);
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -155,7 +154,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     @objc func checkNewMessage(notification : NSNotification){
         if let info = notification.userInfo as? Dictionary<String, AnyObject>,chateeId = info["chateeId"] as? String, count = info["count"] as? Int{
-                if (chateeId == self.otherUserId){
+                if (chateeId == self.otherUserInfo.userId){
                     //self.messagesTableView.reloadData();
                     self.appendNewMessages(count);
                     self.scrollToBottom();
@@ -287,7 +286,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     func sendMessage(myMessage: Message) {
         myMessage.status = Message.MessageStatus.PENDING;
         self.reloadRow(self.findRowForMessagNum(myMessage.messageNum!));
-        ChatManager.sharedInstance.sendMessage(self.otherUserId, message: myMessage, callback: {(err, data) in
+        ChatManager.sharedInstance.sendMessage(self.otherUserInfo.userId, message: myMessage, callback: {(err, data) in
             print("IN CALLBACK");
                 if (err != nil) {
                     print(err);

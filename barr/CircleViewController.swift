@@ -10,7 +10,12 @@ import UIKit
 import FBSDKCoreKit
 import SwiftyJSON
 
-class CircleViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, UIPopoverPresentationControllerDelegate {
+protocol ChatDelegate {
+    // protocol definition goes here
+    func displayChat(userInfo: UserInfo);
+}
+
+class CircleViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, UIPopoverPresentationControllerDelegate, ChatDelegate {
     
     let toggleBar: UIView = UIView()
     private let sectionInsets = UIEdgeInsets(top: 10.0, left: 0, bottom: 50.0, right: 0);
@@ -54,10 +59,6 @@ class CircleViewController: UIViewController, UICollectionViewDataSource, UIColl
     
     func makeMemberArray() {
         self.memberArray = Circle.sharedInstance.memberArray.filter({self.shouldMemberDisplay($0)});
-    }
-    
-    override func viewDidLayoutSubviews() {
-        
     }
     
     override func viewDidLoad() {
@@ -159,18 +160,30 @@ class CircleViewController: UIViewController, UICollectionViewDataSource, UIColl
         }
     }
     
+    func displayChat(userInfo: UserInfo) {
+        performSegueWithIdentifier("toChat", sender: userInfo);
+    }
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        if segue.identifier == "showProfile"{
-            print("HERE");
+        if segue.identifier == "showProfile" {
             if let cell = sender as? UserPhotoCell, cellInfo = cell.userCellInfo, userInfo = cellInfo.user
             {
                 let profileController = segue.destinationViewController as! UserProfileViewController;
                 profileController.userInfo = userInfo;
+                profileController.chatDelegate = self;
                 // This is the important part
                 let popPC = profileController.popoverPresentationController;
                 popPC!.delegate = self;
+            }
+        }
+        
+        else if segue.identifier == "toChat" {
+            if let userInfo = sender as? UserInfo {
+                let chatViewController = segue.destinationViewController as! ChatViewController;
+                chatViewController.otherUserInfo = userInfo;
+                chatViewController.hidesBottomBarWhenPushed = true;
             }
         }
     }
