@@ -22,7 +22,7 @@ class InitialScreenViewController: UIViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "displayMain:", name: readyNotification, object: nil);
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(InitialScreenViewController.displayMain(_:)), name: readyNotification, object: nil);
     }
     
     override func viewWillDisappear(animated: Bool) {

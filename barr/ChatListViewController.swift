@@ -44,7 +44,7 @@ class ChatListViewController: UITableViewController {
     }*/
     
     override func viewWillAppear(animated: Bool) {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateList:", name: ChatManager.sharedInstance.chatListNotification, object: nil);
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ChatListViewController.updateList(_:)), name: ChatManager.sharedInstance.chatListNotification, object: nil);
         self.tableView.reloadData();
     }
     

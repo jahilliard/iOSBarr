@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="14F1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" initialViewController="01J-lp-oVM">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -18,16 +17,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="1.png" translatesAutoresizingMaskIntoConstraints="NO" id="XIb-v5-WpD">
-                                <rect key="frame" x="20" y="20" width="560" height="580"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="icon" translatesAutoresizingMaskIntoConstraints="NO" id="e4A-FQ-mnB">
+                                <rect key="frame" x="184" y="183" width="233" height="233"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Hopskotch" translatesAutoresizingMaskIntoConstraints="NO" id="0I7-1r-fpK">
+                                <rect key="frame" x="228" y="424" width="146" height="38"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailingMargin" secondItem="XIb-v5-WpD" secondAttribute="trailing" id="5WM-ph-E0b"/>
-                            <constraint firstItem="XIb-v5-WpD" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" id="PRI-So-ZFK"/>
-                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="XIb-v5-WpD" secondAttribute="bottom" id="QAS-q2-bsV"/>
-                            <constraint firstItem="XIb-v5-WpD" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" id="yUh-O9-9H4"/>
+                            <constraint firstItem="e4A-FQ-mnB" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="bp6-5B-9ua"/>
+                            <constraint firstItem="0I7-1r-fpK" firstAttribute="centerX" secondItem="e4A-FQ-mnB" secondAttribute="centerX" id="clI-Q5-oXm"/>
+                            <constraint firstItem="0I7-1r-fpK" firstAttribute="top" secondItem="e4A-FQ-mnB" secondAttribute="bottom" constant="8" id="vwG-BU-NYF"/>
+                            <constraint firstItem="e4A-FQ-mnB" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="wbC-A7-Fxr"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -37,6 +39,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="1.png" width="2667" height="4733"/>
+        <image name="Hopskotch" width="145" height="36"/>
+        <image name="icon" width="237" height="235"/>
     </resources>
 </document>

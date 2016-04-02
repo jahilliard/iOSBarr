@@ -28,7 +28,7 @@ class LocationTracker : NSObject, CLLocationManagerDelegate {
     
     private override init()  {
         super.init()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationEnterBackground", name: UIApplicationDidEnterBackgroundNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(LocationTracker.applicationEnterBackground), name: UIApplicationDidEnterBackgroundNotification, object: nil)
     }
     
     // MARK: Application in background

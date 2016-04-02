@@ -91,7 +91,7 @@ class CircleViewController: UIViewController, UICollectionViewDataSource, UIColl
         //self.view.addSubview(circleCollection)
         defineToggleView()
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateCircle:", name:CircleUpdateNotification, object: nil);
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CircleViewController.updateCircle(_:)), name:CircleUpdateNotification, object: nil);
     }
     
     deinit {

@@ -43,7 +43,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.messageInputField.delegate = self;
         
         //add tap gesture recognizer to tableview
-        let tableTapGesture : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "tableViewTapped");
+        let tableTapGesture : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ChatViewController.tableViewTapped));
         
         self.messagesTableView.addGestureRecognizer(tableTapGesture);
         
@@ -56,11 +56,11 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
 
     override func viewWillAppear(animated: Bool) {
         print("VIEW WILL APPEAR");
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "checkNewMessage:", name: ChatManager.sharedInstance.newMessageNotification, object: nil);
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ChatViewController.checkNewMessage(_:)), name: ChatManager.sharedInstance.newMessageNotification, object: nil);
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil);
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ChatViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil);
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil);
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ChatViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil);
         
         print("OPENING CHAT");
         ChatManager.sharedInstance.openChat(self.otherUserInfo);
@@ -143,7 +143,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     func appendNewMessages(newMessageCount: Int){
         print(newMessageCount);
         var updateArray = [NSIndexPath]();
-        for (var i = self.chatMessages.count - newMessageCount; i < self.chatMessages.count; i++){
+        for (var i = self.chatMessages.count - newMessageCount; i < self.chatMessages.count; i += 1){
             updateArray.append(NSIndexPath(forRow: i, inSection: 0));
         }
         
@@ -201,7 +201,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     func findRowForMessagNum(messageNum: Int) -> Int {
         //find row to reload
         var row = 0;
-        for (var i = 0; i < self.chatMessages.count; i++){
+        for (var i = 0; i < self.chatMessages.count; i += 1){
             if (self.chatMessages[i].messageNum == messageNum){
                 row = i;
                 break;

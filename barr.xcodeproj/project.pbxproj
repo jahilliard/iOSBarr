@@ -34,6 +34,8 @@
 		0CAB945A1CAD9D430095D858 /* Feed.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0CAB94591CAD9D430095D858 /* Feed.storyboard */; };
 		0CAB945C1CADA2C90095D858 /* FeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CAB945B1CADA2C90095D858 /* FeedTableViewCell.swift */; };
 		0CAB94601CADABBD0095D858 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CAB945F1CADABBD0095D858 /* FeedViewController.swift */; };
+		0CAB94691CAF35EC0095D858 /* Lobster.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0CAB94671CAF35EC0095D858 /* Lobster.otf */; };
+		0CAB946A1CAF3B880095D858 /* PrintBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0CAB94661CAF35EC0095D858 /* PrintBold.otf */; };
 		0CAE28711C776B4400CE4F92 /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CAE28701C776B4400CE4F92 /* Auth.swift */; };
 		0CAE28731C78C72E00CE4F92 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0CAE28721C78C72E00CE4F92 /* Login.storyboard */; };
 		0CC194661C92AA8000F3BD7A /* GMSMarkerLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC194651C92AA8000F3BD7A /* GMSMarkerLocation.swift */; };
@@ -102,6 +104,8 @@
 		0CAB94591CAD9D430095D858 /* Feed.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Feed.storyboard; sourceTree = "<group>"; };
 		0CAB945B1CADA2C90095D858 /* FeedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedTableViewCell.swift; sourceTree = "<group>"; };
 		0CAB945F1CADABBD0095D858 /* FeedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
+		0CAB94661CAF35EC0095D858 /* PrintBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = PrintBold.otf; path = ../PrintBold.otf; sourceTree = "<group>"; };
+		0CAB94671CAF35EC0095D858 /* Lobster.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Lobster.otf; path = ../Lobster.otf; sourceTree = "<group>"; };
 		0CAE28701C776B4400CE4F92 /* Auth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Auth.swift; sourceTree = "<group>"; };
 		0CAE28721C78C72E00CE4F92 /* Login.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		0CC194651C92AA8000F3BD7A /* GMSMarkerLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GMSMarkerLocation.swift; sourceTree = "<group>"; };
@@ -214,6 +218,7 @@
 				0C39264A1C6C148700CF343B /* models */,
 				0C3DBAF51C6C13AA00401A2E /* Assets.xcassets */,
 				0C3DBAFA1C6C13AA00401A2E /* Info.plist */,
+				0CAB94611CAF2F5D0095D858 /* Resources */,
 				20E4894E1C9272FC00ED8FB0 /* helper.swift */,
 				0C2346041C8BB61600250B3E /* Helpers */,
 				0C5CBD3D1C8D2E640057B0C4 /* CellTypes */,
@@ -280,6 +285,15 @@
 				0CAB945B1CADA2C90095D858 /* FeedTableViewCell.swift */,
 			);
 			name = CellTypes;
+			sourceTree = "<group>";
+		};
+		0CAB94611CAF2F5D0095D858 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				0CAB94661CAF35EC0095D858 /* PrintBold.otf */,
+				0CAB94671CAF35EC0095D858 /* Lobster.otf */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 		72F88393BF59F01C488CEB74 /* Frameworks */ = {
@@ -388,9 +402,11 @@
 			files = (
 				0C2346011C8B6FC100250B3E /* SelectPhotos.storyboard in Resources */,
 				203053121C8AA78E00FCC5DC /* ChatList.storyboard in Resources */,
+				0CAB946A1CAF3B880095D858 /* PrintBold.otf in Resources */,
 				0CAB945A1CAD9D430095D858 /* Feed.storyboard in Resources */,
 				0C4F14671C80A1350024105D /* JoinCircle.storyboard in Resources */,
 				0C3DBAF41C6C13AA00401A2E /* Main.storyboard in Resources */,
+				0CAB94691CAF35EC0095D858 /* Lobster.otf in Resources */,
 				0C3DBAF91C6C13AA00401A2E /* LaunchScreen.storyboard in Resources */,
 				0C3DBAF61C6C13AA00401A2E /* Assets.xcassets in Resources */,
 				203053181C8CE0F100FCC5DC /* SingleChat.storyboard in Resources */,

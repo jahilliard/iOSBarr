@@ -36,6 +36,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
             mapview = makeMap(40.4433, longitude: -79.9436 , zoom: 19)
             self.view.addSubview(mapview!)
         }
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MapViewController.updateMapLocation), name: locationNotificationKey, object: nil)
     }
 
     override func didReceiveMemoryWarning() {
@@ -52,7 +53,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
             }
         }
         mapview?.delegate = self
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateMapLocation", name: locationNotificationKey, object: nil)
+        
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -114,12 +115,12 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
         previewView.alpha = 0.5
         self.view.addSubview(previewView)
         Circle.getPreview(locId)
-        timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: Selector("previewTime:"), userInfo: nil, repeats: true)
+        timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(MapViewController.previewTime(_:)), userInfo: nil, repeats: true)
     }
     
     func previewTime(sender: NSTimer!){
         print("test run")
-        timeCount++
+        timeCount += 1
         if timeCount == 4 {
             self.timer.invalidate()
             timeCount = 0

@@ -43,7 +43,7 @@ class Chat {
         self.preview = nil;
         self.messages = [];
         self.messageNumToMessage = [Int: Message]();
-        self.numTimesClosed++;
+        self.numTimesClosed += 1;
     }
     
     func getMsgByMsgNumber(msgNumber: Int) -> Message? {
@@ -55,7 +55,7 @@ class Chat {
     }
     
     func addMyMessage(message: String, date: NSDate, status: Message.MessageStatus) -> Message{
-        self.lastMessageNum++;
+        self.lastMessageNum += 1;
         let newMessage = Message(message: message, sender: Me.user.userId!, date: date, status: status, messageNum: self.lastMessageNum);
         self.messageNumToMessage[self.lastMessageNum] = newMessage;
         messages.append(newMessage);
