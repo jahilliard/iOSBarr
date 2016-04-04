@@ -32,19 +32,19 @@
                                                         <constraint firstAttribute="width" constant="103" id="ULN-SM-q80"/>
                                                     </constraints>
                                                 </imageView>
-                                                <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" axis="vertical" spacing="2" baselineRelativeArrangement="YES" translatesAutoresizingMaskIntoConstraints="NO" id="e37-Cx-MVL">
+                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="2" baselineRelativeArrangement="YES" translatesAutoresizingMaskIntoConstraints="NO" id="e37-Cx-MVL">
                                                     <rect key="frame" x="113" y="0.0" width="449" height="103"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" misplaced="YES" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sse-Ty-q4Q">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sse-Ty-q4Q">
                                                             <rect key="frame" x="0.0" y="0.0" width="449" height="66"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="66" id="zdd-dE-ldD"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" misplaced="YES" text="Preview" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z5B-pU-Wzw">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Preview" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z5B-pU-Wzw">
                                                             <rect key="frame" x="0.0" y="50" width="449" height="53"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <color key="textColor" red="0.55350378787878785" green="0.55350378787878785" blue="0.55350378787878785" alpha="1" colorSpace="calibratedRGB"/>
@@ -84,9 +84,13 @@
                             <outlet property="delegate" destination="tH2-fz-6MW" id="Jnz-jh-H6C"/>
                         </connections>
                     </tableView>
+                    <tabBarItem key="tabBarItem" title="" image="chat_icon_not" selectedImage="chat_icon_not" id="UkO-XM-Ldd">
+                        <inset key="imageInsets" minX="0.0" minY="7" maxX="0.0" maxY="-7"/>
+                    </tabBarItem>
                     <navigationItem key="navigationItem" title="Chats" id="Xcl-RQ-mfM">
                         <barButtonItem key="backBarButtonItem" title="Chats" id="dJE-Di-Zg1"/>
                     </navigationItem>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <segue destination="NHE-hF-LUz" kind="show" identifier="toChat" id="iFe-6h-IjC"/>
                     </connections>
@@ -103,10 +107,10 @@
             </objects>
             <point key="canvasLocation" x="-867.5" y="363"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--My Nav Bar Controller-->
         <scene sceneID="IHN-kS-h8d">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="f5b-HI-6pD" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="f5b-HI-6pD" customClass="MyNavBarController" customModule="barr" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="pNs-JT-gc2">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -122,4 +126,7 @@
             <point key="canvasLocation" x="-2146" y="379"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="chat_icon_not" width="45" height="22"/>
+    </resources>
 </document>

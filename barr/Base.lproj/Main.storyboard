@@ -1,46 +1,55 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="JyD-vg-tsl">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="LJf-fA-QLa">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <scenes>
-        <!--Tab Bar Controller-->
-        <scene sceneID="OUD-fh-gNM">
-            <objects>
-                <tabBarController storyboardIdentifier="TabVC" id="JyD-vg-tsl" sceneMemberID="viewController">
-                    <tabBar key="tabBar" contentMode="scaleToFill" id="bBh-lh-sjV">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    </tabBar>
-                    <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="jvS-ff-D9f"/>
-                        <segue destination="Hs9-rl-bBJ" kind="relationship" relationship="viewControllers" id="FfR-0Y-cxF"/>
-                        <segue destination="BZW-31-6bC" kind="relationship" relationship="viewControllers" id="9zn-m6-GAT"/>
-                        <segue destination="CQz-10-RJq" kind="relationship" relationship="viewControllers" id="ArV-hc-Jeg"/>
-                        <segue destination="pjE-tD-Uvp" kind="relationship" relationship="viewControllers" id="s7X-KW-uTi"/>
-                    </connections>
-                </tabBarController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="uot-aS-h0U" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="524" y="243"/>
-        </scene>
         <!--Account-->
         <scene sceneID="vBe-Rs-Peg">
             <objects>
                 <viewControllerPlaceholder storyboardName="Account" id="BZW-31-6bC" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="iyQ-tr-1Ul"/>
+                    <tabBarItem key="tabBarItem" title="" image="setting_icon_not" selectedImage="setting_icon_sel" id="iyQ-tr-1Ul">
+                        <inset key="imageInsets" minX="0.0" minY="7" maxX="0.0" maxY="-7"/>
+                    </tabBarItem>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="X0s-xw-W27" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="983.5" y="-61"/>
         </scene>
+        <!--TabVC-->
+        <scene sceneID="hl0-EF-IWQ">
+            <objects>
+                <tabBarController storyboardIdentifier="TabVC" title="TabVC" id="LJf-fA-QLa" customClass="MyTabBarController" customModule="barr" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="9Pb-5R-ogL">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="pjE-tD-Uvp" kind="relationship" relationship="viewControllers" id="ATZ-nf-kym"/>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="lJJ-mn-OJE"/>
+                        <segue destination="CQz-10-RJq" kind="relationship" relationship="viewControllers" id="ddX-nr-5FB"/>
+                        <segue destination="Hs9-rl-bBJ" kind="relationship" relationship="viewControllers" id="kfh-Vk-0m8"/>
+                        <segue destination="BZW-31-6bC" kind="relationship" relationship="viewControllers" id="ixP-HV-NLj"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7K3-ev-zjJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="507" y="257"/>
+        </scene>
         <!--Feed-->
         <scene sceneID="pLB-sC-Vpu">
             <objects>
                 <viewControllerPlaceholder storyboardName="Feed" id="pjE-tD-Uvp" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="90r-Q0-d6F"/>
+                    <tabBarItem key="tabBarItem" title="" image="feed_selected_icon" selectedImage="feed_selected_icon" id="90r-Q0-d6F">
+                        <inset key="imageInsets" minX="0.0" minY="7" maxX="0.0" maxY="-7"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="imageWithRenderingMode">
+                                <integer key="value" value="2"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </tabBarItem>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Eh2-Dr-Ydd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -50,7 +59,10 @@
         <scene sceneID="za9-XR-8uA">
             <objects>
                 <viewControllerPlaceholder storyboardName="ChatList" id="Hs9-rl-bBJ" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Chats" id="HPk-WB-cgG"/>
+                    <tabBarItem key="tabBarItem" title="" image="chat_not_selected_icon" selectedImage="chat_icon_not" id="HPk-WB-cgG">
+                        <inset key="imageInsets" minX="0.0" minY="7" maxX="0.0" maxY="-7"/>
+                        <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
+                    </tabBarItem>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1Ty-EM-441" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -60,13 +72,15 @@
         <scene sceneID="JBX-Yu-awY">
             <objects>
                 <viewControllerPlaceholder storyboardName="JoinCircle" id="CQz-10-RJq" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="Fce-vv-Olu"/>
+                    <tabBarItem key="tabBarItem" title="" image="square_selected" selectedImage="square" id="Fce-vv-Olu">
+                        <inset key="imageInsets" minX="0.0" minY="7" maxX="0.0" maxY="-7"/>
+                    </tabBarItem>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hhM-S9-f2U" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="825.5" y="805"/>
         </scene>
-        <!--Item-->
+        <!--Map View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController storyboardIdentifier="mapView" id="BYZ-38-t0r" customClass="MapViewController" customModule="barr" customModuleProvider="target" sceneMemberID="viewController">
@@ -79,7 +93,9 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" id="w6h-QM-1k3"/>
+                    <tabBarItem key="tabBarItem" title="" image="pin_not_selected" selectedImage="pin_not_selected" id="w6h-QM-1k3">
+                        <inset key="imageInsets" minX="0.0" minY="7" maxX="0.0" maxY="-7"/>
+                    </tabBarItem>
                     <navigationItem key="navigationItem" id="763-q9-BAg">
                         <barButtonItem key="leftBarButtonItem" title="Account" id="Jzi-5c-fqK"/>
                         <barButtonItem key="rightBarButtonItem" title="Chats" id="ige-eI-CgZ"/>
@@ -91,4 +107,14 @@
             <point key="canvasLocation" x="1242" y="525"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="chat_icon_not" width="45" height="22"/>
+        <image name="chat_not_selected_icon" width="52" height="21"/>
+        <image name="feed_selected_icon" width="27" height="26"/>
+        <image name="pin_not_selected" width="13" height="34"/>
+        <image name="setting_icon_not" width="28" height="30"/>
+        <image name="setting_icon_sel" width="28" height="30"/>
+        <image name="square" width="24" height="24"/>
+        <image name="square_selected" width="24" height="24"/>
+    </resources>
 </document>

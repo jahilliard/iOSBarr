@@ -100,9 +100,6 @@ class AccountViewController: UIViewController, UICollectionViewDataSource, UICol
             }
         }
         }
-
-        
-        cell.backgroundColor = UIColor.blueColor()
         return cell
     }
         

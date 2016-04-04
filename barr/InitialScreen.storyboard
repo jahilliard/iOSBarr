@@ -3,8 +3,13 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="PrintBold.otf">
+            <string>PrintBold</string>
+        </mutableArray>
+    </customFonts>
     <scenes>
         <!--Initial Screen View Controller-->
         <scene sceneID="kgN-ln-9Ed">
@@ -18,25 +23,40 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="1.png" translatesAutoresizingMaskIntoConstraints="NO" id="XTz-el-utx">
-                                <rect key="frame" x="20" y="20" width="560" height="580"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sorry! We need cell or internet service to hop into the fun." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FGF-dD-izn">
+                                <rect key="frame" x="138" y="398" width="324" height="124"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="324" id="EXJ-Zm-Yzj"/>
+                                    <constraint firstAttribute="width" secondItem="FGF-dD-izn" secondAttribute="height" multiplier="81:65" constant="169.47692307692307" id="OkN-pt-4Gn"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="PrintBold" family="Print Bold" pointSize="36"/>
+                                <color key="textColor" red="0.25098039215686274" green="0.30588235294117649" blue="0.5725490196078431" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon" translatesAutoresizingMaskIntoConstraints="NO" id="0p5-H1-cyT">
+                                <rect key="frame" x="171" y="136" width="258" height="224"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="224" id="Ang-J6-92P"/>
+                                    <constraint firstAttribute="width" constant="258" id="PVy-Rd-iS2"/>
+                                </constraints>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailingMargin" secondItem="XTz-el-utx" secondAttribute="trailing" id="2GL-Vb-rxd"/>
-                            <constraint firstItem="XTz-el-utx" firstAttribute="top" secondItem="Pqd-xM-cj2" secondAttribute="bottom" id="QOS-fL-tUl"/>
-                            <constraint firstItem="XTz-el-utx" firstAttribute="leading" secondItem="W92-Zv-Drc" secondAttribute="leadingMargin" id="nUk-be-RVY"/>
-                            <constraint firstItem="3UC-VA-gbd" firstAttribute="top" secondItem="XTz-el-utx" secondAttribute="bottom" id="xrC-LZ-kHe"/>
+                            <constraint firstItem="FGF-dD-izn" firstAttribute="top" secondItem="0p5-H1-cyT" secondAttribute="bottom" constant="38" id="0In-Jd-Eia"/>
+                            <constraint firstItem="0p5-H1-cyT" firstAttribute="top" secondItem="Pqd-xM-cj2" secondAttribute="bottom" constant="116" id="G86-PY-4cr"/>
+                            <constraint firstItem="3UC-VA-gbd" firstAttribute="top" secondItem="FGF-dD-izn" secondAttribute="bottom" constant="78" id="WkW-ns-EpK"/>
+                            <constraint firstItem="0p5-H1-cyT" firstAttribute="centerX" secondItem="FGF-dD-izn" secondAttribute="centerX" id="YNV-GG-TIp"/>
+                            <constraint firstItem="0p5-H1-cyT" firstAttribute="centerX" secondItem="W92-Zv-Drc" secondAttribute="centerX" id="YWP-1b-TJ9"/>
                         </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IjT-CV-IN1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="256" y="291"/>
+            <point key="canvasLocation" x="118" y="227"/>
         </scene>
     </scenes>
     <resources>
-        <image name="1.png" width="2667" height="4733"/>
+        <image name="icon" width="237" height="235"/>
     </resources>
 </document>

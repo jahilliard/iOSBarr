@@ -3,7 +3,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Account View Controller-->
@@ -18,13 +17,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="raO-dl-UJG">
-                                <rect key="frame" x="20" y="449" width="168" height="68"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="168" id="aOb-w6-5GJ"/>
-                                </constraints>
-                                <state key="normal" title="Login"/>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4GZ-5s-ljN">
                                 <rect key="frame" x="251" y="456" width="168" height="68"/>
                                 <constraints>
@@ -35,18 +27,61 @@
                                     <action selector="logoutButton:" destination="zbk-Bs-QxS" eventType="touchUpInside" id="3N7-9L-Js6"/>
                                 </connections>
                             </button>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="L8v-Yb-bcR">
+                                <rect key="frame" x="0.0" y="64" width="600" height="233"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="233" id="4EP-FC-cPn"/>
+                                </constraints>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="miu-dI-p6G">
+                                    <size key="itemSize" width="232" height="232"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="D10-eC-snL">
+                                        <rect key="frame" x="0.0" y="0.0" width="232" height="232"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="232" height="232"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4cd-9V-34i">
+                                                    <rect key="frame" x="0.0" y="0.0" width="232" height="232"/>
+                                                </imageView>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstItem="4cd-9V-34i" firstAttribute="leading" secondItem="D10-eC-snL" secondAttribute="leading" id="4Th-Bo-Snd"/>
+                                            <constraint firstItem="4cd-9V-34i" firstAttribute="top" secondItem="D10-eC-snL" secondAttribute="top" id="Pzs-xI-Q6J"/>
+                                            <constraint firstAttribute="bottom" secondItem="4cd-9V-34i" secondAttribute="bottom" id="XgQ-Qa-99x"/>
+                                            <constraint firstAttribute="trailing" secondItem="4cd-9V-34i" secondAttribute="trailing" id="rAq-vx-DE1"/>
+                                        </constraints>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="mSc-Nv-4yG" firstAttribute="top" secondItem="4GZ-5s-ljN" secondAttribute="bottom" constant="27" id="1Me-Zx-w5Q"/>
-                            <constraint firstItem="mSc-Nv-4yG" firstAttribute="top" secondItem="raO-dl-UJG" secondAttribute="bottom" constant="34" id="8V6-rR-3s7"/>
                             <constraint firstItem="4GZ-5s-ljN" firstAttribute="top" secondItem="dRe-JJ-yJz" secondAttribute="bottom" constant="392" id="DYm-yT-sEF"/>
-                            <constraint firstItem="4GZ-5s-ljN" firstAttribute="leading" secondItem="raO-dl-UJG" secondAttribute="trailing" constant="63" id="bJg-c4-XJO"/>
-                            <constraint firstItem="raO-dl-UJG" firstAttribute="top" secondItem="dRe-JJ-yJz" secondAttribute="bottom" constant="385" id="g9N-hS-gce"/>
-                            <constraint firstItem="raO-dl-UJG" firstAttribute="leading" secondItem="R2V-fd-JzJ" secondAttribute="leadingMargin" id="oub-dC-Ry8"/>
+                            <constraint firstItem="4GZ-5s-ljN" firstAttribute="leading" secondItem="R2V-fd-JzJ" secondAttribute="leading" constant="251" id="bs3-VN-tzd"/>
+                            <constraint firstItem="L8v-Yb-bcR" firstAttribute="top" secondItem="dRe-JJ-yJz" secondAttribute="bottom" id="ghn-a2-ynX"/>
+                            <constraint firstAttribute="trailing" secondItem="L8v-Yb-bcR" secondAttribute="trailing" id="sJY-ZR-Ddg"/>
+                            <constraint firstItem="L8v-Yb-bcR" firstAttribute="leading" secondItem="R2V-fd-JzJ" secondAttribute="leading" id="vc9-PS-Rv9"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="1uo-nf-ryQ"/>
+                    <tabBarItem key="tabBarItem" title="" image="setting_icon_not" selectedImage="setting_icon_sel" id="kWW-Qf-tfd">
+                        <inset key="imageInsets" minX="0.0" minY="7" maxX="0.0" maxY="-7"/>
+                    </tabBarItem>
+                    <navigationItem key="navigationItem" id="1uo-nf-ryQ">
+                        <barButtonItem key="rightBarButtonItem" title="Logout" id="JSb-pI-OoR">
+                            <connections>
+                                <action selector="logoutButton:" destination="zbk-Bs-QxS" id="M4K-ko-7Ie"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <segue destination="NBV-Xz-waU" kind="show" identifier="selectAlb" id="Ynp-Qc-iB9"/>
@@ -54,7 +89,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pnd-Kc-KKG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1415" y="408"/>
+            <point key="canvasLocation" x="1243" y="336"/>
         </scene>
         <!--albumView-->
         <scene sceneID="jlK-1V-iBu">
@@ -98,7 +133,7 @@
         <!--Item-->
         <scene sceneID="CAI-1O-0wp">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="1E9-PT-I0f" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="1E9-PT-I0f" customClass="MyNavBarController" customModule="barr" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Item" id="GKM-iv-lGL"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="N9H-8y-Xom">
@@ -115,4 +150,8 @@
             <point key="canvasLocation" x="535" y="324"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="setting_icon_not" width="28" height="30"/>
+        <image name="setting_icon_sel" width="28" height="30"/>
+    </resources>
 </document>

@@ -77,6 +77,13 @@ class ChatListViewController: UITableViewController {
         let chatOrder = self.chatOrder;
         let chateeId = chatOrder[indexPath.row];
         cell.initialize(chateeId);
+        
+        let colorArr = [UIColor(red: 212, green: 22, blue: 28),UIColor(red: 133, green: 210, blue: 224), UIColor(red: 42, green: 162, blue: 140), UIColor(red: 222, green: 32, blue: 110), UIColor(red: 236, green: 180, blue: 65),UIColor(red: 79, green: 193, blue: 158), UIColor(red: 62, green: 19, blue: 61)]
+        
+        let topDiv = UIView(frame: CGRect(origin: CGPoint(x: 0, y:  cell.frame.height-1), size: CGSize(width: cell.frame.width, height: 1)))
+        topDiv.backgroundColor = colorArr[indexPath.row%colorArr.count]
+        cell.addSubview(topDiv)
+        
         return cell;
     }
     

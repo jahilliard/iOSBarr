@@ -5,7 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <scenes>
-        <!--Root View Controller-->
+        <!--Feed-->
         <scene sceneID="nKn-9k-NWy">
             <objects>
                 <tableViewController id="IiW-qf-oAL" customClass="FeedViewController" customModule="barr" customModuleProvider="target" sceneMemberID="viewController">
@@ -50,16 +50,25 @@
                             <outlet property="delegate" destination="IiW-qf-oAL" id="t1m-TG-yby"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Root View Controller" id="0DA-FF-fyG"/>
+                    <tabBarItem key="tabBarItem" title="" image="feed_selected_icon" selectedImage="feed_selected_icon" id="7Tl-xN-3o2">
+                        <inset key="imageInsets" minX="0.0" minY="7" maxX="0.0" maxY="-7"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="imageWithRenderingMode">
+                                <integer key="value" value="2"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </tabBarItem>
+                    <navigationItem key="navigationItem" title="Feed" id="0DA-FF-fyG"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5uN-yr-IBI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="904" y="125"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--My Nav Bar Controller-->
         <scene sceneID="giv-Js-mBx">
             <objects>
-                <navigationController id="rut-3V-kgr" sceneMemberID="viewController">
+                <navigationController id="rut-3V-kgr" customClass="MyNavBarController" customModule="barr" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="s1l-2A-kiG">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -73,4 +82,7 @@
             <point key="canvasLocation" x="84" y="125"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="feed_selected_icon" width="27" height="26"/>
+    </resources>
 </document>
