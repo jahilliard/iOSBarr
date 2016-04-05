@@ -14,7 +14,7 @@ let CircleUpdateNotification = "barr.com.app.CircleUpdateNotification";
 
 class Circle {
     var locationId : String?;
-    var circleId: String?;
+    var circleId: String!;
     var members : [String: UserInfo] = [String: UserInfo]();
     var memberArray: [UserInfo] = [UserInfo]();
     
@@ -23,10 +23,20 @@ class Circle {
     
     private init(){}
     
-    func initCircle(dictionary: JSON) {
+    func initCircle(dictionary: JSON) -> Bool {
         self.memberArray = [UserInfo]();
         self.members = [String: UserInfo]();
-        self.circleId = dictionary["circleId"].string;
+        
+        if let circleId = dictionary["circleId"].string {
+            //not in a circle
+            if (circleId == "") {
+                return false;
+            }
+            self.circleId = circleId;
+        } else {
+            return false;
+        }
+        
         let members = dictionary["members"].arrayValue;
         
         for userInfo in members{
@@ -37,6 +47,8 @@ class Circle {
         if members.count > 0 {
             self.notifyCircle();
         }
+        
+        return true;
     }
     
     static func addMemberToCircleByLocation(lat: Double, lon: Double, completion: (res: JSON) -> Void){
@@ -122,25 +134,49 @@ class Circle {
         //notify user now
     }
     
-    func getCircleInfo(){
+    func getCircleInfo(callback : String? -> Void){
         let subdomain = "api/v1/users/\(Me.user.userId!)/circle/";
 
         AlamoHelper.authorizedGet(subdomain, parameters: [String: AnyObject](), completion: {err, result in
             if (err != nil){
                 //TODO: handle this better
-                self.getCircleInfo();
+                self.getCircleInfo(callback);
                 return;
             }
                 
             else if (result!["message"].string != "success") {
-                self.getCircleInfo();
+                self.getCircleInfo(callback);
                 return;
             }
                 
             else {
-                self.initCircle(result!["data"]);
+                if (self.initCircle(result!["data"])) {
+                    callback(result!["data"]["circleId"].string!);
+                } else {
+                    self.getCircleInfo(callback);
+                }
             }
         });
+    }
+    
+    static func getProfilePicture(userId: String, completion: UIImage -> Void) {
+        if let userInfo = Circle.sharedInstance.members[userId] {
+            //set photo
+            if userInfo.pictures.count > 0 {
+                let picURL = userInfo.pictures[0];
+                if let img = Circle.sharedInstance.userCellPhotoInfoCache.objectForKey(picURL) as? UIImage{
+                    completion(img)
+                } else {
+                    DownloadImage.downloadImage(NSURL(string: picURL)!) {
+                        img in
+                        completion(img);
+                    }
+                }
+            } else {
+                //TODO: set default photo
+                completion(UIImage(imageLiteral: "defaultProfilePicture.jpg"));
+            }
+        }
     }
     
     static func getPreview(locationId : String) -> [String]{

@@ -16,7 +16,7 @@ let headers = [
 struct AlamoHelper {
     static let MAX_ATTEMPTS : UInt64 = 5;
 
-    static let domain = "http://192.168.1.50:3000/"
+    static let domain = "http://10.0.0.3:3000/"
 
     static func authorizedGet(subdomain: String, var parameters: [String: AnyObject], completion: (err: NSError?, response: JSON?) -> Void){
         if let accessToken = Me.user.accessToken, userId = Me.user.userId {
@@ -40,7 +40,6 @@ struct AlamoHelper {
     
     static func getAttempt(subdomain: String, parameters: [String: AnyObject]?, completion: (err: NSError?, response: JSON?) -> Void, attempt: UInt64){
         if let params = parameters {
-            print(self.domain + subdomain)
             Alamofire.request(.GET, self.domain + subdomain, headers: headers, parameters: params, encoding: .URL)
                 .validate(statusCode: 200..<300)
                 .validate(contentType: ["application/json"])
@@ -123,6 +122,25 @@ struct AlamoHelper {
                         print(json["message"])
                     }
                 }
+        }
+    }
+    
+    static func getFeedMedia(resourceId : String, callback: (NSError?, NSData?) -> Void) {
+        let mediaURL = self.domain + "api/v1/feed/" + resourceId + "/content";
+        if let accessToken = Me.user.accessToken, userId = Me.user.userId {
+            var params : [String: AnyObject] = [String: AnyObject]();
+            params["x_key"] = userId;
+            params["access_token"] = accessToken;
+            Alamofire.request(.GET, mediaURL, parameters: params).response() {
+                (request, response, data, err) in
+                if err != nil {
+                    print(err);
+                    //TODO: handle error
+                    return;
+                }
+
+                callback(nil, data);
+            }
         }
     }
     

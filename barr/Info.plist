@@ -85,6 +85,11 @@
 	</dict>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Location is required to find out where you are</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>PrintBold.otf</string>
+		<string>Lobster.otf</string>
+	</array>
 	<key>UIBackgroundModes</key>
 	<string>location</string>
 	<key>UILaunchStoryboardName</key>
@@ -94,11 +99,6 @@
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
-	</array>
-	<key>UIAppFonts</key>
-	<array>
-		<string>PrintBold.otf</string>
-		<string>Lobster.otf</string>
 	</array>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>

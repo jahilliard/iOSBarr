@@ -153,7 +153,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     @objc func checkNewMessage(notification : NSNotification){
-        if let info = notification.userInfo as? Dictionary<String, AnyObject>,chateeId = info["chateeId"] as? String, count = info["count"] as? Int{
+        if let info = notification.userInfo as? Dictionary<String, AnyObject>, chateeId = info["chateeId"] as? String, count = info["count"] as? Int{
                 if (chateeId == self.otherUserInfo.userId){
                     //self.messagesTableView.reloadData();
                     self.appendNewMessages(count);

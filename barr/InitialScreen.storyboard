@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Initial Screen View Controller-->
@@ -14,20 +13,23 @@
                         <viewControllerLayoutGuide type="top" id="Pqd-xM-cj2"/>
                         <viewControllerLayoutGuide type="bottom" id="3UC-VA-gbd"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="W92-Zv-Drc">
+                    <view key="view" contentMode="scaleToFill" id="iYZ-PX-Cbk">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="1.png" translatesAutoresizingMaskIntoConstraints="NO" id="XTz-el-utx">
-                                <rect key="frame" x="20" y="20" width="560" height="580"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="icon" translatesAutoresizingMaskIntoConstraints="NO" id="1W2-g6-QfM">
+                                <rect key="frame" x="184" y="183" width="233" height="233"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Hopskotch" translatesAutoresizingMaskIntoConstraints="NO" id="pWx-9B-eSc">
+                                <rect key="frame" x="228" y="424" width="146" height="38"/>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailingMargin" secondItem="XTz-el-utx" secondAttribute="trailing" id="2GL-Vb-rxd"/>
-                            <constraint firstItem="XTz-el-utx" firstAttribute="top" secondItem="Pqd-xM-cj2" secondAttribute="bottom" id="QOS-fL-tUl"/>
-                            <constraint firstItem="XTz-el-utx" firstAttribute="leading" secondItem="W92-Zv-Drc" secondAttribute="leadingMargin" id="nUk-be-RVY"/>
-                            <constraint firstItem="3UC-VA-gbd" firstAttribute="top" secondItem="XTz-el-utx" secondAttribute="bottom" id="xrC-LZ-kHe"/>
+                            <constraint firstItem="1W2-g6-QfM" firstAttribute="centerX" secondItem="iYZ-PX-Cbk" secondAttribute="centerX" id="5Vd-1N-ZTf"/>
+                            <constraint firstItem="pWx-9B-eSc" firstAttribute="top" secondItem="1W2-g6-QfM" secondAttribute="bottom" constant="8" id="W4l-4u-41D"/>
+                            <constraint firstItem="pWx-9B-eSc" firstAttribute="centerX" secondItem="1W2-g6-QfM" secondAttribute="centerX" id="hCc-f3-HgO"/>
+                            <constraint firstItem="1W2-g6-QfM" firstAttribute="centerY" secondItem="iYZ-PX-Cbk" secondAttribute="centerY" id="t88-8I-F0V"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -37,6 +39,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="1.png" width="2667" height="4733"/>
+        <image name="Hopskotch" width="145" height="36"/>
+        <image name="icon" width="237" height="235"/>
     </resources>
 </document>

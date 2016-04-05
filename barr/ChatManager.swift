@@ -69,7 +69,7 @@ class ChatManager {
                 continue;
             }
             
-            if let lastMsgNum = chatDict["lastMsgNum"].int, dateString = chatDict["date"].string, date = Helper.dateFromString(dateString),chateeId = userInfoJSON["_id"].string
+            if let lastMsgNum = chatDict["lastMsgNum"].int, dateString = chatDict["date"].string, date = Helper.dateFromString(dateString), chateeId = userInfoJSON["_id"].string
             {
                 var newChat : Chat? = nil;
                 

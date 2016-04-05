@@ -87,7 +87,7 @@ class SocketManager {
         //create new socket
         let connectParams = ["id": Me.user.userId!, "access_token": Me.user.accessToken!];
         
-        self.socket = SocketIOClient(socketURL: NSURL(string: "http://10.0.0.2:3000")!, options: ["connectParams" : connectParams]);
+        self.socket = SocketIOClient(socketURL: NSURL(string: "http://10.0.0.3:3000")!, options: ["connectParams" : connectParams]);
 
         print("SOCKET MANAGER INITING");
         
@@ -110,8 +110,10 @@ class SocketManager {
             //retrieve latest chats
             ChatManager.sharedInstance.getLatestChats();
             //get latest circle info 
-            Circle.sharedInstance.getCircleInfo();
-            //get latest offer info
+            Circle.sharedInstance.getCircleInfo({circleId in
+                FeedManager.sharedInstance.restartFeed();
+                FeedManager.sharedInstance.getLatestFeedEntries();
+            });
             print("socket connected");
             //display map view controller
             
