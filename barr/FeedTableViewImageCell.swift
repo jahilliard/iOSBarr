@@ -19,6 +19,13 @@ class FeedTableViewImageCell: UITableViewCell{
     var entryInfo : FeedEntry!;
     var reloadCellDelegate : ReloadCellDelegate!;
     
+    func clearCell(){
+        self.mainImage.image = nil;
+        self.postText.text = nil;
+        self.userNickname.text = nil;
+        self.userImg.image = nil;
+    }
+    
     func initCell(entryInfo: FeedEntry, reloadCellDelegate: ReloadCellDelegate) {
         self.reloadCellDelegate = reloadCellDelegate;
         self.entryInfo = entryInfo;
@@ -32,28 +39,6 @@ class FeedTableViewImageCell: UITableViewCell{
         var newFrame : CGRect = self.postText.frame;
         newFrame.size = newFrameSize;
         self.postText.frame = newFrame;*/
-        
-        if let img = self.entryInfo.mainImage {
-            self.mainImage.image = img;
-        } else {
-            Circle.getProfilePicture(entryInfo.authorInfo.userId, completion: {img in self.userImg.image = img});
-            
-            AlamoHelper.getFeedMedia(self.entryInfo.entryId, callback: {(err, data) in
-                if err != nil || data == nil{
-                    //TODO: notify user on screen of connection/get error
-                    return;
-                } else {
-                    if let image = UIImage(data: data!) {
-                        self.entryInfo.mainImage = image;
-                        self.mainImage.image = image;
-                        self.entryInfo.imageHeight = image.size.height;
-                        reloadCellDelegate.reloadCellWithEntryId(self.entryInfo.entryId);
-                    } else {
-                        //TODO: handle bad image
-                    }
-                }
-            });
-        }
     }
     
     override func awakeFromNib() {

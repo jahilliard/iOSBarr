@@ -25,13 +25,15 @@ class FeedEntry {
     let text: String;
     var mainImage: UIImage? = nil;
     let date: NSDate;
+    let dateString: String;
     var imageHeight : CGFloat = 0;
     
-    init(authorInfo: UserInfo, entryId: String, type: FeedEntryEnum, text: String, date: NSDate){
+    init(authorInfo: UserInfo, entryId: String, type: FeedEntryEnum, text: String, dateString: String, date: NSDate){
         self.authorInfo = authorInfo;
         self.entryId = entryId;
         self.type = type;
         self.text = text;
+        self.dateString = dateString;
         self.date = date;
     }
 }

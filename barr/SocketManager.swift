@@ -87,7 +87,7 @@ class SocketManager {
         //create new socket
         let connectParams = ["id": Me.user.userId!, "access_token": Me.user.accessToken!];
         
-        self.socket = SocketIOClient(socketURL: NSURL(string: "http://10.0.0.3:3000")!, options: ["connectParams" : connectParams]);
+        self.socket = SocketIOClient(socketURL: NSURL(string: "http://10.0.0.2:3000")!, options: ["connectParams" : connectParams]);
 
         print("SOCKET MANAGER INITING");
         
@@ -104,6 +104,8 @@ class SocketManager {
             /*ChatManager.sharedInstance.addChatMessage(sender, ownerId: sender, message: messageText);*/
         });
         
+        /*self.socket!.on("newFeedPosts", callback: {(data, ack) in self.FeedManager.});*/
+
         self.socket!.on("newCircleMember", callback: {(data, ack) in print("NEW CIRCLE MEMBER")});
         
         self.socket!.on("connect", callback: {(data, ack) in

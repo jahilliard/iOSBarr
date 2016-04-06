@@ -15,6 +15,8 @@ protocol ReloadCellDelegate {
 class FeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, ReloadCellDelegate {
     let MAX_IMAGE_HEIGHT : CGFloat = 300.0;
     
+    var numUnretrieved = 0;
+    
     @IBOutlet weak var feedTableView: UITableView!
     
     private var feedEntries : [FeedEntry] {
@@ -26,10 +28,26 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewDidLoad() {
         super.viewDidLoad()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FeedViewController.updateEntries(_:)), name: newFeedEntriesNotification, object: nil);
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FeedViewController.clearEntries(_:)), name: clearFeedNotification, object: nil);
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FeedViewController.loadIfNecessary(_:)), name: loadIfNecessaryNotifictation, object: nil);
         self.feedTableView.delegate = self;
         self.feedTableView.dataSource = self;
         
         //self.tableView.registerClass(FeedTableViewCell.self, forCellReuseIdentifier: "Cell")
+    }
+    
+    func loadIfNecessary(notification : NSNotification) {
+        if let visibleIndexPaths = self.feedTableView.indexPathsForVisibleRows
+        {
+            if visibleIndexPaths.indexOf({$0.row == 0}) != nil {
+                FeedManager.sharedInstance.getFeedEntries();
+            }
+        }
+    }
+    
+    @objc func clearEntries(notification : NSNotification){
+        self.feedTableView.reloadData();
     }
     
     @objc func updateEntries(notification : NSNotification){
@@ -48,7 +66,6 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
             return;
         }
     }
-    
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(true)
@@ -89,7 +106,54 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
             case FeedEntry.FeedEntryEnum.IMAGE:
                 cell = tableView.dequeueReusableCellWithIdentifier("FeedTableViewImageCell", forIndexPath: indexPath) as! FeedTableViewImageCell;
                 let derived : FeedTableViewImageCell = cell as! FeedTableViewImageCell;
+                derived.clearCell();
                 derived.initCell(feedEntry, reloadCellDelegate: self);
+                
+                if indexPath.row == 0 && !FeedManager.sharedInstance.retrievingEntries && FeedManager.sharedInstance.numNewEntries > 0
+                {
+                    FeedManager.sharedInstance.getFeedEntries();
+                }
+                
+                //set profile picture
+                if feedEntry.authorInfo.pictures.count > 0 {
+                    Circle.getProfilePictureByURL(feedEntry.authorInfo.pictures[0], completion: {profileImg in
+                        dispatch_async(dispatch_get_main_queue(), {
+                            //check same cell hasnt been reused
+                            if let cellToUpdate = tableView.cellForRowAtIndexPath(indexPath) as? FeedTableViewImageCell where cellToUpdate.entryInfo.entryId == feedEntry.entryId {
+                                cellToUpdate.userImg.image = profileImg;
+                            }
+                        });
+                    });
+                } else {
+                    derived.userImg.image = UIImage(imageLiteral: "defaultProfilePicture.jpg");
+                }
+                
+                //set main body image
+                if let img = feedEntry.mainImage {
+                    derived.mainImage.image = img;
+                } else {
+                    AlamoHelper.getFeedMedia(feedEntry.entryId, callback: {(err, data) in
+                        if err != nil || data == nil{
+                            //TODO: notify user on screen of connection/get error
+                            return;
+                        } else {
+                            if let image = UIImage(data: data!) {
+                                feedEntry.mainImage = image;
+                                feedEntry.imageHeight = image.size.height;
+                                dispatch_async(dispatch_get_main_queue(), {
+                                    //check same cell hasnt been reused
+                                    if let cellToUpdate = tableView.cellForRowAtIndexPath(indexPath) as? FeedTableViewImageCell where cellToUpdate.entryInfo.entryId == feedEntry.entryId {
+                                        cellToUpdate.mainImage.image = image;
+                                        self.reloadCellWithEntryId(feedEntry.entryId);
+                                    }
+                                });
+                            } else {
+                                //TODO: handle bad image
+                            }
+                        }
+                    });
+                }
+                
                 break;
             
             case FeedEntry.FeedEntryEnum.VIDEO:
@@ -101,7 +165,23 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
             case FeedEntry.FeedEntryEnum.TEXT:
                 cell = tableView.dequeueReusableCellWithIdentifier("FeedTableViewTextCell", forIndexPath: indexPath) as! FeedTableViewTextCell;
                 let derived : FeedTableViewTextCell = cell as! FeedTableViewTextCell;
+                derived.clearCell();
                 derived.initCell(feedEntry);
+                
+                //set profile picture
+                if feedEntry.authorInfo.pictures.count > 0 {
+                    Circle.getProfilePictureByURL(feedEntry.authorInfo.pictures[0], completion: {profileImg in
+                        dispatch_async(dispatch_get_main_queue(), {
+                            //check same cell hasnt been reused
+                            if let cellToUpdate = tableView.cellForRowAtIndexPath(indexPath) as? FeedTableViewTextCell where cellToUpdate.entryInfo.entryId == feedEntry.entryId {
+                                cellToUpdate.userImg.image = profileImg;
+                            }
+                        });
+                    });
+                } else {
+                    derived.userImg.image = UIImage(imageLiteral: "defaultProfilePicture.jpg");
+                }
+                
                 break;
         }
         
@@ -140,8 +220,13 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
                 let oldTextViewHeight = genericCell.postText.frame.height;
                 let oldImageHeight = genericCell.mainImage.frame.height;
                 let newImageHeight = min(feedEntry.imageHeight, MAX_IMAGE_HEIGHT);
-                let heightDifference = newImageHeight - oldImageHeight;
-                height = oldHeight + heightDifference + (feedEntry.text.heightWithConstrainedWidth(textViewWidth, font: genericCell.postText.font!) - oldTextViewHeight);
+                let imageHeightDifference = newImageHeight - oldImageHeight;
+                
+                genericCell.postText.text = feedEntry.text;
+                let newTextSize : CGSize = genericCell.postText.sizeThatFits(CGSize(width: textViewWidth, height: CGFloat.max));
+                let newTextViewHeight = newTextSize.height;
+                
+                height = oldHeight + imageHeightDifference + (newTextViewHeight - oldTextViewHeight);
                 break;
                 
             case FeedEntry.FeedEntryEnum.VIDEO:
@@ -153,7 +238,12 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
                 let textViewWidth = genericCell.postText.frame.width;
                 let oldTextViewHeight = genericCell.postText.frame.height;
                 
-                height = oldHeight + (feedEntry.text.heightWithConstrainedWidth(textViewWidth, font: genericCell.postText.font!) - oldTextViewHeight);
+                //calculate size for text
+                genericCell.postText.text = feedEntry.text;
+                let newTextSize : CGSize = genericCell.postText.sizeThatFits(CGSize(width: textViewWidth, height: CGFloat.max));
+                let newTextViewHeight = newTextSize.height;
+                
+                height = oldHeight + (newTextViewHeight - oldTextViewHeight);
                 break;
         }
         return height;

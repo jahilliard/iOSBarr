@@ -16,10 +16,15 @@ class FeedTableViewTextCell: UITableViewCell {
     
     var entryInfo : FeedEntry!;
     
+    func clearCell(){
+        self.postText.text = nil;
+        self.userNickname.text = nil;
+        self.userImg.image = nil;
+    }
+    
     func initCell(entryInfo: FeedEntry) {
         self.entryInfo = entryInfo;
         self.userNickname.text = entryInfo.authorInfo.nickname;
-        Circle.getProfilePicture(entryInfo.authorInfo.userId, completion: {img in self.userImg.image = img});
         self.postText.text = entryInfo.text;
         /*let fixedWidth = self.postText.frame.size.width;
         let newTextSize : CGSize = self.postText.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.max));
@@ -27,7 +32,6 @@ class FeedTableViewTextCell: UITableViewCell {
         var newFrame : CGRect = self.postText.frame;
         newFrame.size = newFrameSize;
         self.postText.frame = newFrame;*/
-        self.layoutIfNeeded();
     }
     
     override func awakeFromNib() {

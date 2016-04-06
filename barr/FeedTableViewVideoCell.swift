@@ -18,7 +18,11 @@ class FeedTableViewVideoCell: UITableViewCell {
     func initCell(entryInfo: FeedEntry) {
         self.entryInfo = entryInfo;
         self.userNickname.text = entryInfo.authorInfo.nickname;
-        Circle.getProfilePicture(entryInfo.authorInfo.userId, completion: {img in self.userImg.image = img});
+        if entryInfo.authorInfo.pictures.count > 0 {
+            Circle.getProfilePictureByURL(entryInfo.authorInfo.pictures[0], completion: {img in self.userImg.image = img});
+        } else {
+            self.userImg.image = UIImage(imageLiteral: "defaultProfilePicture.jpg");
+        }
     }
     
     override func awakeFromNib() {

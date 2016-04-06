@@ -169,6 +169,7 @@ class Circle {
                 } else {
                     DownloadImage.downloadImage(NSURL(string: picURL)!) {
                         img in
+                        Circle.sharedInstance.userCellPhotoInfoCache.setObject(img, forKey: picURL)
                         completion(img);
                     }
                 }
@@ -179,6 +180,19 @@ class Circle {
         }
     }
     
+    static func getProfilePictureByURL(picURL: String, completion: UIImage -> Void) {
+        //set photo
+        if let img = Circle.sharedInstance.userCellPhotoInfoCache.objectForKey(picURL) as? UIImage{
+            completion(img)
+        } else {
+            DownloadImage.downloadImage(NSURL(string: picURL)!) {
+                img in
+                Circle.sharedInstance.userCellPhotoInfoCache.setObject(img, forKey: picURL)
+                completion(img);
+            }
+        }
+    }
+
     static func getPreview(locationId : String) -> [String]{
         var picArr: [String]
         AlamoHelper.GET("api/v1/room/locations/" + locationId, parameters: ["x_key": Me.user.userId!, "access_token": Me.user.accessToken!], completion: {
