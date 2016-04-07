@@ -23,7 +23,6 @@ class FeedEntry {
     let entryId: String;
     let type: FeedEntryEnum;
     let text: String;
-    var mainImage: UIImage? = nil;
     let date: NSDate;
     let dateString: String;
     var imageHeight : CGFloat = 0;

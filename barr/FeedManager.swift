@@ -14,10 +14,10 @@ import SwiftyJSON
 
 let newFeedEntriesNotification = "barr.app.newFeedEntriesNotification";
 let clearFeedNotification = "barr.app.clearFeedEntriesNotification";
-let loadIfNecessaryNotifictation = "barr.app.loadIfNecessaryNotifictation";
+//let loadIfNecessaryNotifictation = "barr.app.loadIfNecessaryNotifictation";
 
 class FeedManager {
-    let RETRIEVE_AMOUNT = 50;
+    let RETRIEVE_AMOUNT = 3;
     //in seconds
     let RETRIEVE_INTERVAL : Double = 3;
     
@@ -26,19 +26,20 @@ class FeedManager {
     var feedEntries : [FeedEntry] = [];
     var seenEntries: [String: Bool] = [String: Bool]();
     var feedAuthorInfo : [String: UserInfo] = [String: UserInfo]();
-    var latestUpdate : NSDate!;
-    var latestDateString : String!;
     var numNewEntries: Int = 0;
+    var numOldEntries: Int = 0;
+    var imgCache: NSCache = NSCache();
     
     //make sure only one retrieval/processing of retrieval is happening at a time
-    var retrievingEntries : Bool = false;
+    var retrievingNewEntries : Bool = false;
+    var retrievingOldEntries : Bool = false;
+    //make sure callback returns before getting more updates
+    var retrievingNumUpdates : Bool = false;
     
     func restartFeed() {
         self.feedEntries = [];
         self.seenEntries = [String: Bool]();
         self.feedAuthorInfo = [String: UserInfo]();
-        self.latestUpdate = nil;
-        self.latestDateString = nil;
         self.numNewEntries = 0;
         NSNotificationCenter.defaultCenter().postNotificationName(clearFeedNotification, object: self, userInfo: nil);
     }
@@ -118,45 +119,98 @@ class FeedManager {
     }
     
     @objc func retrieveNumUpdates(){
+        if (self.retrievingNumUpdates) {
+            return;
+        }
         var params : [String: AnyObject] = [String: AnyObject]();
-        params["latestUpdate"] = self.latestDateString;
+        if self.feedEntries.count > 0 {
+            params["latestDate"] = self.feedEntries[0].dateString;
+        }
+        self.retrievingNumUpdates = true;
         AlamoHelper.authorizedGet("api/v1/feed/\(Circle.sharedInstance.circleId)/numUpdates", parameters: params, completion: {(err, resp) in
             if (err != nil) {
+                self.retrievingNumUpdates = false;
                 return;
             }
             
-            if let numNewEntries = resp!["numNewEntries"].int, let latestDateString = resp!["latestDate"].string, latestDate = Helper.dateFromString(latestDateString) where numNewEntries > 0
+            if let latestDateString = resp!["latestDate"].string, numNewEntries = resp!["numNewEntries"].int where numNewEntries > 0
             {
-                self.latestUpdate = latestDate;
-                self.latestDateString = latestDateString;
-                self.numNewEntries += numNewEntries;
-                NSNotificationCenter.defaultCenter().postNotificationName(loadIfNecessaryNotifictation, object: self, userInfo: nil);
+                //check no updates have happened in between
+                
+                if (latestDateString == "null" && self.feedEntries.count == 0) ||
+                    ((self.feedEntries.count > 0) && (latestDateString == self.feedEntries[0].dateString))
+                {
+                    self.numNewEntries = numNewEntries;
+                    /*NSNotificationCenter.defaultCenter().postNotificationName(loadIfNecessaryNotifictation, object: self, userInfo: nil);*/
+                }
             }
+            
+            self.retrievingNumUpdates = false;
         })
     }
     
     func getFeedEntries() {
+        if FeedManager.sharedInstance.retrievingNewEntries || FeedManager.sharedInstance.numNewEntries == 0 {
+            return;
+        }
+        
         var params = [String: AnyObject]();
         params["numEntriesToFetch"] = min(numNewEntries, RETRIEVE_AMOUNT);
         if self.feedEntries.count > 0 {
             params["earliestDate"] = feedEntries[0].dateString;
         }
         
-        self.retrievingEntries = true;
+        self.retrievingNewEntries = true;
         AlamoHelper.authorizedGet("api/v1/feed/\(Circle.sharedInstance.circleId)/updates", parameters: params, completion: {(err, resp) in
             if err != nil || resp!["message"].string != "success" {
-                self.retrievingEntries = false;
+                self.retrievingNewEntries = false;
                 return;
             }
             
+            print(resp!["entries"].arrayValue.count);
             if resp!["entries"].arrayValue.count == 0 {
-                self.retrievingEntries = false;
+                self.retrievingNewEntries = false;
                 return;
             }
             
-            self.processFeedEntryAuthors(resp!["entryAuthors"]);
-            self.processLatestFeedEntries(resp!["entries"]);
-            self.retrievingEntries = false;
+            if let numUnretrieved = resp!["numUnretrieved"].int {
+                self.processFeedEntryAuthors(resp!["entryAuthors"]);
+                self.processLatestFeedEntries(resp!["entries"]);
+                self.numNewEntries = numUnretrieved;
+            }
+            self.retrievingNewEntries = false;
+        });
+    }
+    
+    func getOlderEntries() {
+        if FeedManager.sharedInstance.retrievingOldEntries || FeedManager.sharedInstance.numOldEntries == 0 || self.feedEntries.count <= 0
+        {
+            return;
+        }
+        
+        var params = [String: AnyObject]();
+        params["numEntriesToFetch"] = min(numOldEntries, RETRIEVE_AMOUNT);
+        params["latestDate"] = self.feedEntries[self.feedEntries.count - 1].dateString;
+        
+        self.retrievingOldEntries = true;
+        AlamoHelper.authorizedGet("api/v1/feed/\(Circle.sharedInstance.circleId)/older", parameters: params, completion: {(err, resp) in
+            if err != nil || resp!["message"].string != "success" {
+                self.retrievingOldEntries = false;
+                return;
+            }
+            
+            print(resp!["entries"].arrayValue.count);
+            if resp!["entries"].arrayValue.count == 0 {
+                self.retrievingOldEntries = false;
+                return;
+            }
+            
+            if let numUnretrieved = resp!["numUnretrieved"].int {
+                self.processFeedEntryAuthors(resp!["entryAuthors"]);
+                self.processLatestFeedEntries(resp!["entries"]);
+                self.numOldEntries = numUnretrieved;
+            }
+            self.retrievingOldEntries = false;
         });
     }
     
@@ -164,7 +218,7 @@ class FeedManager {
     func getLatestFeedEntries() {
         var params = [String: AnyObject]();
         params["numEntriesToFetch"] = RETRIEVE_AMOUNT;
-        self.retrievingEntries = true;
+        self.retrievingNewEntries = true;
         AlamoHelper.authorizedGet("api/v1/feed/\(Circle.sharedInstance.circleId)/latest", parameters: params, completion: {(err, resp) in
             if (err != nil) {
                 //TODO: handle error
@@ -174,16 +228,13 @@ class FeedManager {
                 if resp!["message"].string != "success" {
                     self.getLatestFeedEntries();
                 } else {
-                    if let numNewEntries = resp!["numRemainingEntries"].int where resp!["entryAuthors"] != nil && resp!["entries"] != nil
+                    if let numOldEntries = resp!["numRemainingEntries"].int where resp!["entryAuthors"] != nil && resp!["entries"] != nil
                     {
                         self.processFeedEntryAuthors(resp!["entryAuthors"]);
                         self.processLatestFeedEntries(resp!["entries"]);
-                        self.numNewEntries -= numNewEntries;
-                        self.retrievingEntries = false;
-                        if self.feedEntries.count > 0 {
-                            self.latestUpdate = self.feedEntries[0].date;
-                            self.latestDateString = self.feedEntries[0].dateString;
-                        }
+                        self.retrievingNewEntries = false;
+                        self.numOldEntries = numOldEntries;
+                        print(self.feedEntries.count);
                         FeedManager.sharedInstance.startFeedPolling();
                     }
                 }
