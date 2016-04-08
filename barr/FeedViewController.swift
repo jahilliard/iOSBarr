@@ -14,10 +14,17 @@ protocol ReloadCellDelegate {
 
 class FeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, ReloadCellDelegate, UIScrollViewDelegate {
     let MAX_IMAGE_HEIGHT : CGFloat = 300.0;
+
+    
     let minOffsetToTriggerRefresh : CGFloat = 200;
+    
     var numUnretrieved = 0;
     
     @IBOutlet weak var feedTableView: UITableView!
+    @IBOutlet weak var yourTabPicture: UIImageView!
+    @IBAction func IBOutletvaronNewFeedEntryTappedUITapGestureRecognizer(sender: AnyObject) {
+        self.performSegueWithIdentifier("toNewFeedEntry", sender: self);
+    }
     
     private var feedEntries : [FeedEntry] {
         get {
@@ -33,6 +40,11 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         /*NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FeedViewController.loadIfNecessary(_:)), name: loadIfNecessaryNotifictation, object: nil);*/
         self.feedTableView.delegate = self;
         self.feedTableView.dataSource = self;
+        if let imagesArr = Me.user.picturesArr where imagesArr.count > 0 {
+            Circle.getProfilePictureByURL(imagesArr[0], completion: {img in self.yourTabPicture.image = img});
+        } else {
+            self.yourTabPicture.image = UIImage(imageLiteral: "defaultProfilePicture.jpg");
+        }
         
         //self.tableView.registerClass(FeedTableViewCell.self, forCellReuseIdentifier: "Cell")
     }
@@ -331,10 +343,25 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         return height;
     }
     
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if (segue.identifier == "toNewFeedEntry") {
+            let newFeedEntryViewController = segue.destinationViewController as! UINavigationController;
+            newFeedEntryViewController.hidesBottomBarWhenPushed = true;
+        }
+    }
+    
     func reloadCellWithEntryId(entryId: String) {
         let index = self.feedEntries.indexOf({$0.entryId == entryId})!;
         let indexPath = [NSIndexPath(forRow: index, inSection: 0)];
         self.feedTableView.reloadRowsAtIndexPaths(indexPath, withRowAnimation: UITableViewRowAnimation.Automatic);
+    }
+    
+    @IBAction func cancelToFeedViewController(segue:UIStoryboardSegue) {
+        
+    }
+    
+    @IBAction func postNewFeedEntry(segue:UIStoryboardSegue) {
+        
     }
     
     func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool)

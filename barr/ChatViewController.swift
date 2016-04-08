@@ -62,7 +62,6 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ChatViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil);
         
-        print("OPENING CHAT");
         ChatManager.sharedInstance.openChat(self.otherUserInfo);
     }
     

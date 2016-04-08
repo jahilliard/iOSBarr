@@ -64,6 +64,8 @@
 		20DC98CE1CB0E4E700FA81C8 /* defaultProfilePicture.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 20DC98CD1CB0E4E700FA81C8 /* defaultProfilePicture.jpg */; };
 		20DC98D01CB1FF0B00FA81C8 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20DC98CF1CB1FF0B00FA81C8 /* FeedViewController.swift */; };
 		20E4894F1C9272FC00ED8FB0 /* helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E4894E1C9272FC00ED8FB0 /* helper.swift */; };
+		20F647D11CB7276B00E2A1D7 /* NewFeedEntry.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 20F647D01CB7276B00E2A1D7 /* NewFeedEntry.storyboard */; };
+		20F647D31CB72CB200E2A1D7 /* NewFeedEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F647D21CB72CB200E2A1D7 /* NewFeedEntryViewController.swift */; };
 		6C53F475284FCDC6D9E0BB24 /* Pods_barr.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E57B0860CCB306E6589A125 /* Pods_barr.framework */; };
 /* End PBXBuildFile section */
 
@@ -140,6 +142,8 @@
 		20DC98CD1CB0E4E700FA81C8 /* defaultProfilePicture.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = defaultProfilePicture.jpg; path = ../../Downloads/defaultProfilePicture.jpg; sourceTree = "<group>"; };
 		20DC98CF1CB1FF0B00FA81C8 /* FeedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		20E4894E1C9272FC00ED8FB0 /* helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = helper.swift; sourceTree = "<group>"; };
+		20F647D01CB7276B00E2A1D7 /* NewFeedEntry.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = NewFeedEntry.storyboard; sourceTree = "<group>"; };
+		20F647D21CB72CB200E2A1D7 /* NewFeedEntryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewFeedEntryViewController.swift; sourceTree = "<group>"; };
 		36CDFA35C0D7F6EA94DAAE26 /* Pods-barr.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-barr.debug.xcconfig"; path = "Pods/Target Support Files/Pods-barr/Pods-barr.debug.xcconfig"; sourceTree = "<group>"; };
 		433DC74FE6359325AE41CE9E /* Pods-barr.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-barr.release.xcconfig"; path = "Pods/Target Support Files/Pods-barr/Pods-barr.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -262,6 +266,7 @@
 				207FCF2E1CA0E8FB0077BB35 /* InitialScreen.storyboard */,
 				207FCF381CA9FD890077BB35 /* UserProfile.storyboard */,
 				0CAB94591CAD9D430095D858 /* Feed.storyboard */,
+				20F647D01CB7276B00E2A1D7 /* NewFeedEntry.storyboard */,
 			);
 			name = Storyboards;
 			sourceTree = "<group>";
@@ -280,6 +285,7 @@
 				0C2346021C8B70B400250B3E /* SelectPhotosViewController.swift */,
 				207FCF3A1CAA025C0077BB35 /* UserProfileViewController.swift */,
 				20DC98CF1CB1FF0B00FA81C8 /* FeedViewController.swift */,
+				20F647D21CB72CB200E2A1D7 /* NewFeedEntryViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -429,6 +435,7 @@
 				0CAE28731C78C72E00CE4F92 /* Login.storyboard in Resources */,
 				207FCF391CA9FD890077BB35 /* UserProfile.storyboard in Resources */,
 				0C3EA74A1C713A9D0039193B /* Account.storyboard in Resources */,
+				20F647D11CB7276B00E2A1D7 /* NewFeedEntry.storyboard in Resources */,
 				207FCF2F1CA0E8FB0077BB35 /* InitialScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -535,6 +542,7 @@
 				0C44DD2C1C6FE70D00B88039 /* AccountViewController.swift in Sources */,
 				0C5694581CA2E862001C4EA7 /* SelectAlbumViewController.swift in Sources */,
 				20DC98D01CB1FF0B00FA81C8 /* FeedViewController.swift in Sources */,
+				20F647D31CB72CB200E2A1D7 /* NewFeedEntryViewController.swift in Sources */,
 				0CC1946A1C97150E00F3BD7A /* LocationTracker.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
