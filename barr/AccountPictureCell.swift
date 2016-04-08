@@ -12,24 +12,27 @@ protocol AccountPictureCellDelegate {
     func preformSegue(cellToMod: AccountPictureCell)
 }
 
-class AccountPictureCell: PhotoCollectionViewCell {
+class AccountPictureCell: UICollectionViewCell {
     
     var delegate: AccountPictureCellDelegate? = nil
-    var accountImg: UIImage?
     var index: Int?
     var isDefault: Bool?
     
-    override init(frame: CGRect) {
-        
-        super.init(frame:frame)
-        
-        let tapGestureRecognizer = UITapGestureRecognizer(target:self, action:Selector("cellTapped:"))
-        super.galleryImage.userInteractionEnabled = true
-        super.galleryImage.addGestureRecognizer(tapGestureRecognizer)
+    @IBOutlet weak var accountImg: UIImageView!
+    
+    func initialize(img: UIImage){
+        self.accountImg.image = img
+        self.accountImg.contentMode = UIViewContentMode.ScaleAspectFill
     }
     
+    override init(frame: CGRect) {
+//        accountImg = UIImageView(frame: frame)
+        super.init(frame: frame);
+    }
+    
+    
     required init(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: aDecoder)!
     }
     
     func cellTapped(sender: UIImageView)  {
