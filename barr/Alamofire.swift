@@ -144,6 +144,51 @@ struct AlamoHelper {
         }
     }
     
+    static func postNewFeedEntry(img: UIImage?, params: [String: AnyObject], completion: (err : NSError?, response: JSON?) -> Void)
+    {
+        var params = params;
+        if let accessToken = Me.user.accessToken, userId = Me.user.userId {
+            params["x_key"] = userId;
+            params["access_token"] = accessToken;
+        } else {
+            completion(err: NSError(domain: "user was never authenticated", code: 400, userInfo: nil), response: nil);
+        }
+        
+        Alamofire.upload(.POST, domain + "api/v1/feed", multipartFormData: {
+            multipartFormData in
+            
+            if let uploadImg = img {
+                if let imageData = UIImageJPEGRepresentation(uploadImg, 0.5) {
+                    multipartFormData.appendBodyPart(data: imageData, name: "newFile", fileName: "file.png", mimeType: "image/png")
+                }
+            }
+            
+            for (key, value) in params {
+                multipartFormData.appendBodyPart(data: value.dataUsingEncoding(NSUTF8StringEncoding)!, name: key)
+            }
+            
+            }, encodingCompletion: { encodingResult in
+                switch encodingResult {
+                    case .Success(let upload, _, _):
+                        upload.responseJSON { response in
+                            //success block
+                            if let value = response.result.value {
+                                completion(err: nil, response: JSON(value));
+                            }
+                        }
+                        
+                        /*upload.progress { _, totalBytesRead, totalBytesExpectedToRead in
+                            let progress = Float(totalBytesRead)/Float(totalBytesExpectedToRead)
+                            // progress block
+                        }*/
+                    
+                    case .Failure(let error):
+                        //failure block
+                        completion(err: error as NSError, response: nil);
+                }
+        });
+    }
+    
     static func DELETE(subdomain: String, parameters:[String: AnyObject], completion: ((response: JSON) -> Void)?){
         Alamofire.request(.DELETE, self.domain + subdomain, headers: headers, parameters: parameters, encoding: .JSON)
             .validate(statusCode: 200..<300)

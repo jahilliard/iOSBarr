@@ -16,7 +16,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     let MAX_IMAGE_HEIGHT : CGFloat = 300.0;
 
     
-    let minOffsetToTriggerRefresh : CGFloat = 200;
+    let minOffsetToTriggerRefresh : CGFloat = 100;
     
     var numUnretrieved = 0;
     
@@ -360,8 +360,28 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         
     }
     
-    @IBAction func postNewFeedEntry(segue:UIStoryboardSegue) {
-        
+    @IBAction func postNewFeedEntry(segue: UIStoryboardSegue) {
+        if let newFeedEntryViewController = segue.sourceViewController as? NewFeedEntryViewController
+        {
+            var image : UIImage? = nil;
+            
+            var params = [String: AnyObject]();
+            if let text = newFeedEntryViewController.text {
+                params["text"] = text;
+            } else {
+                params["text"] = "";
+            }
+            if let img = newFeedEntryViewController.selectedImage {
+                image = img;
+            }
+            
+            AlamoHelper.postNewFeedEntry(image, params: params, completion: {(err, resp) in
+                if err != nil || resp!["message"] != "success" {
+                    //TODO: handle
+                } else {
+                    
+                }})
+        }
     }
     
     func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool)

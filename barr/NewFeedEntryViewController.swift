@@ -8,20 +8,25 @@
 
 import UIKit
 
-class NewFeedEntryViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class NewFeedEntryViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate, UIScrollViewDelegate {
     let imagePicker = UIImagePickerController();
     var selectedImage : UIImage? = nil;
+    var text : String? = nil;
     
     @IBOutlet weak var scrollArea: UIScrollView!
-    @IBOutlet weak var textBox: UITextView!
+    var textBox: UITextView = UITextView();
     
-    @IBOutlet weak var postContentArea: UIView!
+    //var postContentArea: UIView!
     
     @IBAction func onImageButtonPressed(sender: AnyObject) {
         imagePicker.allowsEditing = false
         imagePicker.sourceType = .PhotoLibrary
         
         presentViewController(imagePicker, animated: true, completion: nil)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        self.scrollArea.contentSize.width = self.scrollArea.frame.width;
     }
     
     override func viewDidLoad() {
@@ -32,7 +37,19 @@ class NewFeedEntryViewController: UIViewController, UIImagePickerControllerDeleg
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(NewFeedEntryViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil);
         
+        self.scrollArea.delegate = self
         self.imagePicker.delegate = self;
+        self.textBox.delegate = self;
+        self.scrollArea.showsHorizontalScrollIndicator = false;
+        print(self.scrollArea.frame.width);
+        self.scrollArea.contentSize.width = self.scrollArea.frame.width;
+        self.scrollArea.contentSize.height = 5;
+        self.textBox.text = "Enter New Post...";
+        self.textBox.textColor = UIColor.lightGrayColor();
+        self.textBox.font = UIFont(name: self.textBox.font!.fontName, size: 18);
+        self.resizeTextBox();
+        self.textBox.scrollEnabled = false;
+        self.scrollArea.addSubview(self.textBox);
         /*print(self.textBox.frame.size);
         self.scrollSpace.contentSize = CGSize(width: self.textBox.frame.size.width, height: self.textBox.contentSize.height);
         self.textBox.contentSize = CGSize(width: self.textBox.frame.size.width, height: self.textBox.contentSize.height);*/
@@ -76,18 +93,20 @@ class NewFeedEntryViewController: UIViewController, UIImagePickerControllerDeleg
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
             self.selectedImage = pickedImage;
-            let image = UIImageView(image: pickedImage);
+            let image = UIImageView();
             image.contentMode = .ScaleAspectFill;
-            let imgHeight = min(pickedImage.size.height, self.textBox.frame.height);
-            let path = CGRectMake(0, self.postContentArea.frame.origin.y + self.postContentArea.frame.height, self.textBox.frame.width, imgHeight);
-            print(self.textBox.contentSize.height);
+            image.clipsToBounds = true;
+            let imgHeight : CGFloat = 300.0;//min(pickedImage.size.height, self.textBox.frame.height);
+            let path = CGRectMake(0, self.scrollArea.contentSize.height, self.scrollArea.frame.width, imgHeight);
             image.frame = path;
+            image.image = pickedImage;
             //self.textBox.textContainer.exclusionPaths = [path];
-            self.postContentArea.frame = CGRectMake(self.postContentArea.frame.origin.x, self.postContentArea.frame.origin.y, self.postContentArea.frame.width, postContentArea.frame.height + imgHeight);
+            self.scrollArea.contentSize.height += imgHeight;
             
-            self.postContentArea.addSubview(image);
-            self.postContentArea.layoutIfNeeded();
-            self.scrollArea.layoutIfNeeded();
+            self.scrollArea.insertSubview(image, belowSubview: self.textBox);
+            print(image.frame);
+            print(self.scrollArea.frame);
+            print(self.scrollArea.contentSize.width);
         }
         
         dismissViewControllerAnimated(true, completion: nil)
@@ -95,6 +114,43 @@ class NewFeedEntryViewController: UIViewController, UIImagePickerControllerDeleg
     
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {
         dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func resizeTextBox() {
+        let fixedWidth = self.scrollArea.frame.size.width;
+        self.textBox.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.max));
+        let newHeight = self.textBox.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.max)).height;
+        let heightDifference = newHeight - self.textBox.frame.height;
+        var newFrame = self.textBox.frame;
+        newFrame.size = CGSize(width: fixedWidth, height: newHeight);
+        self.textBox.frame = newFrame;
+        
+        for subview in self.scrollArea.subviews {
+            if let imgView = subview as? UIImageView {
+                imgView.frame.origin.y += heightDifference;
+            }
+        }
+        self.scrollArea.contentSize.height += heightDifference;
+    }
+    
+    func textViewDidChange(textView: UITextView) {
+        self.resizeTextBox();
+        print(self.textBox.frame.height);
+        print(self.scrollArea.contentSize.height);
+        print(self.scrollArea.contentSize.width);
+    }
+    
+    func textViewDidBeginEditing(textView: UITextView) {
+        if textView.textColor == UIColor.lightGrayColor() {
+            textView.text = nil
+            textView.textColor = UIColor.blackColor()
+        }
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "PostNewFeedEntry" {
+            self.text = self.textBox.text;
+        }
     }
     
     deinit{

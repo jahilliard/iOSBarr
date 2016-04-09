@@ -18,42 +18,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" bounces="NO" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uvO-LC-jiI">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aqM-p6-t9C">
                                 <rect key="frame" x="20" y="64" width="560" height="492"/>
-                                <subviews>
-                                    <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="u2W-44-Jo1">
-                                        <rect key="frame" x="0.0" y="0.0" width="560" height="38"/>
-                                        <subviews>
-                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" text="Your Post..." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="RVH-qL-8T9">
-                                                <rect key="frame" x="0.0" y="0.0" width="560" height="33"/>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                <color key="textColor" red="0.80413510099999996" green="0.80413510099999996" blue="0.80413510099999996" alpha="1" colorSpace="calibratedRGB"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                            </textView>
-                                        </subviews>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstItem="RVH-qL-8T9" firstAttribute="top" secondItem="u2W-44-Jo1" secondAttribute="top" id="CRh-tN-vCm"/>
-                                            <constraint firstItem="RVH-qL-8T9" firstAttribute="leading" secondItem="u2W-44-Jo1" secondAttribute="leading" id="N1E-mw-loA"/>
-                                            <constraint firstAttribute="trailing" secondItem="RVH-qL-8T9" secondAttribute="trailing" id="imE-Ek-iPE"/>
-                                        </constraints>
-                                    </view>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="u2W-44-Jo1" secondAttribute="trailing" id="I2f-nb-gfn"/>
-                                    <constraint firstItem="u2W-44-Jo1" firstAttribute="leading" secondItem="uvO-LC-jiI" secondAttribute="leading" id="MWF-PE-z02"/>
-                                    <constraint firstItem="u2W-44-Jo1" firstAttribute="top" secondItem="uvO-LC-jiI" secondAttribute="top" id="dMH-CD-arW"/>
-                                    <constraint firstAttribute="bottom" secondItem="u2W-44-Jo1" secondAttribute="bottom" id="pcO-FJ-eZo"/>
-                                    <constraint firstItem="u2W-44-Jo1" firstAttribute="width" secondItem="uvO-LC-jiI" secondAttribute="width" id="tih-4S-iAA"/>
-                                </constraints>
                             </scrollView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RKC-3f-9YV">
                                 <rect key="frame" x="0.0" y="556" width="600" height="44"/>
                                 <items>
-                                    <barButtonItem title="Image" id="65D-0O-kSj">
+                                    <barButtonItem title="Image" id="1a2-HH-BJ4">
                                         <connections>
-                                            <action selector="onImageButtonPressed:" destination="q2h-v3-UYx" id="jPO-UN-Xgm"/>
+                                            <action selector="onImageButtonPressed:" destination="q2h-v3-UYx" id="Xms-Ws-F0v"/>
                                         </connections>
                                     </barButtonItem>
                                 </items>
@@ -63,11 +36,11 @@
                         <constraints>
                             <constraint firstItem="RKC-3f-9YV" firstAttribute="leading" secondItem="6qV-TD-rH7" secondAttribute="leading" id="2wW-36-Mjx"/>
                             <constraint firstItem="7Ad-eg-UJD" firstAttribute="top" secondItem="RKC-3f-9YV" secondAttribute="bottom" id="6wC-is-EPA"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="uvO-LC-jiI" secondAttribute="trailing" id="80W-fl-DKP"/>
-                            <constraint firstItem="RKC-3f-9YV" firstAttribute="top" secondItem="uvO-LC-jiI" secondAttribute="bottom" id="DUf-Vk-VO5"/>
-                            <constraint firstItem="uvO-LC-jiI" firstAttribute="top" secondItem="neO-vL-XB3" secondAttribute="bottom" id="GSJ-Ye-rjP"/>
                             <constraint firstAttribute="trailing" secondItem="RKC-3f-9YV" secondAttribute="trailing" id="UQa-q1-szL"/>
-                            <constraint firstItem="uvO-LC-jiI" firstAttribute="leading" secondItem="6qV-TD-rH7" secondAttribute="leadingMargin" id="g5F-dR-KMm"/>
+                            <constraint firstItem="aqM-p6-t9C" firstAttribute="trailing" secondItem="6qV-TD-rH7" secondAttribute="trailingMargin" id="dNk-p3-Ht1"/>
+                            <constraint firstItem="aqM-p6-t9C" firstAttribute="leading" secondItem="6qV-TD-rH7" secondAttribute="leadingMargin" id="fal-sp-7EM"/>
+                            <constraint firstItem="RKC-3f-9YV" firstAttribute="top" secondItem="aqM-p6-t9C" secondAttribute="bottom" id="qGd-HX-A9x"/>
+                            <constraint firstItem="aqM-p6-t9C" firstAttribute="top" secondItem="neO-vL-XB3" secondAttribute="bottom" id="vmE-Nv-HoD"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="New Post" id="LGP-97-jnA">
@@ -78,14 +51,12 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Post" id="Eqf-6p-XlL">
                             <connections>
-                                <segue destination="yB5-9U-Cbz" kind="unwind" unwindAction="postNewFeedEntry:" id="lDX-lU-54z"/>
+                                <segue destination="yB5-9U-Cbz" kind="unwind" identifier="PostNewFeedEntry" unwindAction="postNewFeedEntry:" id="lDX-lU-54z"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="postContentArea" destination="u2W-44-Jo1" id="CXg-0N-eTj"/>
-                        <outlet property="scrollArea" destination="uvO-LC-jiI" id="tTA-8z-9Ze"/>
-                        <outlet property="textBox" destination="RVH-qL-8T9" id="aHu-hR-fNH"/>
+                        <outlet property="scrollArea" destination="aqM-p6-t9C" id="gIO-Vm-VxG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kCd-HQ-XTz" userLabel="First Responder" sceneMemberID="firstResponder"/>
