@@ -15,7 +15,7 @@ class ChatListTableViewCell: UITableViewCell {
     
     func initialize(chateeId: String){
         if let chat = ChatManager.sharedInstance.getChat(chateeId) {
-            nameLabel.text = chat.chatee.firstName + " " + chat.chatee.lastName;
+            nameLabel.text = chat.chatee.nickname;
             if let previewText = chat.preview {
                 self.preview.text = previewText;
             } else {

@@ -20,7 +20,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     var otherUserInfo : UserInfo! {
         didSet {
-            self.title = self.otherUserInfo.firstName + " " + self.otherUserInfo.lastName;
+            self.title = self.otherUserInfo.nickname;
         }
     }
     
@@ -183,14 +183,73 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
 
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("MessageTableViewCell", forIndexPath: indexPath) as! MessageTableViewCell
-
-        // Configure the cell...
+        var cell : MessageTableViewCell!;
+        var bgImage : UIImage!;
         let msg = self.chatMessages[indexPath.row] as Message
-        cell.initialize(msg);
+        let msgText = msg.message;
+        
+        if (msg.sender == Me.user.userId) {
+            //we were the sender, right align
+            cell = tableView.dequeueReusableCellWithIdentifier("YourMessageTableViewCell", forIndexPath: indexPath) as! MessageTableViewCell
+            bgImage = UIImage(imageLiteral: "chat_to_icon.png");
+            bgImage.stretchableImageWithLeftCapWidth(24, topCapHeight: 15);
+        } else {
+            cell = tableView.dequeueReusableCellWithIdentifier("OtherMessageTableViewCell", forIndexPath: indexPath) as! MessageTableViewCell
+            bgImage = UIImage(imageLiteral: "chat_from_icon.png");
+            bgImage.stretchableImageWithLeftCapWidth(24, topCapHeight: 15);
+        }
+        
+        // Configure the cell...
+        cell.initialize(msg, bgImage: bgImage);
         cell.delegate = self;
         
+        //begin bubble implementation
+        /*let MAX_WIDTH : CGFloat = 260.0;
+        var newFrame = cell.messageArea.frame;
+        cell.messageArea.sizeThatFits(CGSize(width: MAX_WIDTH, height: CGFloat.max));
+        let newSize = cell.messageArea.sizeThatFits(CGSize(width: MAX_WIDTH, height: CGFloat.max));
+        newFrame.size = CGSize(width: MAX_WIDTH, height: newSize.height);*/
+        
+        /*cell.messageArea.text = msgText;
+        let MAX_WIDTH : CGFloat = 350.0;
+        let constraintRect = CGSize(width: MAX_WIDTH, height: CGFloat.max)
+        let rect = msgText.boundingRectWithSize(constraintRect, options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: [NSFontAttributeName: UIFont.systemFontOfSize(16.0)], context: nil);
+        
+        cell.messageArea.frame = rect;
+        cell.bgImageView.frame = rect;
+        cell.userInteractionEnabled = false;
+        cell.bgImageView.image = bgImage;
+        cell.bgImageView.layoutIfNeeded();
+        cell.messageArea.layoutIfNeeded();*/
+
         return cell;
+    }
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        struct cellHolder {
+            static var msgCellGeneric : MessageTableViewCell? = nil;
+        }
+        
+        if cellHolder.msgCellGeneric == nil {
+            cellHolder.msgCellGeneric = self.messagesTableView.dequeueReusableCellWithIdentifier("YourMessageTableViewCell") as! MessageTableViewCell;
+        }
+        
+        // Configure the cell...
+        let cell = cellHolder.msgCellGeneric!;
+        let msg = self.chatMessages[indexPath.row] as Message
+        let msgText = msg.message;
+        cell.messageArea.text = msgText;
+        
+        let MAX_WIDTH : CGFloat = 260.0;
+        let constraintRect = CGSize(width: MAX_WIDTH, height: CGFloat.max)
+        let rect = msgText.boundingRectWithSize(constraintRect, options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: [NSFontAttributeName: UIFont.systemFontOfSize(16.0)], context: nil);
+        
+        return rect.height + 40;
+        
+        /*let MAX_WIDTH : CGFloat = 260.0;
+        cell.messageArea.sizeThatFits(CGSize(width: MAX_WIDTH, height: CGFloat.max));
+        let newSize = cell.messageArea.sizeThatFits(CGSize(width: MAX_WIDTH, height: CGFloat.max));
+        return newSize.height;*/
     }
 
     func reloadRow(rowIndex: Int){
@@ -284,7 +343,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func sendMessage(myMessage: Message) {
         myMessage.status = Message.MessageStatus.PENDING;
-        self.reloadRow(self.findRowForMessagNum(myMessage.messageNum!));
+        //self.reloadRow(self.findRowForMessagNum(myMessage.messageNum!));
         ChatManager.sharedInstance.sendMessage(self.otherUserInfo.userId, message: myMessage, callback: {(err, data) in
             print("IN CALLBACK");
                 if (err != nil) {

@@ -13,15 +13,19 @@ protocol CellResendDelegate {
 }
 
 class MessageTableViewCell: UITableViewCell {
-    @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var resendButton: UIButton!
     
     var delegate : CellResendDelegate?
     var msg : Message?
     
+    @IBOutlet weak var bgImageView: UIImageView!
+    @IBOutlet weak var messageArea: UITextView!
+    @IBOutlet weak var bgImageWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var resendButtonWidthConstraint: NSLayoutConstraint!
     @IBAction func OnButtonClick(sender: UIButton)
     {
+        self.resendButtonWidthConstraint.constant = 0.0;
+        self.resendButton.hidden = true;
         self.delegate!.resendMsg(self.msg!);
     }
     
@@ -32,16 +36,35 @@ class MessageTableViewCell: UITableViewCell {
         }
     }*/
     
-    func initialize(msg: Message){
-        self.resendButton.hidden = true;
+    func initialize(msg: Message, bgImage: UIImage){
+        if self.resendButton != nil {
+            self.resendButton.hidden = true;
+            self.resendButtonWidthConstraint.constant = 0.0;
+        }
         
         if (msg.status == Message.MessageStatus.FAILED) {
-            self.resendButton.hidden = false;
+            if self.resendButton != nil {
+                self.resendButton.hidden = false;
+                self.resendButtonWidthConstraint.constant = 52.0;
+            }
         }
         
         self.msg = msg;
-        nameLabel.text = msg.sender;
-        messageLabel.text = msg.message;
+        messageArea.text = msg.message;
+        
+        let MAX_WIDTH : CGFloat = 260.0;
+        let PADDING: CGFloat = 20.0;
+        let constraintRect = CGSize(width: MAX_WIDTH, height: CGFloat.max)
+        var newFrame = self.bgImageView.frame;
+        let rect = msg.message.boundingRectWithSize(constraintRect, options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: [NSFontAttributeName: UIFont.systemFontOfSize(16.0)], context: nil);
+        
+        let newWidth = rect.width + PADDING;
+        newFrame.size = CGSize(width: newWidth, height: rect.height + PADDING);
+        self.bgImageWidthConstraint.constant = newWidth;
+        self.messageArea.frame = newFrame;
+        self.bgImageView.frame = newFrame;
+        self.userInteractionEnabled = false;
+        self.bgImageView.image = bgImage;
     }
     
     override func awakeFromNib() {

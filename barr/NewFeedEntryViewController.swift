@@ -92,12 +92,15 @@ class NewFeedEntryViewController: UIViewController, UIImagePickerControllerDeleg
     
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            let heightWidthRatio = pickedImage.size.height/pickedImage.size.width;
             self.selectedImage = pickedImage;
             let image = UIImageView();
             image.contentMode = .ScaleAspectFill;
             image.clipsToBounds = true;
-            let imgHeight : CGFloat = 300.0;//min(pickedImage.size.height, self.textBox.frame.height);
-            let path = CGRectMake(0, self.scrollArea.contentSize.height, self.scrollArea.frame.width, imgHeight);
+            let imgWidth = self.scrollArea.frame.width;
+            let imgHeight = heightWidthRatio * imgWidth;
+            //let imgHeight : CGFloat = 300.0;//min(pickedImage.size.height, self.textBox.frame.height);
+            let path = CGRectMake(0, self.scrollArea.contentSize.height, imgWidth, imgHeight);
             image.frame = path;
             image.image = pickedImage;
             //self.textBox.textContainer.exclusionPaths = [path];
@@ -148,7 +151,7 @@ class NewFeedEntryViewController: UIViewController, UIImagePickerControllerDeleg
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "PostNewFeedEntry" {
+        if segue.identifier == "PostNewFeedEntry" && self.textBox.textColor != UIColor.lightGrayColor() {
             self.text = self.textBox.text;
         }
     }
