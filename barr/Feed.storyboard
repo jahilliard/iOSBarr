@@ -209,7 +209,7 @@
                             <constraint firstItem="Maf-8U-Efn" firstAttribute="top" secondItem="Pe2-m8-PFD" secondAttribute="bottom" id="1yo-uu-vag"/>
                             <constraint firstItem="Pe2-m8-PFD" firstAttribute="leading" secondItem="blv-C7-5u6" secondAttribute="leading" id="4EB-n6-gGH"/>
                             <constraint firstItem="Maf-8U-Efn" firstAttribute="leading" secondItem="blv-C7-5u6" secondAttribute="leading" id="Gu6-SD-uRg"/>
-                            <constraint firstItem="Pe2-m8-PFD" firstAttribute="top" secondItem="rad-T3-oqU" secondAttribute="bottom" id="QlQ-nd-tu2"/>
+                            <constraint firstItem="Pe2-m8-PFD" firstAttribute="top" secondItem="rad-T3-oqU" secondAttribute="bottom" id="WHW-Wn-PDF"/>
                             <constraint firstAttribute="trailing" secondItem="Pe2-m8-PFD" secondAttribute="trailing" id="ctP-Lq-KjB"/>
                             <constraint firstAttribute="trailing" secondItem="Maf-8U-Efn" secondAttribute="trailing" id="dMF-d2-KU7"/>
                             <constraint firstItem="pdz-cv-xZA" firstAttribute="top" secondItem="Maf-8U-Efn" secondAttribute="bottom" id="sie-Tg-6zd"/>
@@ -220,6 +220,8 @@
                     </navigationItem>
                     <connections>
                         <outlet property="feedTableView" destination="Maf-8U-Efn" id="PaR-yb-mLU"/>
+                        <outlet property="postFeedBar" destination="Pe2-m8-PFD" id="v71-Ql-lve"/>
+                        <outlet property="postFeedBarTopConstraint" destination="WHW-Wn-PDF" id="9Uf-yH-uRj"/>
                         <outlet property="yourTabPicture" destination="Ab9-Xe-d5l" id="V82-73-XbN"/>
                         <segue destination="CBt-RQ-UdF" kind="presentation" identifier="toNewFeedEntry" id="RmO-eo-33p"/>
                     </connections>
