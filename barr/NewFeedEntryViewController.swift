@@ -18,6 +18,14 @@ class NewFeedEntryViewController: UIViewController, UIImagePickerControllerDeleg
     
     //var postContentArea: UIView!
     
+    @IBAction func onTakeImageButtonPressed(sender: AnyObject) {
+        imagePicker.allowsEditing = false
+        imagePicker.sourceType =  UIImagePickerControllerSourceType.Camera;
+        imagePicker.cameraCaptureMode = UIImagePickerControllerCameraCaptureMode.Photo;
+        
+        presentViewController(imagePicker, animated: true, completion: nil)
+    }
+    
     @IBAction func onImageButtonPressed(sender: AnyObject) {
         imagePicker.allowsEditing = false
         imagePicker.sourceType = .PhotoLibrary

@@ -24,9 +24,14 @@
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RKC-3f-9YV">
                                 <rect key="frame" x="0.0" y="556" width="600" height="44"/>
                                 <items>
-                                    <barButtonItem title="Image" id="1a2-HH-BJ4">
+                                    <barButtonItem title="Attatch Photo" id="1a2-HH-BJ4">
                                         <connections>
-                                            <action selector="onImageButtonPressed:" destination="q2h-v3-UYx" id="Xms-Ws-F0v"/>
+                                            <action selector="onImageButtonPressed:" destination="q2h-v3-UYx" id="tg3-p0-ajX"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem title="Take Photo" id="nHT-qc-wq4">
+                                        <connections>
+                                            <action selector="onTakeImageButtonPressed:" destination="q2h-v3-UYx" id="Bik-t9-Pm7"/>
                                         </connections>
                                     </barButtonItem>
                                 </items>
