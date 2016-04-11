@@ -45,8 +45,9 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cXb-X1-Cvc">
+                                                <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cXb-X1-Cvc">
                                                     <rect key="frame" x="8" y="108" width="584" height="98"/>
+                                                    <gestureRecognizers/>
                                                 </imageView>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="Insert Post Here" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="qvJ-sf-AQj">
                                                     <rect key="frame" x="8" y="63" width="584" height="40"/>
@@ -224,6 +225,7 @@
                         <outlet property="postFeedBarTopConstraint" destination="WHW-Wn-PDF" id="9Uf-yH-uRj"/>
                         <outlet property="yourTabPicture" destination="Ab9-Xe-d5l" id="V82-73-XbN"/>
                         <segue destination="CBt-RQ-UdF" kind="presentation" identifier="toNewFeedEntry" id="RmO-eo-33p"/>
+                        <segue destination="eEN-E3-JSH" kind="presentation" identifier="toMainImage" id="y9r-2j-euh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qrd-pA-odm" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -242,6 +244,14 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0qI-8V-JTT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2042.5" y="117"/>
+        </scene>
+        <!--DisplayFeedImage-->
+        <scene sceneID="5GQ-fE-KNh">
+            <objects>
+                <viewControllerPlaceholder storyboardName="DisplayFeedImage" id="eEN-E3-JSH" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fWO-Oq-xdP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2047.5" y="281"/>
         </scene>
     </scenes>
 </document>

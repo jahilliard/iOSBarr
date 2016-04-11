@@ -12,7 +12,11 @@ protocol ReloadCellDelegate {
     func reloadCellWithEntryId(entryId: String)
 }
 
-class FeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, ReloadCellDelegate, UIScrollViewDelegate {
+protocol DisplayPictureDelegate {
+    func displayImage(image: UIImage);
+}
+
+class FeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, ReloadCellDelegate, UIScrollViewDelegate, DisplayPictureDelegate {
     
     @IBOutlet weak var postFeedBarTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var postFeedBar: UIView!
@@ -151,7 +155,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
                 cell = tableView.dequeueReusableCellWithIdentifier("FeedTableViewImageCell", forIndexPath: indexPath) as! FeedTableViewImageCell;
                 let derived : FeedTableViewImageCell = cell as! FeedTableViewImageCell;
                 derived.clearCell();
-                derived.initCell(feedEntry, reloadCellDelegate: self);
+                derived.initCell(feedEntry, displayPictureDelegate: self);
                 
                 /*if indexPath.row == 0 && FeedManager.sharedInstance.numNewEntries > 0
                 {
@@ -368,6 +372,18 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
             let newFeedEntryViewController = segue.destinationViewController as! UINavigationController;
             newFeedEntryViewController.hidesBottomBarWhenPushed = true;
         }
+        
+        else if (segue.identifier == "toMainImage") {
+            if let img = sender as? UIImage {
+                let displayImageController = segue.destinationViewController as! DisplayFeedImageViewController;
+                displayImageController.mainImage = img;
+                displayImageController.hidesBottomBarWhenPushed = true;
+            }
+        }
+    }
+    
+    func displayImage(image: UIImage) {
+        self.performSegueWithIdentifier("toMainImage", sender: image);
     }
     
     func reloadCellWithEntryId(entryId: String) {
