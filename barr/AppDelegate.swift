@@ -58,8 +58,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.window?.rootViewController = initialViewController;
             self.window?.makeKeyAndVisible();
         } else {
-            LocationTracker.tracker.startLocationTracking()
-            
             let storyboard = UIStoryboard(name: "Login", bundle: nil)
             let initialViewController = storyboard.instantiateViewControllerWithIdentifier("LoginScreen")
             self.window?.rootViewController = initialViewController
