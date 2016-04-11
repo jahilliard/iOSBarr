@@ -47,12 +47,17 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(false)
+        
         if let picURL = Me.user.picturesArr {
             if picURL.count > 0 {
                 print(picURL[0])
             }
         }
         mapview?.delegate = self
+        
+        if let locationCoords = LocationTracker.tracker.currentCoord {
+            mapview!.animateToLocation(locationCoords)
+        }
         
     }
     

@@ -26,14 +26,41 @@ class LocationTracker : NSObject, CLLocationManagerDelegate {
     
     static var timer: NSTimer = NSTimer()
     
-    private override init()  {
-        super.init()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(LocationTracker.applicationEnterBackground), name: UIApplicationDidEnterBackgroundNotification, object: nil)
+    func registerRegionsToMonitor(nearbyLocations: [Location]){
+        stopMonitoringRegions()
+        for loc in nearbyLocations {
+            let region = CLCircularRegion(center: CLLocationCoordinate2D(latitude: CLLocationDegrees(loc.lat!), longitude: CLLocationDegrees(loc.lon!)), radius: 100, identifier: loc.id!);
+            print("monitoring region \(region)")
+            LocationTracker.tracker.locationManager.startMonitoringForRegion(region);
+        }
     }
     
-    // MARK: Application in background
-    func applicationEnterBackground() {
-        LocationTracker.tracker.locationManager.startMonitoringVisits()
+    func stopMonitoringRegions(){
+        for region in self.locationManager.monitoredRegions {
+            LocationTracker.tracker.locationManager.stopMonitoringForRegion(region);
+        }
+    }
+    
+    func locationManager(manager: CLLocationManager, didExitRegion region: CLRegion) {
+        Circle.deleteMemberFromCircleByID(region.identifier) {
+            (res) in
+            self.showNotification("added to room \(res["message"])")
+        }
+        
+        print("Did get ready to exit region \(region)")
+    }
+    
+    func locationManager(manager: CLLocationManager, didEnterRegion region: CLRegion) {
+        Circle.addMemberToCircleByID(region.identifier) {
+            (res) in
+            self.showNotification("added to room \(res["message"])")
+        }
+        
+        print("Did get ready to enter region \(region)")
+    }
+    
+    private override init()  {
+        super.init()
     }
     
     func updateLocation(){
@@ -91,29 +118,32 @@ class LocationTracker : NSObject, CLLocationManagerDelegate {
                 newestLocation = oldLocation
             }
         }
-        print(newestLocation.horizontalAccuracy)
         LocationTracker.tracker.locationManager.stopUpdatingLocation()
         if let lat = newestLocation.coordinate.latitude as Double?, long = newestLocation.coordinate.longitude as Double?{
+            
+//            Location.storeLocation(lat, lon: long, errorMargin: newestLocation.horizontalAccuracy, arrivalTime: NSDate.now(), departureTime: NSDate.now());
+            print(newestLocation.horizontalAccuracy)
+            
             LocationTracker.tracker.currentLocation = newestLocation
             LocationTracker.tracker.currentCoord = CLLocationCoordinate2DMake(lat, long)
             NSNotificationCenter.defaultCenter().postNotificationName(locationNotificationKey, object: self)
+            Location.getLocations(lat, lon: long, completion: {
+                nearByLocations in
+                self.registerRegionsToMonitor(nearByLocations);
+            });
         } else {
             print("lat long not defined")
         }
     }
     
     func locationManager(manager: CLLocationManager, didVisit visit: CLVisit) {
-        Location.storeLocation(visit.coordinate.latitude, lon: visit.coordinate.longitude, errorMargin: visit.horizontalAccuracy, arrivalTime: visit.arrivalDate, departureTime: visit.departureDate) {
-            (res) in
-        
-                self.showNotification("Visit: \(res)")
-            }
-        Circle.addMemberToCircleByLocation(visit.coordinate.latitude, lon: visit.coordinate.longitude) {
-            (res) in
-                self.showNotification("added to room \(res["message"])")
-        }
         showNotification("Visit: \(visit)")
-        
+        Location.storeLocation(visit.coordinate.latitude, lon: visit.coordinate.longitude, errorMargin: visit.horizontalAccuracy, arrivalTime: visit.arrivalDate, departureTime: visit.departureDate);
+        Location.getLocations(visit.coordinate.latitude, lon: visit.coordinate.longitude, completion: {
+            nearByLocations in
+            self.registerRegionsToMonitor(nearByLocations);
+        });
+
     }
     
     
@@ -124,3 +154,10 @@ class LocationTracker : NSObject, CLLocationManagerDelegate {
         UIApplication.sharedApplication().presentLocalNotificationNow(notification)
     }
 }
+
+
+//
+//    // MARK: Application in background
+//    func applicationEnterBackground() {
+//        LocationTracker.tracker.locationManager.startMonitoringVisits()
+//    }

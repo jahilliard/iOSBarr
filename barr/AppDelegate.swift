@@ -46,6 +46,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     } else {
                         NSNotificationCenter.defaultCenter().postNotificationName(readyNotification, object: self, userInfo: nil);
                         print("STARTING SOCKETS");
+                        LocationTracker.tracker.startLocationTracking()
                         SocketManager.sharedInstance.open();
                     }
                 })
@@ -57,6 +58,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.window?.rootViewController = initialViewController;
             self.window?.makeKeyAndVisible();
         } else {
+            LocationTracker.tracker.startLocationTracking()
+            
             let storyboard = UIStoryboard(name: "Login", bundle: nil)
             let initialViewController = storyboard.instantiateViewControllerWithIdentifier("LoginScreen")
             self.window?.rootViewController = initialViewController

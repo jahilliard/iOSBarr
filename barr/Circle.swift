@@ -52,6 +52,32 @@ class Circle {
         })
     }
     
+    static func addMemberToCircleByID(roomId: String, completion: (res: JSON) -> Void){
+        let subdomain = "api/v1/rooms/" + roomId + "/members/" + Me.user.userId!
+        AlamoHelper.authorizedPost(subdomain, parameters: [:], completion: {
+            err, response in
+            if (err != nil) {
+                //TODO: handle
+                return;
+            } else {
+                completion(res: response!)
+            }
+        })
+    }
+    
+    static func deleteMemberFromCircleByID(roomId: String, completion: (res: JSON) -> Void){
+        let subdomain = "api/v1/rooms/" + roomId + "/members/" + Me.user.userId!
+        AlamoHelper.authorizedDelete(subdomain, parameters: [:], completion: {
+            err, response in
+            if (err != nil) {
+                //TODO: handle
+                return;
+            } else {
+                completion(res: response!)
+            }
+        })
+    }
+    
     func notifyCircle(){
         NSNotificationCenter.defaultCenter().postNotificationName(CircleUpdateNotification, object: self, userInfo: nil);
     }
@@ -145,7 +171,7 @@ class Circle {
     
     static func getPreview(locationId : String) -> [String]{
         var picArr: [String]
-        AlamoHelper.GET("api/v1/room/locations/" + locationId, parameters: ["x_key": Me.user.userId!, "access_token": Me.user.accessToken!], completion: {
+        AlamoHelper.GET("api/v1/rooms/locations/" + locationId, parameters: ["x_key": Me.user.userId!, "access_token": Me.user.accessToken!], completion: {
             err, result in
             if ((err) != nil) {
                 //TODO: handle
