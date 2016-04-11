@@ -15,11 +15,11 @@ protocol cellIndexToAlbumDelegate{
 }
 
 class AccountViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, AccountPictureCellDelegate {
-    
     var delegate: cellIndexToAlbumDelegate?
     var picModIndex: Int?
     
-    var photoCollection: UICollectionView!
+    @IBOutlet var photoCollection: UICollectionView!
+    
     let imgCache: NSCache = NSCache()
     
     override func viewDidAppear(animated: Bool) {
@@ -29,18 +29,13 @@ class AccountViewController: UIViewController, UICollectionViewDataSource, UICol
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-//        layout.sectionInset = UIEdgeInsets(top: 100, left: 0, bottom: 200, right: 0)
-        let picSize = screenSize.width*0.6
-        layout.itemSize = CGSize(width: picSize, height: picSize)
-        layout.scrollDirection = UICollectionViewScrollDirection.Horizontal
-        
-        photoCollection = UICollectionView(frame: CGRect(origin: CGPoint(x: 0, y: self.navigationController!.navigationBar.frame.size.height), size: CGSize(width: screenSize.width, height: screenSize.height*0.5)), collectionViewLayout: layout)
         photoCollection.dataSource = self
         photoCollection.delegate = self
-        photoCollection.registerClass(AccountPictureCell.self, forCellWithReuseIdentifier: "Cell")
-        photoCollection.backgroundColor = UIColor.greenColor()
-        self.view.addSubview(photoCollection)
+        photoCollection.backgroundColor = UIColor.whiteColor()
+        
+        if let layout = photoCollection.collectionViewLayout as? UICollectionViewFlowLayout {
+            layout.scrollDirection = UICollectionViewScrollDirection.Horizontal
+        }
     }
     
     func sendToLogin(){
@@ -80,30 +75,36 @@ class AccountViewController: UIViewController, UICollectionViewDataSource, UICol
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        return 3;
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as! AccountPictureCell
         cell.index = indexPath.row
         cell.delegate = self
+        print(Me.user.picturesArr?[indexPath.item])
         if indexPath.item < Me.user.picturesArr?.count && Me.user.picturesArr?[indexPath.item] != "null" {
         if let picURL = Me.user.picturesArr?[indexPath.item] {
             if let accountCellImg = imgCache.objectForKey(picURL){
-                cell.setImg(accountCellImg as! UIImage)
+                cell.initialize(accountCellImg as! UIImage)
             } else {
                 DownloadImage.downloadImage(NSURL(string: picURL)!) {
                     img in
-                    cell.setImg(img)
-                    self.imgCache.setObject(img, forKey: picURL)
+                    print(img)
+                    cell.initialize(img)
                 }
             }
         }
         }
-
-        
         cell.backgroundColor = UIColor.blueColor()
         return cell
     }
-        
+    
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        let cell = collectionView.cellForItemAtIndexPath(indexPath) as! AccountPictureCell
+        if (cell.delegate != nil) {
+            cell.delegate!.preformSegue(cell)
+        }
+    }
+    
 }

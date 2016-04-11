@@ -25,15 +25,16 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         let apiKey = "AIzaSyB0Ri7k31AAY9EjPXDhAQc1NpTzKaon6RM"
         GMSServices.provideAPIKey(apiKey)
         LocationTracker.tracker.startLocationTracking()
         if let lat = LocationTracker.tracker.currentCoord?.latitude, lon = LocationTracker.tracker.currentCoord?.longitude {
-            mapview = makeMap(lat, longitude: lon , zoom: 16)
+            mapview = makeMap(lat, longitude: lon , zoom: 15)
             self.view.addSubview(mapview!)
             updateMapLocation()
         } else {
-            mapview = makeMap(40.4433, longitude: -79.9436 , zoom: 19)
+            mapview = makeMap(40.4433, longitude: -79.9436 , zoom: 15)
             self.view.addSubview(mapview!)
         }
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MapViewController.updateMapLocation), name: locationNotificationKey, object: nil)
@@ -46,13 +47,17 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(false)
-        print("Checking to see if there is a picture: ")
+        
         if let picURL = Me.user.picturesArr {
             if picURL.count > 0 {
                 print(picURL[0])
             }
         }
         mapview?.delegate = self
+        
+        if let locationCoords = LocationTracker.tracker.currentCoord {
+            mapview!.animateToLocation(locationCoords)
+        }
         
     }
     
@@ -65,7 +70,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
     
     func makeMap(latitude: Double, longitude: Double, zoom: Float) -> GMSMapView {
         let camera = GMSCameraPosition.cameraWithLatitude(latitude,
-            longitude: longitude, zoom: zoom)
+            longitude: longitude, zoom: 15)
         let mapView = GMSMapView.mapWithFrame(CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: self.view.frame.width, height: self.view.frame.height)), camera: camera)
         mapView.myLocationEnabled = true
         
@@ -76,6 +81,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
         let marker = GMSMarkerLocation(location: location)
         marker.position = CLLocationCoordinate2DMake(location.lat as! Double, location.lon as! Double)
         marker.title = location.name
+        marker.icon = UIImage(named: "map_pin")
         
         return marker
     }

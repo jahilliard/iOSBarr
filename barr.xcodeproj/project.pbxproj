@@ -39,6 +39,8 @@
 		0CAE28731C78C72E00CE4F92 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0CAE28721C78C72E00CE4F92 /* Login.storyboard */; };
 		0CC194661C92AA8000F3BD7A /* GMSMarkerLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC194651C92AA8000F3BD7A /* GMSMarkerLocation.swift */; };
 		0CC1946A1C97150E00F3BD7A /* LocationTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC194691C97150E00F3BD7A /* LocationTracker.swift */; };
+		0CD31D331CB08C50004DF1F3 /* MyTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD31D321CB08C50004DF1F3 /* MyTabBarController.swift */; };
+		0CD31D371CB22FB7004DF1F3 /* MyNavBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD31D361CB22FB7004DF1F3 /* MyNavBarController.swift */; };
 		0CD760051CA23B9500A811A1 /* AccountPictureCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD760041CA23B9500A811A1 /* AccountPictureCell.swift */; };
 		0CDF95611C9CE8D3007631AB /* UserPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDF95601C9CE8D3007631AB /* UserPhotoCell.swift */; };
 		0CDF95631C9CE92A007631AB /* UserCellPhotoInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDF95621C9CE92A007631AB /* UserCellPhotoInfo.swift */; };
@@ -118,6 +120,8 @@
 		0CAE28721C78C72E00CE4F92 /* Login.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		0CC194651C92AA8000F3BD7A /* GMSMarkerLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GMSMarkerLocation.swift; sourceTree = "<group>"; };
 		0CC194691C97150E00F3BD7A /* LocationTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationTracker.swift; sourceTree = "<group>"; };
+		0CD31D321CB08C50004DF1F3 /* MyTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyTabBarController.swift; sourceTree = "<group>"; };
+		0CD31D361CB22FB7004DF1F3 /* MyNavBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyNavBarController.swift; sourceTree = "<group>"; };
 		0CD760041CA23B9500A811A1 /* AccountPictureCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountPictureCell.swift; sourceTree = "<group>"; };
 		0CDF95601C9CE8D3007631AB /* UserPhotoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserPhotoCell.swift; sourceTree = "<group>"; };
 		0CDF95621C9CE92A007631AB /* UserCellPhotoInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCellPhotoInfo.swift; sourceTree = "<group>"; };
@@ -292,6 +296,8 @@
 				207FCF3A1CAA025C0077BB35 /* UserProfileViewController.swift */,
 				20DC98CF1CB1FF0B00FA81C8 /* FeedViewController.swift */,
 				20F647D21CB72CB200E2A1D7 /* NewFeedEntryViewController.swift */,
+				0CD31D321CB08C50004DF1F3 /* MyTabBarController.swift */,
+				0CD31D361CB22FB7004DF1F3 /* MyNavBarController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -511,6 +517,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0C44C6371C7BCC8700B8DF41 /* Location.swift in Sources */,
+				0CD31D331CB08C50004DF1F3 /* MyTabBarController.swift in Sources */,
 				203B82901C83FBCC00711838 /* ChatManager.swift in Sources */,
 				203B82981C858EC100711838 /* MessageTableViewCell.swift in Sources */,
 				0C44C6311C7BCC4B00B8DF41 /* Circle.swift in Sources */,
@@ -525,6 +532,7 @@
 				0C5CBD3C1C8D2D360057B0C4 /* FacebookPhotoCell.swift in Sources */,
 				0C3DBAEF1C6C13AA00401A2E /* AppDelegate.swift in Sources */,
 				0C2346061C8BB64D00250B3E /* DownImage.swift in Sources */,
+				0CD31D371CB22FB7004DF1F3 /* MyNavBarController.swift in Sources */,
 				203B82961C85804800711838 /* ChatViewController.swift in Sources */,
 				0CE32B4D1C759E3000C61F98 /* Alamofire.swift in Sources */,
 				0C44C62F1C7BCC3C00B8DF41 /* UserInfo.swift in Sources */,

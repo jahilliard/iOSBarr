@@ -272,12 +272,19 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
             let oldHeight = genericCell.frame.height;
             let textViewWidth = genericCell.postText.frame.width;
             let oldTextViewHeight = genericCell.postText.frame.height;
-            
+        
             //calculate size for text
             genericCell.postText.text = feedEntry.text;
             let newTextSize : CGSize = genericCell.postText.sizeThatFits(CGSize(width: textViewWidth, height: CGFloat.max));
             let newTextViewHeight = newTextSize.height;
+
+            let colorArr = [UIColor(red: 212, green: 22, blue: 28),UIColor(red: 133, green: 210, blue: 224), UIColor(red: 42, green: 162, blue: 140), UIColor(red: 222, green: 32, blue: 110), UIColor(red: 236, green: 180, blue: 65),UIColor(red: 79, green: 193, blue: 158), UIColor(red: 62, green: 19, blue: 61)]
             
+            let topDiv = UIView(frame: CGRect(origin: CGPoint(x: 0, y:  genericCell.frame.height-1), size: CGSize(width: genericCell.frame.width, height: 1)))
+            topDiv.backgroundColor = colorArr[indexPath.row%colorArr.count]
+            genericCell.addSubview(topDiv);
+            
+            // Configure the cell...
             height = oldHeight + (newTextViewHeight - oldTextViewHeight);
             break;
         }

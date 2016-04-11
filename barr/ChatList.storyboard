@@ -84,9 +84,13 @@
                             <outlet property="delegate" destination="tH2-fz-6MW" id="Jnz-jh-H6C"/>
                         </connections>
                     </tableView>
+                    <tabBarItem key="tabBarItem" title="" image="chat_icon_not" selectedImage="chat_icon_not" id="UkO-XM-Ldd">
+                        <inset key="imageInsets" minX="0.0" minY="7" maxX="0.0" maxY="-7"/>
+                    </tabBarItem>
                     <navigationItem key="navigationItem" title="Chats" id="Xcl-RQ-mfM">
                         <barButtonItem key="backBarButtonItem" title="Chats" id="dJE-Di-Zg1"/>
                     </navigationItem>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <segue destination="NHE-hF-LUz" kind="show" identifier="toChat" id="iFe-6h-IjC"/>
                     </connections>
@@ -103,10 +107,10 @@
             </objects>
             <point key="canvasLocation" x="-867.5" y="363"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--My Nav Bar Controller-->
         <scene sceneID="IHN-kS-h8d">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="f5b-HI-6pD" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="f5b-HI-6pD" customClass="MyNavBarController" customModule="barr" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="pNs-JT-gc2">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -122,4 +126,7 @@
             <point key="canvasLocation" x="-2146" y="379"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="chat_icon_not" width="45" height="22"/>
+    </resources>
 </document>
