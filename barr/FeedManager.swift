@@ -26,7 +26,7 @@ class FeedManager {
     var feedEntries : [FeedEntry] = [];
     var seenEntries: [String: Bool] = [String: Bool]();
     var feedAuthorInfo : [String: UserInfo] = [String: UserInfo]();
-    var numNewEntries: Int = 0;
+    //var numNewEntries: Int = 0;
     var numOldEntries: Int = 0;
     var imgCache: NSCache = NSCache();
     
@@ -40,7 +40,7 @@ class FeedManager {
         self.feedEntries = [];
         self.seenEntries = [String: Bool]();
         self.feedAuthorInfo = [String: UserInfo]();
-        self.numNewEntries = 0;
+        //self.numNewEntries = 0;
         NSNotificationCenter.defaultCenter().postNotificationName(clearFeedNotification, object: self, userInfo: nil);
     }
     
@@ -140,7 +140,7 @@ class FeedManager {
                 if (latestDateString == "null" && self.feedEntries.count == 0) ||
                     ((self.feedEntries.count > 0) && (latestDateString == self.feedEntries[0].dateString))
                 {
-                    self.numNewEntries = numNewEntries;
+                    //self.numNewEntries = numNewEntries;
                     /*NSNotificationCenter.defaultCenter().postNotificationName(loadIfNecessaryNotifictation, object: self, userInfo: nil);*/
                 }
             }
@@ -150,12 +150,12 @@ class FeedManager {
     }
     
     func getFeedEntries() {
-        if FeedManager.sharedInstance.retrievingNewEntries || FeedManager.sharedInstance.numNewEntries == 0 {
+        if FeedManager.sharedInstance.retrievingNewEntries /*|| FeedManager.sharedInstance.numNewEntries == 0*/ {
             return;
         }
         
         var params = [String: AnyObject]();
-        params["numEntriesToFetch"] = min(numNewEntries, RETRIEVE_AMOUNT);
+        params["numEntriesToFetch"] = RETRIEVE_AMOUNT; //min(numNewEntries, RETRIEVE_AMOUNT);
         if self.feedEntries.count > 0 {
             params["earliestDate"] = feedEntries[0].dateString;
         }
@@ -176,7 +176,7 @@ class FeedManager {
             if let numUnretrieved = resp!["numUnretrieved"].int {
                 self.processFeedEntryAuthors(resp!["entryAuthors"]);
                 self.processLatestFeedEntries(resp!["entries"]);
-                self.numNewEntries = numUnretrieved;
+                //self.numNewEntries = numUnretrieved;
             }
             self.retrievingNewEntries = false;
         });
@@ -234,8 +234,7 @@ class FeedManager {
                         self.processLatestFeedEntries(resp!["entries"]);
                         self.retrievingNewEntries = false;
                         self.numOldEntries = numOldEntries;
-                        print(self.feedEntries.count);
-                        FeedManager.sharedInstance.startFeedPolling();
+                        //FeedManager.sharedInstance.startFeedPolling();
                     }
                 }
             }
