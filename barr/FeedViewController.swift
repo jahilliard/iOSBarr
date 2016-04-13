@@ -37,7 +37,6 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     var numUnretrieved = 0;
 
-    
     private var feedEntries : [FeedEntry] {
         get {
             return FeedManager.sharedInstance.feedEntries;

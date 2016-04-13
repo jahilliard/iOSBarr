@@ -140,19 +140,27 @@ class UserProfileViewController: UIViewController, UIScrollViewDelegate {
             print(frame);
             
             // 3
-            func completion(err: NSError?, img: UIImage) {
-                if (err != nil) {
-                    getImg(self.userInfo!.pictures[page], completion: completion);
-                } else {
-                    let newPageView = UIImageView(image: img)
-                    newPageView.contentMode = .ScaleAspectFit
-                    newPageView.frame = frame
-                    self.pictureScrollView.addSubview(newPageView);
-                    self.pageViews[page] = newPageView;
+            if self.userInfo!.pictures[page] == "null" {
+                let newPageView = UIImageView(image: UIImage(imageLiteral: "defaultProfilePicture.jpg"));
+                newPageView.contentMode = .ScaleAspectFit
+                newPageView.frame = frame
+                self.pictureScrollView.addSubview(newPageView);
+                self.pageViews[page] = newPageView;
+            } else {
+                func completion(err: NSError?, img: UIImage) {
+                    if (err != nil) {
+                        getImg(self.userInfo!.pictures[page], completion: completion);
+                    } else {
+                        let newPageView = UIImageView(image: img)
+                        newPageView.contentMode = .ScaleAspectFit
+                        newPageView.frame = frame
+                        self.pictureScrollView.addSubview(newPageView);
+                        self.pageViews[page] = newPageView;
+                    }
                 }
+            
+                getImg(self.userInfo!.pictures[page], completion: completion);
             }
-        
-            getImg(self.userInfo!.pictures[page], completion: completion);
         }
     }
     
@@ -183,8 +191,10 @@ class UserProfileViewController: UIViewController, UIScrollViewDelegate {
         let lastPage = page + 1
         
         // Purge anything before the first page
-        for var index = 0; index < firstPage; ++index {
-            purgePage(index)
+        if firstPage > 0 {
+            for index in 0 ..< firstPage {
+                purgePage(index)
+            }
         }
         
         // Load pages in our range
@@ -193,8 +203,10 @@ class UserProfileViewController: UIViewController, UIScrollViewDelegate {
         }
         
         // Purge anything after the last page
-        for var index = lastPage+1; index < self.userInfo!.pictures.count; ++index {
-            purgePage(index)
+        if lastPage + 1 < self.userInfo!.pictures.count {
+            for index in lastPage+1 ..< self.userInfo!.pictures.count {
+                purgePage(index)
+            }
         }
     }
     

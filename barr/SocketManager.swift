@@ -31,10 +31,9 @@ class SocketManager {
         
         let ack = socket!.emitWithAck("ChatMessage", ["receiver": userId, "message": message, "messageNumber": messageNumber]);
     
-        ack(timeoutAfter: 5, callback: {(statusArray) in
+        ack(timeoutAfter: 10, callback: {(statusArray) in
             print(statusArray);
             if (statusArray.count == 2) {
-                print("COUNT IS 2");
                 let statusDict = statusArray[1] as? NSDictionary;
                 let statusMessage = statusArray[0] as? String;
                 if (statusMessage == nil || statusMessage! != "success"){
@@ -51,7 +50,6 @@ class SocketManager {
             }
             
             else if (statusArray.count == 1){
-                print("COUNT IS 1");
                 if let msg = statusArray[0] as? String {
                     if msg == "NO ACK" {
                         let error = NSError(domain: "Connection Error", code: 400, userInfo: nil);
