@@ -32,7 +32,7 @@ class SocketManager {
         let ack = socket!.emitWithAck("ChatMessage", ["receiver": userId, "message": message, "messageNumber": messageNumber]);
     
         ack(timeoutAfter: 5, callback: {(statusArray) in
-            print(statusArray);
+//            print(statusArray);
             if (statusArray.count == 2) {
                 print("COUNT IS 2");
                 let statusDict = statusArray[1] as? NSDictionary;
@@ -165,7 +165,7 @@ class SocketManager {
         
         self.socket!.on("reconnectAttempt", callback: {(data, ack) in
             //handle reconnect
-            print("RECONNECT ATTEMPT");
+//            print("RECONNECT ATTEMPT");
         });
         
         self.socket!.on("error", callback: {(data) in

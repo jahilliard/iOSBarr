@@ -17,6 +17,8 @@ class Location {
     var lat: NSNumber?
     var lon: NSNumber?
     
+    var room_id: String?
+    
     static var nearbyLocations: [Location] = [Location]()
     
     init(dictionary: JSON) {
@@ -31,6 +33,9 @@ class Location {
         }
         if let lon = dictionary["geometry"]["coordinates"][0].rawValue as? NSNumber {
             self.lon = lon
+        }
+        if let r_id = dictionary["roomId"].rawString() {
+            self.room_id = r_id
         }
         if let address = dictionary["address"].rawString() {
             self.address = address
