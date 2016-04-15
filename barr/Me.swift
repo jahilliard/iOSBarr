@@ -20,6 +20,7 @@ class Me {
     var userId: String?
     var accessToken: String?
     var email: String?
+    var status: String?
     
     var newestValidateInfo = false
     
@@ -30,7 +31,7 @@ class Me {
     
     private init() {}
     
-    func setVariables(fbAuthtoken: String, fbId: String, accessToken: String, userId: String, firstName: String, lastName: String, nickname: String, email: String, pictures: [String]) {
+    func setVariables(fbAuthtoken: String, fbId: String, accessToken: String, userId: String, firstName: String, lastName: String, nickname: String, email: String, pictures: [String], status: String) {
         self.userId = userId
         self.fbId = fbId
         self.accessToken = accessToken
@@ -40,6 +41,7 @@ class Me {
         self.nickname = nickname
         self.email = email
         self.picturesArr = pictures
+        self.status = status;
         storeVariablesToNSUserDefault()
     }
     
