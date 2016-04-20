@@ -30,11 +30,9 @@ class SocketManager {
         }
         
         let ack = socket!.emitWithAck("ChatMessage", ["receiver": userId, "message": message, "messageNumber": messageNumber]);
-    
-        ack(timeoutAfter: 5, callback: {(statusArray) in
-//            print(statusArray);
+        ack(timeoutAfter: 10, callback: {(statusArray) in
+            print(statusArray);
             if (statusArray.count == 2) {
-                print("COUNT IS 2");
                 let statusDict = statusArray[1] as? NSDictionary;
                 let statusMessage = statusArray[0] as? String;
                 if (statusMessage == nil || statusMessage! != "success"){
@@ -51,7 +49,6 @@ class SocketManager {
             }
             
             else if (statusArray.count == 1){
-                print("COUNT IS 1");
                 if let msg = statusArray[0] as? String {
                     if msg == "NO ACK" {
                         let error = NSError(domain: "Connection Error", code: 400, userInfo: nil);
@@ -87,7 +84,7 @@ class SocketManager {
         //create new socket
         let connectParams = ["id": Me.user.userId!, "access_token": Me.user.accessToken!];
         
-        self.socket = SocketIOClient(socketURL: NSURL(string: "http://10.0.0.2:3000")!, options: ["connectParams" : connectParams]);
+        self.socket = SocketIOClient(socketURL: NSURL(string: "http://172.31.98.21:3000")!, options: ["connectParams" : connectParams]);
 
         print("SOCKET MANAGER INITING");
         
@@ -165,7 +162,7 @@ class SocketManager {
         
         self.socket!.on("reconnectAttempt", callback: {(data, ack) in
             //handle reconnect
-//            print("RECONNECT ATTEMPT");
+            print("RECONNECT ATTEMPT");
         });
         
         self.socket!.on("error", callback: {(data) in

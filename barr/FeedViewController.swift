@@ -12,24 +12,39 @@ protocol ReloadCellDelegate {
     func reloadCellWithEntryId(entryId: String)
 }
 
-class FeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, ReloadCellDelegate, UIScrollViewDelegate {
-    let MAX_IMAGE_HEIGHT : CGFloat = 300.0;
+protocol DisplayPictureDelegate {
+    func displayImage(image: UIImage);
+}
 
+class FeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, ReloadCellDelegate, UIScrollViewDelegate, DisplayPictureDelegate {
     
-    let minOffsetToTriggerRefresh : CGFloat = 100;
-    
-    var numUnretrieved = 0;
-    
+    @IBOutlet weak var postFeedBarTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var postFeedBar: UIView!
     @IBOutlet weak var feedTableView: UITableView!
     @IBOutlet weak var yourTabPicture: UIImageView!
     @IBAction func IBOutletvaronNewFeedEntryTappedUITapGestureRecognizer(sender: AnyObject) {
         self.performSegueWithIdentifier("toNewFeedEntry", sender: self);
     }
     
+    let MAX_IMAGE_HEIGHT : CGFloat = 300.0;
+    
+    var lastOffsetCapture: NSTimeInterval! = nil;
+    var lastOffset: CGPoint! = nil;
+    var dragStart: CGFloat! = nil;
+    var originalHeight : CGFloat! = nil;
+    
+    let minOffsetToTriggerRefresh : CGFloat = 100;
+    
+    var numUnretrieved = 0;
+
     private var feedEntries : [FeedEntry] {
         get {
             return FeedManager.sharedInstance.feedEntries;
         }
+    }
+    
+    override func viewDidLayoutSubviews() {
+        print(self.postFeedBarTopConstraint.constant);
     }
     
     override func viewDidLoad() {
@@ -37,6 +52,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FeedViewController.updateEntries(_:)), name: newFeedEntriesNotification, object: nil);
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FeedViewController.clearEntries(_:)), name: clearFeedNotification, object: nil);
         
+        self.originalHeight = self.postFeedBarTopConstraint.constant;
         /*NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FeedViewController.loadIfNecessary(_:)), name: loadIfNecessaryNotifictation, object: nil);*/
         self.feedTableView.delegate = self;
         self.feedTableView.dataSource = self;
@@ -138,7 +154,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
                 cell = tableView.dequeueReusableCellWithIdentifier("FeedTableViewImageCell", forIndexPath: indexPath) as! FeedTableViewImageCell;
                 let derived : FeedTableViewImageCell = cell as! FeedTableViewImageCell;
                 derived.clearCell();
-                derived.initCell(feedEntry, reloadCellDelegate: self);
+                derived.initCell(feedEntry, displayPictureDelegate: self);
                 
                 /*if indexPath.row == 0 && FeedManager.sharedInstance.numNewEntries > 0
                 {
@@ -355,6 +371,18 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
             let newFeedEntryViewController = segue.destinationViewController as! UINavigationController;
             newFeedEntryViewController.hidesBottomBarWhenPushed = true;
         }
+        
+        else if (segue.identifier == "toMainImage") {
+            if let img = sender as? UIImage {
+                let displayImageController = segue.destinationViewController as! DisplayFeedImageViewController;
+                displayImageController.mainImage = img;
+                displayImageController.hidesBottomBarWhenPushed = true;
+            }
+        }
+    }
+    
+    func displayImage(image: UIImage) {
+        self.performSegueWithIdentifier("toMainImage", sender: image);
     }
     
     func reloadCellWithEntryId(entryId: String) {
@@ -391,11 +419,118 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        self.dragStart = scrollView.contentOffset.y;
+    }
+    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        if scrollView.contentOffset.y < 0 {
+            return;
+        }
+        
+        let currentOffset : CGPoint = scrollView.contentOffset;
+        let currentTime = NSDate.timeIntervalSinceReferenceDate();
+        
+        if self.lastOffset == nil {
+            self.lastOffset = currentOffset;
+        }
+        
+        if self.lastOffsetCapture == nil {
+            self.lastOffsetCapture = currentTime;
+        }
+        
+        
+        let timeDiff : NSTimeInterval = currentTime - lastOffsetCapture;
+        
+        /*if(timeDiff > 0.1) {
+            let distance = currentOffset.y - lastOffset.y;
+            self.lastOffset = currentOffset;
+            self.lastOffsetCapture = currentTime;
+            
+            //self.postFeedBar.frame.origin.y -= distance;
+            let minY = self.originalHeight - self.postFeedBar.frame.height;
+            //print(self.postFeedBar.frame.origin.y);
+            if self.postFeedBar.frame.origin.y < minY {
+                self.postFeedBar.frame.origin.y = minY;
+            }
+            
+            else if self.postFeedBar.frame.origin.y > self.originalHeight {
+                self.postFeedBar.frame.origin.y = self.originalHeight;
+            }
+        }*/
+        
+        if(timeDiff > 0.1) {
+            let distance = currentOffset.y - lastOffset.y;
+            self.lastOffset = currentOffset;
+            self.lastOffsetCapture = currentTime;
+            
+            self.postFeedBarTopConstraint.constant -= distance;
+            
+            //print(self.postFeedBar.frame.origin.y);
+            if self.postFeedBarTopConstraint.constant < -self.postFeedBar.frame.size.height {
+                self.postFeedBarTopConstraint.constant = -self.postFeedBar.frame.size.height;
+            }
+                
+            else if self.postFeedBarTopConstraint.constant > originalHeight {
+                self.postFeedBarTopConstraint.constant = originalHeight;
+            }
+            
+            
+            self.postFeedBar.alpha = self.calculatePostFeedBarAlpha();
+            self.view.layoutIfNeeded();
+        }
+    }
+    
     func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool)
     {
+        if (self.dragStart == nil) {
+            return;
+        }
+        
+        let dragDistance = self.dragStart - scrollView.contentOffset.y;
+        var heightConstraint : CGFloat? = nil;
+        
+        if decelerate {
+            if dragDistance > 0 {
+                //self.postFeedBar.frame.origin.y = self.originalHeight;
+                heightConstraint = self.originalHeight;
+
+            }
+            
+            if dragDistance < 0 {
+                /*let minY = self.originalHeight - self.postFeedBar.frame.height;
+                self.postFeedBar.frame.origin.y = minY;*/
+                heightConstraint = -self.postFeedBar.frame.size.height;            }
+        } else {
+            if dragDistance < self.postFeedBar.frame.size.height && dragDistance > 0 {
+                /*self.postFeedBar.frame.origin.y = self.originalHeight - self.postFeedBar.frame.size.height;*/
+                heightConstraint = -self.postFeedBar.frame.size.height;
+            }
+            
+            if dragDistance > -self.postFeedBar.frame.size.height && dragDistance < 0 {
+                /*self.postFeedBar.frame.origin.y = self.originalHeight;
+                print(self.postFeedBar.frame.origin.y);*/
+                heightConstraint = self.originalHeight;
+            }
+        }
+        
+        
+        if heightConstraint != nil {
+            self.postFeedBarTopConstraint.constant = heightConstraint!;
+            self.postFeedBar.alpha = self.calculatePostFeedBarAlpha();
+            self.view.layoutIfNeeded();
+        }
+        
         if scrollView.contentOffset.y <= -minOffsetToTriggerRefresh {
             FeedManager.sharedInstance.getFeedEntries();
         }
+    }
+    
+    func calculatePostFeedBarAlpha() -> CGFloat{
+        let maxDifference = self.postFeedBar.frame.height;
+        let difference = self.originalHeight - self.postFeedBarTopConstraint.constant;
+        let differenceRatio = difference/maxDifference;
+        return 1 - differenceRatio;
     }
     
     //        override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {

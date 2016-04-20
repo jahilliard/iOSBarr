@@ -16,8 +16,13 @@ class FeedTableViewImageCell: UITableViewCell{
     @IBOutlet weak var postText: UITextView!
     @IBOutlet weak var postTextHeightConstraint: NSLayoutConstraint!
     
+    func imageTapGesture(sender: AnyObject) {
+        self.displayPictureDelegate.displayImage(mainImage.image!);
+    }
+    
     var entryInfo : FeedEntry!;
     var reloadCellDelegate : ReloadCellDelegate!;
+    var displayPictureDelegate: DisplayPictureDelegate!;
     
     func clearCell(){
         self.mainImage.image = nil;
@@ -26,8 +31,10 @@ class FeedTableViewImageCell: UITableViewCell{
         self.userImg.image = nil;
     }
     
-    func initCell(entryInfo: FeedEntry, reloadCellDelegate: ReloadCellDelegate) {
-        self.reloadCellDelegate = reloadCellDelegate;
+    func initCell(entryInfo: FeedEntry, displayPictureDelegate: DisplayPictureDelegate) {
+        let imageTapGesture : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.imageTapGesture(_:)));
+        self.mainImage.addGestureRecognizer(imageTapGesture);
+        self.displayPictureDelegate = displayPictureDelegate;
         self.entryInfo = entryInfo;
         self.userNickname.text = entryInfo.authorInfo.nickname;
         self.postText.text = entryInfo.text;

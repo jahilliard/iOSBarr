@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="aol-ln-ZlS">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <scenes>
+        <!--Display Feed Image View Controller-->
+        <scene sceneID="OCx-dk-TqW">
+            <objects>
+                <viewController id="aol-ln-ZlS" customClass="DisplayFeedImageViewController" customModule="barr" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="7Fe-w4-QMl"/>
+                        <viewControllerLayoutGuide type="bottom" id="NXE-Wj-bca"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="laX-2U-jCD">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="iVW-TC-VFc">
+                                <rect key="frame" x="20" y="20" width="560" height="580"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1t0-I1-Vzx">
+                                <rect key="frame" x="531" y="20" width="49" height="30"/>
+                                <state key="normal" title="Cancel"/>
+                                <connections>
+                                    <segue destination="ost-hh-b4l" kind="unwind" unwindAction="cancelToFeedViewController:" id="Nen-gN-CBT"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="iVW-TC-VFc" secondAttribute="trailing" id="1Ui-uh-r0t"/>
+                            <constraint firstItem="NXE-Wj-bca" firstAttribute="top" secondItem="iVW-TC-VFc" secondAttribute="bottom" id="COG-Wh-ZAl"/>
+                            <constraint firstItem="1t0-I1-Vzx" firstAttribute="top" secondItem="7Fe-w4-QMl" secondAttribute="bottom" id="Gaq-ck-JKO"/>
+                            <constraint firstItem="1t0-I1-Vzx" firstAttribute="trailing" secondItem="laX-2U-jCD" secondAttribute="trailingMargin" id="Hbi-j0-0PM"/>
+                            <constraint firstItem="iVW-TC-VFc" firstAttribute="leading" secondItem="laX-2U-jCD" secondAttribute="leadingMargin" id="SUW-Rx-Bm4"/>
+                            <constraint firstItem="iVW-TC-VFc" firstAttribute="top" secondItem="7Fe-w4-QMl" secondAttribute="bottom" id="ZYw-AV-rN6"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="mainImageView" destination="iVW-TC-VFc" id="0su-dL-gxQ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XND-tb-4pJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="ost-hh-b4l" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="178" y="167"/>
+        </scene>
+    </scenes>
+</document>

@@ -192,11 +192,9 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
             //we were the sender, right align
             cell = tableView.dequeueReusableCellWithIdentifier("YourMessageTableViewCell", forIndexPath: indexPath) as! MessageTableViewCell
             bgImage = UIImage(imageLiteral: "chat_to_icon.png");
-            bgImage.stretchableImageWithLeftCapWidth(24, topCapHeight: 15);
         } else {
             cell = tableView.dequeueReusableCellWithIdentifier("OtherMessageTableViewCell", forIndexPath: indexPath) as! MessageTableViewCell
             bgImage = UIImage(imageLiteral: "chat_from_icon.png");
-            bgImage.stretchableImageWithLeftCapWidth(24, topCapHeight: 15);
         }
         
         // Configure the cell...

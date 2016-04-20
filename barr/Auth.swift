@@ -22,10 +22,11 @@ struct Auth {
             }
             
             let userInfo = userAuth!["userInfo"];
+            print(userInfo)
             if userInfo != nil {
-                if let fbId = userInfo["fbId"].rawString(), userId = userInfo["_id"].rawString(), firstName = userInfo["firstName"].rawString(), lastName = userInfo["lastName"].rawString(), email = userInfo["email"].rawString(), nickname = userInfo["nickname"].rawString(), isCreated = userAuth!["isCreated"].rawString()?.toBool(), accessToken = userAuth!["authToken"].rawString()
+                if let fbId = userInfo["fbId"].rawString(), userId = userInfo["_id"].rawString(), firstName = userInfo["firstName"].rawString(), lastName = userInfo["lastName"].rawString(), status = userInfo["status"].string, email = userInfo["email"].rawString(), nickname = userInfo["nickname"].rawString(), isCreated = userAuth!["isCreated"].rawString()?.toBool(), accessToken = userAuth!["authToken"].rawString()
                 {
-                    Me.user.setVariables(fbAccessToken, fbId: fbId, accessToken: accessToken, userId: userId, firstName: firstName, lastName: lastName, nickname: nickname, email: email, pictures: userInfo["picture"].arrayValue.filter({ $0.string != nil }).map({ $0.string!}));
+                    Me.user.setVariables(fbAccessToken, fbId: fbId, accessToken: accessToken, userId: userId, firstName: firstName, lastName: lastName, nickname: nickname, email: email, pictures: userInfo["picture"].arrayValue.filter({ $0.string != nil }).map({ $0.string!}), status: status);
                     
                     completion(nil, isCreated);
                     /*self.wasUserCreated({err in

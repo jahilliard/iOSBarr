@@ -42,8 +42,10 @@ class LocationTracker : NSObject, CLLocationManagerDelegate {
     }
     
     func locationManager(manager: CLLocationManager, didExitRegion region: CLRegion) {
+        Me.user.leaveCurrentCircle()
         Circle.deleteMemberFromCircleByID(region.identifier) {
             (res) in
+            print(res)
             self.showNotification("left to room \(res["message"])")
         }
         
@@ -51,6 +53,7 @@ class LocationTracker : NSObject, CLLocationManagerDelegate {
     }
     
     func locationManager(manager: CLLocationManager, didEnterRegion region: CLRegion) {
+        Me.user.resetCurrentCircle(region.identifier)
         Circle.addMemberToCircleByID(region.identifier) {
             (res) in
             self.showNotification("added the room \(res["message"])")
@@ -75,7 +78,7 @@ class LocationTracker : NSObject, CLLocationManagerDelegate {
         
         if CLLocationManager.locationServicesEnabled() == false {
             print("locationServicesEnabled false\n")
-            ErrorHandler.showEventsAcessDeniedAlert("Change Permissions", message: "Please change your location permissions to ")
+            ErrorHandler.showEventsAcessDeniedAlert("Change Permissions", message: "Please change your location permissions to Always")
         } else {
             CLLocationManager.authorizationStatus()
         }
@@ -131,6 +134,17 @@ class LocationTracker : NSObject, CLLocationManagerDelegate {
                 self.registerRegionsToMonitor(nearByLocations);
                 
             });
+            Circle.addMemberToCircleByLocation(lat, lon: long) {
+                res in
+                if let mes = res["message"].rawString() {
+                    if mes == "Room not in radius" {
+                        Me.user.leaveCurrentCircle()
+                    }
+                }
+                if let roomId = res["roomId"].rawString() {
+                    Me.user.resetCurrentCircle(roomId)
+                }
+            }
         } else {
             print("lat long not defined")
         }

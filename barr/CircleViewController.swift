@@ -27,6 +27,7 @@ class CircleViewController: UIViewController, UICollectionViewDataSource, UIColl
     @IBOutlet weak var circleCollection: UICollectionView!
 
     @IBOutlet weak var HeartButton: UIButton!
+    @IBOutlet weak var joinCircleFail: UIButton!
     
     @IBAction func onHeartButtonPress(sender: AnyObject) {
         print("heart Hit")
@@ -63,35 +64,51 @@ class CircleViewController: UIViewController, UICollectionViewDataSource, UIColl
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.makeMemberArray();
-        let req = FBSDKGraphRequest(graphPath: "me/photos", parameters: ["fields": "id, source"], tokenString: Me.user.fbAuthtoken, version: nil, HTTPMethod: "GET")
-        req.startWithCompletionHandler({ (connection, result, error : NSError!) -> Void in
-            if(error == nil) {
-                let data = JSON(result)["data"].arrayValue;
-                print(data.count);
-                for photo in data {
-                    print(photo["source"].string!);
+        if (Circle.sharedInstance.circleId != nil) {
+            joinCircleFail.hidden = true
+            self.makeMemberArray();
+            //        let req = FBSDKGraphRequest(graphPath: "me/photos", parameters: ["fields": "id, source"], tokenString: Me.user.fbAuthtoken, version: nil, HTTPMethod: "GET")
+            //        req.startWithCompletionHandler({ (connection, result, error : NSError!) -> Void in
+            //            if(error == nil) {
+            //                let data = JSON(result)["data"].arrayValue;
+            //                print(data.count);
+            //                for photo in data {
+            //                    print(photo["source"].string!);
+            //                }
+            //            } else {
+            //                print("error \(error)")
+            //            }
+            //        })
+            
+            
+            /*let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+             layout.sectionInset = UIEdgeInsets(top: 100, left: 0, bottom: 1, right: 0)
+             let picSize = screenSize.width*0.33 - 0.5
+             layout.itemSize = CGSize(width: picSize, height: picSize)
+             
+             circleCollection = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)*/
+            self.circleCollection.dataSource = self
+            self.circleCollection.delegate = self
+            /*self.circleCollection.registerClass(UserPhotoCell.self, forCellWithReuseIdentifier: "UserPhotoCell")*/
+            self.circleCollection.backgroundColor = UIColor.whiteColor()
+            //self.view.addSubview(circleCollection)
+            defineToggleView()
+            
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CircleViewController.updateCircle(_:)), name:CircleUpdateNotification, object: nil);
+        } else {
+            if let lat = LocationTracker.tracker.currentCoord?.latitude, long = LocationTracker.tracker.currentCoord?.longitude{
+                Circle.addMemberToCircleByLocation(lat, lon: long) {
+                    res in
+                    
                 }
-            } else {
-                print("error \(error)")
             }
-        })
+        }
         
+    }
+    
+    
+    @IBAction func joinCircleFailAction(sender: AnyObject) {
         
-        /*let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 100, left: 0, bottom: 1, right: 0)
-        let picSize = screenSize.width*0.33 - 0.5
-        layout.itemSize = CGSize(width: picSize, height: picSize)
-        
-        circleCollection = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)*/
-        self.circleCollection.dataSource = self
-        self.circleCollection.delegate = self
-        /*self.circleCollection.registerClass(UserPhotoCell.self, forCellWithReuseIdentifier: "UserPhotoCell")*/
-        self.circleCollection.backgroundColor = UIColor.whiteColor()
-        //self.view.addSubview(circleCollection)
-        defineToggleView()
-        
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CircleViewController.updateCircle(_:)), name:CircleUpdateNotification, object: nil);
     }
     
     deinit {

@@ -20,6 +20,7 @@ class Me {
     var userId: String?
     var accessToken: String?
     var email: String?
+    var status: String?
     
     var newestValidateInfo = false
     
@@ -30,7 +31,7 @@ class Me {
     
     private init() {}
     
-    func setVariables(fbAuthtoken: String, fbId: String, accessToken: String, userId: String, firstName: String, lastName: String, nickname: String, email: String, pictures: [String]) {
+    func setVariables(fbAuthtoken: String, fbId: String, accessToken: String, userId: String, firstName: String, lastName: String, nickname: String, email: String, pictures: [String], status: String) {
         self.userId = userId
         self.fbId = fbId
         self.accessToken = accessToken
@@ -40,12 +41,20 @@ class Me {
         self.nickname = nickname
         self.email = email
         self.picturesArr = pictures
+        self.status = status;
         storeVariablesToNSUserDefault()
     }
     
     func resetCurrentCircle(currentCircleId: String){
         Me.user.currentCircleId = currentCircleId
+        Circle.sharedInstance.circleId = currentCircleId
         Me.user.prefs.setValue(currentCircleId, forKey: "currentCircleId")
+    }
+    
+    func leaveCurrentCircle(){
+        Me.user.currentCircleId = nil
+        Circle.sharedInstance.circleId = nil
+        Me.user.prefs.removeObjectForKey("currentCircleId")
     }
     
 //    func resetFBAccessToken(fbAuthtoken: String){
@@ -153,16 +162,11 @@ class Me {
                     return;
                 }
                 print(response)
-                    Me.user.currentCircleId = response!["user"]["currentCircle"].rawString()
                     Me.user.firstName = response!["user"]["firstName"].rawString()
                     Me.user.lastName = response!["user"]["lastName"].rawString()
                     Me.user.email = response!["user"]["email"].rawString()
                     Me.user.picturesArr = response!["user"]["picture"].rawValue as? [String]
-                print(Me.user.currentCircleId)
-                print(Me.user.firstName)
-                print(Me.user.lastName)
-                print(Me.user.email)
-                print(Me.user.picturesArr)
+                    self.resetCurrentCircle(response!["user"]["currentCircle"].rawString()!)
             });
         }
     }

@@ -89,6 +89,8 @@ class SelectPhotosViewController: UIViewController, UICollectionViewDataSource, 
         Me.user.updateUser(["picture": Me.user.picturesArr!], completion: callback);
         
         let vcArr = self.navigationController?.viewControllers
+        let accountViewController = vcArr![vcArr!.count - 3] as! AccountViewController;
+        accountViewController.purgePage(self.indexToMod!);
         self.navigationController!.popToViewController(vcArr![vcArr!.count - 3], animated: true);
     }
     
