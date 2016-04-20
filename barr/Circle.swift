@@ -23,6 +23,7 @@ class Circle {
     
     private init(){}
     
+    
     func initCircle(dictionary: JSON) -> Bool {
         self.memberArray = [UserInfo]();
         self.members = [String: UserInfo]();
@@ -51,15 +52,16 @@ class Circle {
         return true;
     }
     
-    static func addMemberToCircleByLocation(lat: Double, lon: Double, completion: (res: JSON) -> Void){
+    static func addMemberToCircleByLocation(lat: Double, lon: Double, completion: (err: NSError?, res: JSON?) -> Void){
         let subdomain = "api/v1/rooms/members/" + Me.user.userId!
         AlamoHelper.authorizedPost(subdomain, parameters: ["coordinate" : [lon, lat]], completion: {
             err, response in
             if (err != nil) {
                 //TODO: handle
+                completion(err: err, res: nil);
                 return;
             } else {
-                completion(res: response!)
+                completion(err: nil, res: response!)
             }
         })
     }
@@ -176,6 +178,11 @@ class Circle {
             }
                 
             else {
+                if (result!["data"]["circleId"] == "") {
+                    callback("");
+                    return;
+                }
+                
                 if (self.initCircle(result!["data"])) {
                     callback(result!["data"]["circleId"].string!);
                 } else {

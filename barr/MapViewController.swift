@@ -90,8 +90,13 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
         if let locationCoords = LocationTracker.tracker.currentCoord {
             mapview!.animateToLocation(locationCoords)
             Circle.addMemberToCircleByLocation(locationCoords.latitude, lon: locationCoords.longitude){
-                _ in
-                //ADD NOTIFICATION SAYING YOUR IN CIRCLE
+                err, resp in
+                if err != nil {
+                    print(err);
+                    return;
+                } else {
+                    Circle.sharedInstance.getCircleInfo({circleId in });
+                }
             }
             Location.getLocations(locationCoords.latitude, lon: locationCoords.longitude, completion: {
                 nearByLocations in

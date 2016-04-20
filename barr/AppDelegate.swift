@@ -111,6 +111,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillEnterForeground(application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
         SocketManager.sharedInstance.open();
+        //get latest circle info
+        Circle.sharedInstance.getCircleInfo({circleId in
+            if (circleId != "") {
+                FeedManager.sharedInstance.restartFeed();
+                FeedManager.sharedInstance.getLatestFeedEntries();
+            }
+        });
     }
 
     func applicationDidBecomeActive(application: UIApplication) {
