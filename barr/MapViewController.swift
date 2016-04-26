@@ -28,7 +28,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
         
         let apiKey = "AIzaSyB0Ri7k31AAY9EjPXDhAQc1NpTzKaon6RM"
         GMSServices.provideAPIKey(apiKey)
-        LocationTracker.tracker.startLocationTracking()
+        //LocationTracker.tracker.startLocationTracking()
         if let lat = LocationTracker.tracker.currentCoord?.latitude, lon = LocationTracker.tracker.currentCoord?.longitude {
             mapview = makeMap(lat, longitude: lon , zoom: 15)
             self.view.addSubview(mapview!)
@@ -89,18 +89,15 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
     func updateMapLocation(){
         if let locationCoords = LocationTracker.tracker.currentCoord {
             mapview!.animateToLocation(locationCoords)
-            Circle.addMemberToCircleByLocation(locationCoords.latitude, lon: locationCoords.longitude){
+            /*Circle.addMemberToCircleByLocation(locationCoords.latitude, lon: locationCoords.longitude){
                 _ in
                 //ADD NOTIFICATION SAYING YOUR IN CIRCLE
+            }*/
+            for loc in LocationTracker.tracker.nearbyLocations {
+                print(loc)
+                let currMark = self.makeMarker(loc)
+                currMark.map = self.mapview
             }
-            Location.getLocations(locationCoords.latitude, lon: locationCoords.longitude, completion: {
-                nearByLocations in
-                for loc in nearByLocations {
-                    print(loc)
-                    let currMark = self.makeMarker(loc)
-                    currMark.map = self.mapview
-                }
-            })
         }
     }
     
@@ -108,9 +105,8 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
 
     func mapView(mapView: GMSMapView, didTapMarker marker: GMSMarker) -> Bool {
         let markLoc = marker as! GMSMarkerLocation
-        print(markLoc.location.id)
-        makePreviewView(markLoc.location.id!)
-        return true
+        makePreviewView(markLoc.location.id);
+        return true;
     }
     
     // MARK: Preview Methods

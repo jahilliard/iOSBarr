@@ -27,7 +27,7 @@ class CircleViewController: UIViewController, UICollectionViewDataSource, UIColl
     @IBOutlet weak var circleCollection: UICollectionView!
 
     @IBOutlet weak var HeartButton: UIButton!
-    @IBOutlet weak var joinCircleFail: UIButton!
+    //@IBOutlet weak var joinCircleFail: UIButton!
     
     @IBAction func onHeartButtonPress(sender: AnyObject) {
         print("heart Hit")
@@ -64,8 +64,8 @@ class CircleViewController: UIViewController, UICollectionViewDataSource, UIColl
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if (Circle.sharedInstance.circleId != nil) {
-            joinCircleFail.hidden = true
+        //if (Circle.sharedInstance.circleId != "") {
+            //joinCircleFail.hidden = true
             self.makeMemberArray();
             //        let req = FBSDKGraphRequest(graphPath: "me/photos", parameters: ["fields": "id, source"], tokenString: Me.user.fbAuthtoken, version: nil, HTTPMethod: "GET")
             //        req.startWithCompletionHandler({ (connection, result, error : NSError!) -> Void in
@@ -95,21 +95,21 @@ class CircleViewController: UIViewController, UICollectionViewDataSource, UIColl
             defineToggleView()
             
             NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CircleViewController.updateCircle(_:)), name:CircleUpdateNotification, object: nil);
-        } else {
-            if let lat = LocationTracker.tracker.currentCoord?.latitude, long = LocationTracker.tracker.currentCoord?.longitude{
+        //} else {
+            /*if let lat = LocationTracker.tracker.currentCoord?.latitude, long = LocationTracker.tracker.currentCoord?.longitude{
                 Circle.addMemberToCircleByLocation(lat, lon: long) {
                     res in
                     
                 }
-            }
-        }
+ 
+        }*/
         
     }
     
     
-    @IBAction func joinCircleFailAction(sender: AnyObject) {
+    /*@IBAction func joinCircleFailAction(sender: AnyObject) {
         
-    }
+    }*/
     
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self);
@@ -118,6 +118,7 @@ class CircleViewController: UIViewController, UICollectionViewDataSource, UIColl
     func updateCircle(notification : NSNotification){
         print("updateCircle Called");
         self.makeMemberArray();
+        print(memberArray.count);
         self.circleCollection.reloadData();
     }
     

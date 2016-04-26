@@ -24,7 +24,7 @@ class Me {
     
     var newestValidateInfo = false
     
-    var currentCircleId: String?
+    //var currentCircleId: String?
     var picturesArr: [String]?
     
     let prefs = NSUserDefaults.standardUserDefaults()
@@ -45,17 +45,17 @@ class Me {
         storeVariablesToNSUserDefault()
     }
     
-    func resetCurrentCircle(currentCircleId: String){
+    /*func resetCurrentCircle(currentCircleId: String){
         Me.user.currentCircleId = currentCircleId
         Circle.sharedInstance.circleId = currentCircleId
         Me.user.prefs.setValue(currentCircleId, forKey: "currentCircleId")
-    }
+    }*/
     
-    func leaveCurrentCircle(){
+    /*func leaveCurrentCircle(){
         Me.user.currentCircleId = nil
         Circle.sharedInstance.circleId = nil
         Me.user.prefs.removeObjectForKey("currentCircleId")
-    }
+    }*/
     
 //    func resetFBAccessToken(fbAuthtoken: String){
 //        Me.user.fbAuthtoken = fbAuthtoken
@@ -166,7 +166,7 @@ class Me {
                     Me.user.lastName = response!["user"]["lastName"].rawString()
                     Me.user.email = response!["user"]["email"].rawString()
                     Me.user.picturesArr = response!["user"]["picture"].rawValue as? [String]
-                    self.resetCurrentCircle(response!["user"]["currentCircle"].rawString()!)
+                    //self.resetCurrentCircle(response!["user"]["currentCircle"].rawString()!)
             });
         }
     }

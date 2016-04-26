@@ -26,7 +26,7 @@ class FeedManager {
     var feedEntries : [FeedEntry] = [];
     var seenEntries: [String: Bool] = [String: Bool]();
     var feedAuthorInfo : [String: UserInfo] = [String: UserInfo]();
-    //var numNewEntries: Int = 0;
+    var numNewEntries: Int = 0;
     var numOldEntries: Int = 0;
     var imgCache: NSCache = NSCache();
     
@@ -55,9 +55,9 @@ class FeedManager {
         }
     }
     
-    func startFeedPolling() {
+    /*func startFeedPolling() {
         _ = NSTimer.scheduledTimerWithTimeInterval(RETRIEVE_INTERVAL, target: self, selector: #selector(FeedManager.retrieveNumUpdates), userInfo: nil, repeats: true);
-    }
+    }*/
     
     func addAuthor(author: JSON) {
         //TODO: hacky way to get around userinfo initiation
@@ -118,7 +118,7 @@ class FeedManager {
         }
     }
     
-    @objc func retrieveNumUpdates(){
+    /*@objc func retrieveNumUpdates(){
         if (self.retrievingNumUpdates) {
             return;
         }
@@ -147,9 +147,13 @@ class FeedManager {
             
             self.retrievingNumUpdates = false;
         })
-    }
+    }*/
     
     func getFeedEntries() {
+        if (Circle.sharedInstance.circleId == "") {
+            return;
+        }
+        
         if FeedManager.sharedInstance.retrievingNewEntries /*|| FeedManager.sharedInstance.numNewEntries == 0*/ {
             return;
         }
@@ -176,7 +180,7 @@ class FeedManager {
             if let numUnretrieved = resp!["numUnretrieved"].int {
                 self.processFeedEntryAuthors(resp!["entryAuthors"]);
                 self.processLatestFeedEntries(resp!["entries"]);
-                //self.numNewEntries = numUnretrieved;
+                self.numNewEntries = numUnretrieved;
             }
             self.retrievingNewEntries = false;
         });

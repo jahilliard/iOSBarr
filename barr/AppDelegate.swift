@@ -71,8 +71,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     } else {
                         NSNotificationCenter.defaultCenter().postNotificationName(readyNotification, object: self, userInfo: nil);
                         print("STARTING SOCKETS");
-                        LocationTracker.tracker.startLocationTracking()
                         SocketManager.sharedInstance.open();
+                        LocationTracker.tracker.startLocationTracking()
                     }
                 })
             })

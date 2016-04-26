@@ -9,30 +9,52 @@
 import Foundation
 import Alamofire
 import SwiftyJSON
+import CoreLocation
 
 let CircleUpdateNotification = "barr.com.app.CircleUpdateNotification";
 
 class Circle {
-    var locationId : String?;
-    var circleId: String!;
+    var circleId: String = "";
     var members : [String: UserInfo] = [String: UserInfo]();
     var memberArray: [UserInfo] = [UserInfo]();
+    var coordinates : CLLocation! = nil;
+    var radius: Double! = nil;
     
     static let sharedInstance : Circle = Circle();
     let userCellPhotoInfoCache : NSCache = NSCache();
     
     private init(){}
     
-    func initCircle(dictionary: JSON) -> Bool {
+    func resetCircle() {
         self.memberArray = [UserInfo]();
         self.members = [String: UserInfo]();
+        self.circleId = "";
+        self.coordinates = nil;
+        self.radius = nil;
+        FeedManager.sharedInstance.restartFeed();
+    }
+    
+    func initCircle(dictionary: JSON) -> Bool {
+        self.resetCircle();
+        if dictionary["circle"] == nil {
+            //error return false
+            return false;
+        }
         
-        if let circleId = dictionary["circleId"].string {
-            //not in a circle
-            if (circleId == "") {
+        if dictionary["circle"] == "" {
+            //user not in a circle
+            return false;
+        }
+        
+        let circleInfo = dictionary["circle"];
+        if let circleId = circleInfo["_id"].string, coordinates = circleInfo["geometry"]["coordinates"].array, radius = circleInfo["properties"]["radius"].double where coordinates.count >= 2 {
+            if let lat = coordinates[1].double, lon = coordinates[0].double {
+                self.circleId = circleId
+                self.coordinates = CLLocation(latitude: lat, longitude: lon);
+                self.radius = radius;
+            } else {
                 return false;
             }
-            self.circleId = circleId;
         } else {
             return false;
         }
@@ -43,15 +65,12 @@ class Circle {
             self.addMember(userInfo);
             print(userInfo);
         }
-        
-        if members.count > 0 {
-            self.notifyCircle();
-        }
-        
+    
+        self.notifyCircle();
         return true;
     }
     
-    static func addMemberToCircleByLocation(lat: Double, lon: Double, completion: (res: JSON) -> Void){
+    static func addMemberToCircleByLocation(lat: Double, lon: Double){
         let subdomain = "api/v1/rooms/members/" + Me.user.userId!
         AlamoHelper.authorizedPost(subdomain, parameters: ["coordinate" : [lon, lat]], completion: {
             err, response in
@@ -59,33 +78,65 @@ class Circle {
                 //TODO: handle
                 return;
             } else {
-                completion(res: response!)
+                if (response!["message"] != "success") {
+                    //TODO: handle
+                    return;
+                } else {
+                    if (Circle.sharedInstance.initCircle(response!["data"])) {
+                        //handle successful circle initiation
+                    } else {
+                        //handle unsuccessful circle inititation
+                    }
+                }
             }
+
         })
     }
     
-    static func addMemberToCircleByID(roomId: String, completion: (res: JSON) -> Void){
+    static func addMemberToCircleByID(roomId: String, completion: (err : NSError?, res: String?) -> Void){
+        if roomId == "" {
+            return;
+        }
+        
         let subdomain = "api/v1/rooms/" + roomId + "/members/" + Me.user.userId!
         AlamoHelper.authorizedPost(subdomain, parameters: [:], completion: {
             err, response in
             if (err != nil) {
                 //TODO: handle
+                completion(err: err, res: nil);
                 return;
             } else {
-                completion(res: response!)
+                if (response!["message"] != "success") {
+                    //TODO: handle
+                    return;
+                } else {
+                    if (Circle.sharedInstance.initCircle(response!["data"])) {
+                        completion(err: nil, res: response!["data"]["circle"]["_id"].string!);
+                    } else {
+                        //handle unsuccessful circle inititation
+                    }
+                }
             }
         })
     }
     
-    static func deleteMemberFromCircleByID(roomId: String, completion: (res: JSON) -> Void){
+    static func deleteMemberFromCircleByID(roomId: String, completion: (err : NSError?, res: JSON?) -> Void){
+        if roomId == Circle.sharedInstance.circleId {
+            Circle.sharedInstance.resetCircle();
+            Circle.sharedInstance.notifyCircle();
+        }
+        
+        //even if roomId == "" or roomId != Circle.sharedInstance.circleId, still need 
+        //to tell server to remove in case we got added but were never notified
         let subdomain = "api/v1/rooms/" + roomId + "/members/" + Me.user.userId!
         AlamoHelper.authorizedDelete(subdomain, parameters: [:], completion: {
             err, response in
             if (err != nil) {
                 //TODO: handle
+                completion(err: err, res: nil);
                 return;
             } else {
-                completion(res: response!)
+                completion(err: nil, res: response!);
             }
         })
     }
@@ -95,6 +146,9 @@ class Circle {
     }
     
     func addMember(userInfo: JSON) {
+        if (self.circleId == "") {
+            return;
+        }
         if let singleMember = UserInfo(userInfo: userInfo) {
             var insertIndex = self.memberArray.count;
             if let userId = userInfo["_id"].string {
@@ -120,6 +174,9 @@ class Circle {
     }
     
     func deleteMember(userId: String){
+        if (self.circleId == "") {
+            return;
+        }
         if (self.members[userId] != nil) {
             //find index of existing user in memberArray
             let removeIndex = self.memberArray.indexOf({$0.userId == userId})!;
@@ -151,6 +208,10 @@ class Circle {
     }
     
     func updateOffers(from: String, matchId: String, newOffers: [Int]){
+        if (self.circleId == "") {
+            return;
+        }
+        
         print(self.memberArray);
         if let member = self.members[from] {
             member.matchId = matchId;

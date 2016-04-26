@@ -10,46 +10,27 @@ import Foundation
 import SwiftyJSON
 
 class Location {
-    var id: String?
-    var name: String?
+    var id: String
+    var name: String
     var address: String?
     var imageURL: NSURL?
-    var lat: NSNumber?
-    var lon: NSNumber?
+    var lat: Double
+    var lon: Double
+    var radius: Double
     
-    var room_id: String?
-    
-    static var nearbyLocations: [Location] = [Location]()
-    
-    init(dictionary: JSON) {
-        if let id = dictionary["_id"].rawString() {
-            self.id = id
-        }
-        if let name = dictionary["properties"]["name"].rawString() {
-            self.name = name
-        }
-        if let lat = dictionary["geometry"]["coordinates"][1].rawValue as? NSNumber {
-            self.lat = lat
-        }
-        if let lon = dictionary["geometry"]["coordinates"][0].rawValue as? NSNumber {
-            self.lon = lon
-        }
-        if let r_id = dictionary["roomId"].rawString() {
-            self.room_id = r_id
-        }
-        if let address = dictionary["address"].rawString() {
-            self.address = address
-        }
-        
-        //setting imageURL
-        if let imageURLString = dictionary["image_url"].rawString() {
-            self.imageURL = NSURL(string: imageURLString)!
-        }
+    init(id: String, name: String, lat: Double, lon: Double, radius: Double, address: String?, imageURL: NSURL?) {
+        self.id = id;
+        self.name = name;
+        self.lat = lat;
+        self.lon = lon;
+        self.radius = radius;
+        self.address = address;
+        self.imageURL = imageURL;
     }
     
     static func getLocations(lat: Double, lon: Double, completion: (locations: [Location]) -> Void) {
-        nearbyLocations = [Location]()
-        AlamoHelper.GET("api/v1/locations/search/radius", parameters: ["location": [lon, lat], "radius":100000,
+        LocationTracker.tracker.nearbyLocations = [Location]()
+        AlamoHelper.GET("api/v1/rooms/search/radius", parameters: ["location": [lon, lat], "radius":1600,
             "x_key": Me.user.userId!, "access_token": Me.user.accessToken!], completion: {
             err, response in
                 if (err != nil) {
@@ -58,12 +39,19 @@ class Location {
                     return;
                 }
                 
-                let locs = response!["locations"].arrayValue
+                let locs = response!["circles"].arrayValue
                 for location in locs {
-                    let lo = Location(dictionary: location)
-                    Location.nearbyLocations.append(lo)
+                    if let id = location["_id"].rawString(), name = location["properties"]["name"].rawString(), lat = location["geometry"]["coordinates"][1].double, lon = location["geometry"]["coordinates"][0].double, radius = location["properties"]["radius"].double
+                    {
+                        //TODO: add imageURL
+                        let address = location["properties"]["address"].rawString();
+                        let lo = Location(id: id, name: name, lat: lat, lon: lon, radius: radius, address: address, imageURL: nil);
+                        LocationTracker.tracker.nearbyLocations.append(lo);
+                    } else {
+                        //break;
+                    }
                 }
-                completion(locations: nearbyLocations)
+                completion(locations: LocationTracker.tracker.nearbyLocations);
         })
     }
     

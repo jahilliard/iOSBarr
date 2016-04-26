@@ -47,6 +47,7 @@
 		0CDF95631C9CE92A007631AB /* UserCellPhotoInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDF95621C9CE92A007631AB /* UserCellPhotoInfo.swift */; };
 		0CE32B4D1C759E3000C61F98 /* Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE32B4C1C759E3000C61F98 /* Alamofire.swift */; };
 		0CEA2AA91C82926800EA2631 /* Me.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CEA2AA81C82926800EA2631 /* Me.swift */; };
+		20247A8B1CCC13180021BA1A /* defaultProfilePicture.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 20247A8A1CCC13180021BA1A /* defaultProfilePicture.jpg */; };
 		203053121C8AA78E00FCC5DC /* ChatList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 203053111C8AA78E00FCC5DC /* ChatList.storyboard */; };
 		203053141C8AAF2100FCC5DC /* ChatListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203053131C8AAF2100FCC5DC /* ChatListTableViewCell.swift */; };
 		203053161C8BD01D00FCC5DC /* ChatListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203053151C8BD01D00FCC5DC /* ChatListViewController.swift */; };
@@ -129,6 +130,7 @@
 		0CE32B4C1C759E3000C61F98 /* Alamofire.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Alamofire.swift; sourceTree = "<group>"; };
 		0CEA2AA81C82926800EA2631 /* Me.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Me.swift; sourceTree = "<group>"; };
 		1E57B0860CCB306E6589A125 /* Pods_barr.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_barr.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		20247A8A1CCC13180021BA1A /* defaultProfilePicture.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = defaultProfilePicture.jpg; path = ../../../Downloads/defaultProfilePicture.jpg; sourceTree = "<group>"; };
 		203053111C8AA78E00FCC5DC /* ChatList.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ChatList.storyboard; sourceTree = "<group>"; };
 		203053131C8AAF2100FCC5DC /* ChatListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatListTableViewCell.swift; sourceTree = "<group>"; };
 		203053151C8BD01D00FCC5DC /* ChatListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatListViewController.swift; sourceTree = "<group>"; };
@@ -323,6 +325,7 @@
 		0CAB94611CAF2F5D0095D858 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				20247A8A1CCC13180021BA1A /* defaultProfilePicture.jpg */,
 				0CAB94661CAF35EC0095D858 /* PrintBold.otf */,
 				0CAB94671CAF35EC0095D858 /* Lobster.otf */,
 			);
@@ -400,7 +403,12 @@
 				TargetAttributes = {
 					0C3DBAEA1C6C13AA00401A2E = {
 						CreatedOnToolsVersion = 7.2.1;
-						DevelopmentTeam = Q3NWX7AS93;
+						DevelopmentTeam = HCD8427AVA;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					0C3DBAFE1C6C13AA00401A2E = {
 						CreatedOnToolsVersion = 7.2.1;
@@ -438,6 +446,7 @@
 				0CAB946A1CAF3B880095D858 /* PrintBold.otf in Resources */,
 				0CAB945A1CAD9D430095D858 /* Feed.storyboard in Resources */,
 				0C4F14671C80A1350024105D /* JoinCircle.storyboard in Resources */,
+				20247A8B1CCC13180021BA1A /* defaultProfilePicture.jpg in Resources */,
 				0C3DBAF41C6C13AA00401A2E /* Main.storyboard in Resources */,
 				0CAB94691CAF35EC0095D858 /* Lobster.otf in Resources */,
 				0C3DBAF91C6C13AA00401A2E /* LaunchScreen.storyboard in Resources */,
@@ -692,7 +701,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = barr/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.barrapp.barr;
+				PRODUCT_BUNDLE_IDENTIFIER = com.carlbarrapp.barr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -708,7 +717,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = barr/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.barrapp.barr;
+				PRODUCT_BUNDLE_IDENTIFIER = com.carlbarrapp.barr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
