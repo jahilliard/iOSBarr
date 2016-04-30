@@ -47,6 +47,9 @@
 		0CDF95631C9CE92A007631AB /* UserCellPhotoInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDF95621C9CE92A007631AB /* UserCellPhotoInfo.swift */; };
 		0CE32B4D1C759E3000C61F98 /* Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE32B4C1C759E3000C61F98 /* Alamofire.swift */; };
 		0CEA2AA91C82926800EA2631 /* Me.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CEA2AA81C82926800EA2631 /* Me.swift */; };
+		200572E31CD5302B000A294B /* SquarePreview.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 200572E21CD5302B000A294B /* SquarePreview.storyboard */; };
+		200572E51CD5339A000A294B /* SquarePreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200572E41CD5339A000A294B /* SquarePreviewViewController.swift */; };
+		200572E71CD542C6000A294B /* PostToFeedBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200572E61CD542C6000A294B /* PostToFeedBarViewController.swift */; };
 		20247A8B1CCC13180021BA1A /* defaultProfilePicture.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 20247A8A1CCC13180021BA1A /* defaultProfilePicture.jpg */; };
 		20247A8D1CD038EA0021BA1A /* BackgroundLocationManagerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20247A8C1CD038EA0021BA1A /* BackgroundLocationManagerDelegate.swift */; };
 		203053121C8AA78E00FCC5DC /* ChatList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 203053111C8AA78E00FCC5DC /* ChatList.storyboard */; };
@@ -132,6 +135,9 @@
 		0CE32B4C1C759E3000C61F98 /* Alamofire.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Alamofire.swift; sourceTree = "<group>"; };
 		0CEA2AA81C82926800EA2631 /* Me.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Me.swift; sourceTree = "<group>"; };
 		1E57B0860CCB306E6589A125 /* Pods_barr.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_barr.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		200572E21CD5302B000A294B /* SquarePreview.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SquarePreview.storyboard; sourceTree = "<group>"; };
+		200572E41CD5339A000A294B /* SquarePreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SquarePreviewViewController.swift; sourceTree = "<group>"; };
+		200572E61CD542C6000A294B /* PostToFeedBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostToFeedBarViewController.swift; sourceTree = "<group>"; };
 		20247A8A1CCC13180021BA1A /* defaultProfilePicture.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = defaultProfilePicture.jpg; path = ../../../Downloads/defaultProfilePicture.jpg; sourceTree = "<group>"; };
 		20247A8C1CD038EA0021BA1A /* BackgroundLocationManagerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundLocationManagerDelegate.swift; sourceTree = "<group>"; };
 		203053111C8AA78E00FCC5DC /* ChatList.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ChatList.storyboard; sourceTree = "<group>"; };
@@ -283,6 +289,7 @@
 				0CAB94591CAD9D430095D858 /* Feed.storyboard */,
 				20F647D01CB7276B00E2A1D7 /* NewFeedEntry.storyboard */,
 				209E9ECB1CBC5DDF00FC6322 /* DisplayFeedImage.storyboard */,
+				200572E21CD5302B000A294B /* SquarePreview.storyboard */,
 			);
 			name = Storyboards;
 			sourceTree = "<group>";
@@ -306,6 +313,8 @@
 				0CD31D361CB22FB7004DF1F3 /* MyNavBarController.swift */,
 				0C9FEE511CBD2FFB004E68D5 /* LoadScreenVC.swift */,
 				209E9ECD1CBC5E9800FC6322 /* DisplayFeedImageViewController.swift */,
+				200572E41CD5339A000A294B /* SquarePreviewViewController.swift */,
+				200572E61CD542C6000A294B /* PostToFeedBarViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -459,6 +468,7 @@
 				0C3DBAF61C6C13AA00401A2E /* Assets.xcassets in Resources */,
 				203053181C8CE0F100FCC5DC /* SingleChat.storyboard in Resources */,
 				0CAE28731C78C72E00CE4F92 /* Login.storyboard in Resources */,
+				200572E31CD5302B000A294B /* SquarePreview.storyboard in Resources */,
 				207FCF391CA9FD890077BB35 /* UserProfile.storyboard in Resources */,
 				0C3EA74A1C713A9D0039193B /* Account.storyboard in Resources */,
 				20F647D11CB7276B00E2A1D7 /* NewFeedEntry.storyboard in Resources */,
@@ -542,6 +552,7 @@
 				0CAE28711C776B4400CE4F92 /* Auth.swift in Sources */,
 				0CD760051CA23B9500A811A1 /* AccountPictureCell.swift in Sources */,
 				0CC194661C92AA8000F3BD7A /* GMSMarkerLocation.swift in Sources */,
+				200572E51CD5339A000A294B /* SquarePreviewViewController.swift in Sources */,
 				0C5CBD3C1C8D2D360057B0C4 /* FacebookPhotoCell.swift in Sources */,
 				0C3DBAEF1C6C13AA00401A2E /* AppDelegate.swift in Sources */,
 				0C2346061C8BB64D00250B3E /* DownImage.swift in Sources */,
@@ -577,6 +588,7 @@
 				20F647D31CB72CB200E2A1D7 /* NewFeedEntryViewController.swift in Sources */,
 				209E9ECE1CBC5E9800FC6322 /* DisplayFeedImageViewController.swift in Sources */,
 				0CC1946A1C97150E00F3BD7A /* LocationTracker.swift in Sources */,
+				200572E71CD542C6000A294B /* PostToFeedBarViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

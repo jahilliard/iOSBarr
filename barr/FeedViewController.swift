@@ -522,7 +522,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         
         if scrollView.contentOffset.y <= -minOffsetToTriggerRefresh {
-            FeedManager.sharedInstance.getFeedEntries();
+            FeedManager.sharedInstance.getLatestFeedEntries();
         }
     }
     

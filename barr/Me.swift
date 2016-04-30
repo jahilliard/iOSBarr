@@ -21,6 +21,7 @@ class Me {
     var accessToken: String?
     var email: String?
     var status: String?
+    var currentFeedId: String?
     
     var newestValidateInfo = false
     

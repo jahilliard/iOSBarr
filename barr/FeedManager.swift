@@ -23,6 +23,7 @@ class FeedManager {
     
     static let sharedInstance : FeedManager = FeedManager();
     
+    private var currentFeedId : String;
     var feedEntries : [FeedEntry] = [];
     var seenEntries: [String: Bool] = [String: Bool]();
     var feedAuthorInfo : [String: UserInfo] = [String: UserInfo]();
@@ -36,6 +37,8 @@ class FeedManager {
     //make sure callback returns before getting more updates
     var retrievingNumUpdates : Bool = false;
     
+    var inOtherFeed: Bool = false;
+
     func restartFeed() {
         self.feedEntries = [];
         self.seenEntries = [String: Bool]();
@@ -149,8 +152,8 @@ class FeedManager {
         })
     }*/
     
-    func getFeedEntries() {
-        if (Circle.sharedInstance.circleId == "") {
+    func getLatestFeedEntries() {
+        if (self.currentFeedId == "") {
             return;
         }
         
@@ -165,7 +168,7 @@ class FeedManager {
         }
         
         self.retrievingNewEntries = true;
-        AlamoHelper.authorizedGet("api/v1/feed/\(Circle.sharedInstance.circleId)/updates", parameters: params, completion: {(err, resp) in
+        AlamoHelper.authorizedGet("api/v1/feed/\(self.currentFeedId)/updates", parameters: params, completion: {(err, resp) in
             if err != nil || resp!["message"].string != "success" {
                 self.retrievingNewEntries = false;
                 return;
@@ -187,6 +190,10 @@ class FeedManager {
     }
     
     func getOlderEntries() {
+        if (self.currentFeedId == "") {
+            return;
+        }
+        
         if FeedManager.sharedInstance.retrievingOldEntries || FeedManager.sharedInstance.numOldEntries == 0 || self.feedEntries.count <= 0
         {
             return;
@@ -197,7 +204,7 @@ class FeedManager {
         params["latestDate"] = self.feedEntries[self.feedEntries.count - 1].dateString;
         
         self.retrievingOldEntries = true;
-        AlamoHelper.authorizedGet("api/v1/feed/\(Circle.sharedInstance.circleId)/older", parameters: params, completion: {(err, resp) in
+        AlamoHelper.authorizedGet("api/v1/feed/\(self.currentFeedId)/older", parameters: params, completion: {(err, resp) in
             if err != nil || resp!["message"].string != "success" {
                 self.retrievingOldEntries = false;
                 return;
@@ -219,11 +226,11 @@ class FeedManager {
     }
     
     //only calld once on initialization
-    func getLatestFeedEntries() {
+    /*func getLatestFeedEntries() {
         var params = [String: AnyObject]();
         params["numEntriesToFetch"] = RETRIEVE_AMOUNT;
         self.retrievingNewEntries = true;
-        AlamoHelper.authorizedGet("api/v1/feed/\(Circle.sharedInstance.circleId)/latest", parameters: params, completion: {(err, resp) in
+        AlamoHelper.authorizedGet("api/v1/feed/\(self.currentFeedId)/latest", parameters: params, completion: {(err, resp) in
             if (err != nil) {
                 //TODO: handle error
                 self.getLatestFeedEntries();
@@ -243,8 +250,63 @@ class FeedManager {
                 }
             }
         });
+    }*/
+    
+    @objc func handleCircleIdUpdate() {
+        let newId = Circle.sharedInstance.circleId;
+        
+        if self.inOtherFeed {
+            return;
+        }
+        
+        else if newId != self.currentFeedId {
+            self.restartFeed();
+            self.currentFeedId = newId;
+            if newId != "" {
+                self.getLatestFeedEntries();
+            }
+        }
     }
     
-    private init(){}
+    func returnToOriginalFeed() {
+        if !self.inOtherFeed {
+            return;
+        }
+        
+        self.currentFeedId = Circle.sharedInstance.circleId;
+        self.inOtherFeed = false;
+        if (self.currentFeedId != "") {
+            self.getLatestFeedEntries();
+        }
+    }
+    
+    func updateFeedId(newFeedId: String) {
+        if (self.inOtherFeed) {
+            if (self.currentFeedId != newFeedId) {
+                if (newFeedId == Circle.sharedInstance.circleId) {
+                    self.returnToOriginalFeed();
+                    return;
+                } else {
+                    self.currentFeedId = newFeedId;
+                    self.restartFeed();
+                    self.getLatestFeedEntries();
+                }
+            }
+        } else {
+            if (newFeedId != Circle.sharedInstance.circleId) {
+                self.inOtherFeed = true;
+                self.currentFeedId = newFeedId;
+                self.restartFeed();
+                self.getLatestFeedEntries();
+            } else {
+                return;
+            }
+        }
+    }
+    
+    private init(){
+        self.currentFeedId = Circle.sharedInstance.circleId;
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(self.handleCircleIdUpdate), name: CircleIdUpdateNofitification, object: nil);
+    }
 }
     

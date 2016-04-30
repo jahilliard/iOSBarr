@@ -12,7 +12,7 @@ import SwiftyJSON
 import CoreLocation
 
 let CircleUpdateNotification = "barr.com.app.CircleUpdateNotification";
-
+let CircleIdUpdateNofitification = "barr.com.app.CircleIdUpdateNotification";
 class Circle {
     var circleId: String = "";
     var members : [String: UserInfo] = [String: UserInfo]();
@@ -32,7 +32,7 @@ class Circle {
         self.circleId = "";
         self.coordinates = nil;
         self.radius = nil;
-        FeedManager.sharedInstance.restartFeed();
+    NSNotificationCenter.defaultCenter().postNotificationName(CircleIdUpdateNofitification, object: self, userInfo: nil);
     }
     
     func initCircle(dictionary: JSON) -> Bool {
@@ -56,6 +56,7 @@ class Circle {
             } else {
                 return false;
             }
+            NSNotificationCenter.defaultCenter().postNotificationName(CircleIdUpdateNofitification, object: self, userInfo: nil);
         } else {
             return false;
         }

@@ -18,7 +18,8 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
     var timer: NSTimer = NSTimer()
     var timeCount: Int = 0
     var previewView = UIView()
-
+    var tappedLocationId = "";
+    
     var locationArr: [Location] = []
     
     // Mark: UIViewController Methods
@@ -104,8 +105,17 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
 
     func mapView(mapView: GMSMapView, didTapMarker marker: GMSMarker) -> Bool {
         let markLoc = marker as! GMSMarkerLocation
-        makePreviewView(markLoc.location.id);
+        //makePreviewView(markLoc.location.id);
+        self.tappedLocationId = markLoc.location.id;
+        performSegueWithIdentifier("showSquareInfo", sender: self);
         return true;
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if (segue.identifier == "showSquareInfo") {
+            let squarePreviewViewController = segue.destinationViewController as! SquarePreviewViewController;
+            squarePreviewViewController.locationId = self.tappedLocationId;
+        }
     }
     
     // MARK: Preview Methods

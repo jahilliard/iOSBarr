@@ -245,6 +245,51 @@
             </objects>
             <point key="canvasLocation" x="2042.5" y="117"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="VGt-LH-6Hc">
+            <objects>
+                <viewController id="VIb-5b-zU8" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="cO9-eH-bhW"/>
+                        <viewControllerLayoutGuide type="bottom" id="sjW-sN-1Bw"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Lfu-zX-O5G">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DWZ-cm-7K9">
+                                <rect key="frame" x="20" y="20" width="560" height="50"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="MOd-Rh-h3u">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="50" id="MzN-T6-QHM"/>
+                                            <constraint firstAttribute="height" constant="50" id="mFF-HY-P3J"/>
+                                        </constraints>
+                                    </imageView>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Post To Feed" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Aez-Gl-2Vo">
+                                        <rect key="frame" x="50" y="0.0" width="510" height="50"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <gestureRecognizers/>
+                                        <color key="textColor" red="0.80413510099999996" green="0.80413510099999996" blue="0.80413510099999996" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="DWZ-cm-7K9" firstAttribute="top" secondItem="cO9-eH-bhW" secondAttribute="bottom" id="3nN-5C-XmW"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="DWZ-cm-7K9" secondAttribute="trailing" id="5wA-OC-8NZ"/>
+                            <constraint firstItem="DWZ-cm-7K9" firstAttribute="leading" secondItem="Lfu-zX-O5G" secondAttribute="leadingMargin" id="i7q-Mh-IM5"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Cia-vd-NE7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2195" y="680"/>
+        </scene>
         <!--DisplayFeedImage-->
         <scene sceneID="5GQ-fE-KNh">
             <objects>

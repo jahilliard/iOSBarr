@@ -67,7 +67,7 @@ class FacebookPhotoCell: PhotoCollectionViewCell {
             label!.textAlignment = NSTextAlignment.Center
             label!.text = String(format: "%C", 0xe106)
             label!.textColor = UIColor.whiteColor()
-            numberSelected!.backgroundColor = UIColor.blueColor()
+            numberSelected!.backgroundColor = UIColor.whiteColor();
         }
         if let numSel = numberSelected, lab = label {
             self.layer.borderWidth = 5

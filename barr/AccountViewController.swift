@@ -106,6 +106,14 @@ class AccountViewController: UIViewController, UIScrollViewDelegate, UITextViewD
         self.statusTextView.layer.borderColor = UIColor.lightGrayColor().CGColor;
         self.statusTextView.layer.borderWidth = 0.5;
         self.statusTextViewHeightConstraint.constant = MIN_TEXTVIEW_HEIGHT;
+        self.view.layoutIfNeeded();
+        
+        if Me.user.nickname != "" {
+            self.nicknameLabel.text = Me.user.nickname;
+        } else {
+            self.nicknameLabel.text = "Enter Nickname Here";
+            self.nicknameLabel.textColor = UIColor.lightGrayColor();
+        }
         
         if Me.user.status != "" {
             self.statusTextView.text = Me.user.status;
@@ -310,9 +318,15 @@ class AccountViewController: UIViewController, UIScrollViewDelegate, UITextViewD
         let fixedWidth = textView.frame.size.width
         let newSize : CGSize = textView.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.max));
         
+        print(textView.text);
         if newSize.height > MIN_TEXTVIEW_HEIGHT {
             self.statusTextViewHeightConstraint.constant = newSize.height;
         }
+        
+        else if self.statusTextViewHeightConstraint.constant > MIN_TEXTVIEW_HEIGHT{
+            self.statusTextViewHeightConstraint.constant = MIN_TEXTVIEW_HEIGHT;
+        }
+        
         self.view.layoutIfNeeded();
     }
     

@@ -68,13 +68,14 @@ class SelectPhotosViewController: UIViewController, UICollectionViewDataSource, 
             }
         }
         
-        cell.backgroundColor = UIColor.orangeColor()
+        cell.backgroundColor = UIColor.whiteColor();
         return cell
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         let cell: FacebookPhotoCell = collectionView.cellForItemAtIndexPath(indexPath)! as! FacebookPhotoCell
         
+        print(Me.user.picturesArr);
         Me.user.picturesArr![self.indexToMod!] = (cell.fbCellInfo?.imgURL)!
         print(Me.user.picturesArr)
         

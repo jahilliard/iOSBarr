@@ -258,7 +258,7 @@ class CircleViewController: UIViewController, UICollectionViewDataSource, UIColl
             cell.setFbImgInfo(userCellImgInfo);
         }
         
-        cell.backgroundColor = UIColor.blueColor();
+        cell.backgroundColor = UIColor.whiteColor();
         return cell;
     }
 }

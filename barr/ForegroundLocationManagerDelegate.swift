@@ -34,6 +34,7 @@ class ForegroundLocationManagerDelegate : NSObject, CLLocationManagerDelegate, C
     }
     
     func startFineGrainedLocationTimer(){
+        self.updateCoordinates();
         self.locationUpdateTimer = NSTimer.scheduledTimerWithTimeInterval(UPDATE_INTERVAL, target: self, selector: #selector(self.updateLocation), userInfo: nil, repeats: true);
     }
     

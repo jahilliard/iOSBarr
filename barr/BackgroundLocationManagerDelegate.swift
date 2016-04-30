@@ -36,6 +36,7 @@ class BackgroundLocationManagerDelegate : NSObject, CLLocationManagerDelegate, C
     }
     
     func startFineGrainedLocationTimer(){
+        self.updateCoordinates();
         self.locationUpdateTimer = NSTimer.scheduledTimerWithTimeInterval(UPDATE_INTERVAL, target: self, selector: #selector(self.updateCoordinates), userInfo: nil, repeats: true);
     }
     

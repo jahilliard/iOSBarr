@@ -52,16 +52,16 @@
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="th9-6q-v4f">
-                                                <rect key="frame" x="0.0" y="461" width="242" height="30"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="th9-6q-v4f">
+                                                <rect key="frame" x="0.0" y="461" width="248" height="30"/>
                                                 <subviews>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="nicknameEnteredHere" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XxF-n1-w9t">
                                                         <rect key="frame" x="0.0" y="0.0" width="205" height="30"/>
                                                         <fontDescription key="fontDescription" name="PrintBold" family="Print Bold" pointSize="24"/>
                                                         <textInputTraits key="textInputTraits"/>
                                                     </textField>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AC4-zh-Ihx">
-                                                        <rect key="frame" x="205" y="0.0" width="37" height="30"/>
+                                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AC4-zh-Ihx">
+                                                        <rect key="frame" x="211" y="0.0" width="37" height="30"/>
                                                         <state key="normal" title="Done"/>
                                                         <connections>
                                                             <action selector="onNicknameDoneButtonPress:" destination="zbk-Bs-QxS" eventType="touchUpInside" id="NtH-mc-eTU"/>
