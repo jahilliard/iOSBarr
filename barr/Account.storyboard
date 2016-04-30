@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="1E9-PT-I0f">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="1E9-PT-I0f">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -28,7 +28,7 @@
                                 <rect key="frame" x="20" y="64" width="560" height="487"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="f3z-UF-j7l" userLabel="Content View">
-                                        <rect key="frame" x="0.0" y="0.0" width="560" height="537"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="560" height="511"/>
                                         <subviews>
                                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HW5-uN-J4Y">
                                                 <rect key="frame" x="0.0" y="0.0" width="560" height="300"/>
@@ -69,20 +69,6 @@
                                                     </button>
                                                 </subviews>
                                             </stackView>
-                                            <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cL7-Tf-aBv">
-                                                <rect key="frame" x="0.0" y="496" width="244" height="31"/>
-                                                <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Allow Hearts From Males:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hJG-rz-YXf">
-                                                        <rect key="frame" x="0.0" y="0.0" width="195" height="31"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Nwc-NM-ba7">
-                                                        <rect key="frame" x="195" y="0.0" width="51" height="31"/>
-                                                    </switch>
-                                                </subviews>
-                                            </stackView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YHK-FW-hen">
                                                 <rect key="frame" x="0.0" y="405" width="31" height="30"/>
                                                 <constraints>
@@ -109,18 +95,16 @@
                                             <constraint firstItem="HW5-uN-J4Y" firstAttribute="width" secondItem="f3z-UF-j7l" secondAttribute="width" id="68E-vk-Mi2"/>
                                             <constraint firstItem="zCD-ub-vIf" firstAttribute="top" secondItem="HW5-uN-J4Y" secondAttribute="bottom" constant="5" id="6Xv-d2-nYL"/>
                                             <constraint firstItem="HW5-uN-J4Y" firstAttribute="leading" secondItem="f3z-UF-j7l" secondAttribute="leading" id="72J-Qi-hDm"/>
-                                            <constraint firstItem="cL7-Tf-aBv" firstAttribute="top" secondItem="th9-6q-v4f" secondAttribute="bottom" constant="5" id="D5g-f4-f51"/>
                                             <constraint firstAttribute="trailing" secondItem="HW5-uN-J4Y" secondAttribute="trailing" id="J0f-kG-4NF"/>
-                                            <constraint firstItem="cL7-Tf-aBv" firstAttribute="leading" secondItem="f3z-UF-j7l" secondAttribute="leading" id="NSZ-qq-vC2"/>
                                             <constraint firstItem="vNb-YS-5An" firstAttribute="top" secondItem="YHK-FW-hen" secondAttribute="bottom" constant="5" id="T8J-C1-477"/>
                                             <constraint firstItem="vNb-YS-5An" firstAttribute="leading" secondItem="f3z-UF-j7l" secondAttribute="leading" id="UoG-8l-glZ"/>
                                             <constraint firstAttribute="trailing" secondItem="zCD-ub-vIf" secondAttribute="trailing" id="XTh-V7-tQt"/>
                                             <constraint firstItem="th9-6q-v4f" firstAttribute="leading" secondItem="f3z-UF-j7l" secondAttribute="leading" id="g2a-ec-41I"/>
                                             <constraint firstItem="th9-6q-v4f" firstAttribute="top" secondItem="vNb-YS-5An" secondAttribute="bottom" id="hze-3Y-Jjl"/>
                                             <constraint firstItem="HW5-uN-J4Y" firstAttribute="top" secondItem="f3z-UF-j7l" secondAttribute="top" id="icW-aT-Ju6"/>
+                                            <constraint firstAttribute="bottom" secondItem="th9-6q-v4f" secondAttribute="bottom" constant="20" id="lRZ-47-N8M"/>
                                             <constraint firstItem="YHK-FW-hen" firstAttribute="top" secondItem="zCD-ub-vIf" secondAttribute="bottom" id="rAo-Yk-67n"/>
                                             <constraint firstItem="zCD-ub-vIf" firstAttribute="leading" secondItem="f3z-UF-j7l" secondAttribute="leading" id="tng-ym-rfu"/>
-                                            <constraint firstAttribute="bottom" secondItem="cL7-Tf-aBv" secondAttribute="bottom" constant="10" id="wdX-4i-SJW"/>
                                         </constraints>
                                     </view>
                                 </subviews>

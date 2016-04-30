@@ -186,6 +186,16 @@ class CircleViewController: UIViewController, UICollectionViewDataSource, UIColl
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         if segue.identifier == "showProfile" {
+            if let cell = sender as? UserPhotoCell {
+                print(cell);
+                if let cellInfo = cell.userCellInfo {
+                    print(cellInfo);
+                    if let userInfo = cellInfo.user {
+                        print(userInfo);
+                    }
+                }
+            }
+            
             if let cell = sender as? UserPhotoCell, cellInfo = cell.userCellInfo, userInfo = cellInfo.user
             {
                 let profileController = segue.destinationViewController as! UserProfileViewController;
@@ -221,8 +231,9 @@ class CircleViewController: UIViewController, UICollectionViewDataSource, UIColl
         //look through the user Arr
         let userInfo = self.memberArray[indexPath.row];
 
-        if userInfo.pictures.count > 0 {
+        if userInfo.pictures.count > 0 && userInfo.pictures[0] != "null" {
             let picURL = userInfo.pictures[0];
+            print(picURL);
             if let img = Circle.sharedInstance.userCellPhotoInfoCache.objectForKey(picURL) as? UIImage{
                 let userCellImgInfo = UserCellPhotoInfo(user: userInfo, indexPath: indexPath, img: img, imgURL: picURL);
                 cell.setFbImgInfo(userCellImgInfo);
@@ -236,13 +247,18 @@ class CircleViewController: UIViewController, UICollectionViewDataSource, UIColl
                     }
                 } else {
                     //TODO: set cell to default
+                    let userCellImgInfo = UserCellPhotoInfo(user: userInfo, indexPath: indexPath, img: UIImage(imageLiteral: "defaultProfilePicture.jpg"), imgURL: "default");
+                    cell.setFbImgInfo(userCellImgInfo);
                 }
             }
         } else {
             //TODO: set cell to default
+            print(userInfo);
+            let userCellImgInfo = UserCellPhotoInfo(user: userInfo, indexPath: indexPath, img: UIImage(imageLiteral: "defaultProfilePicture.jpg"), imgURL: "default");
+            cell.setFbImgInfo(userCellImgInfo);
         }
         
-        cell.backgroundColor = UIColor.blueColor()
-        return cell
+        cell.backgroundColor = UIColor.blueColor();
+        return cell;
     }
 }

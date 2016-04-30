@@ -28,9 +28,9 @@ class Location {
         self.imageURL = imageURL;
     }
     
-    static func getLocations(lat: Double, lon: Double, completion: (locations: [Location]) -> Void) {
-        LocationTracker.tracker.nearbyLocations = [Location]()
-        AlamoHelper.GET("api/v1/rooms/search/radius", parameters: ["location": [lon, lat], "radius":1600,
+    static func getLocations(lat: Double, lon: Double, radius: Double, completion: (locations: [Location]) -> Void) {
+        LocationTracker.sharedInstance.nearbyLocations = [Location]()
+        AlamoHelper.GET("api/v1/rooms/search/radius", parameters: ["location": [lon, lat], "radius": radius,
             "x_key": Me.user.userId!, "access_token": Me.user.accessToken!], completion: {
             err, response in
                 if (err != nil) {
@@ -46,12 +46,12 @@ class Location {
                         //TODO: add imageURL
                         let address = location["properties"]["address"].rawString();
                         let lo = Location(id: id, name: name, lat: lat, lon: lon, radius: radius, address: address, imageURL: nil);
-                        LocationTracker.tracker.nearbyLocations.append(lo);
+                        LocationTracker.sharedInstance.nearbyLocations.append(lo);
                     } else {
                         //break;
                     }
                 }
-                completion(locations: LocationTracker.tracker.nearbyLocations);
+                completion(locations: LocationTracker.sharedInstance.nearbyLocations);
         })
     }
     

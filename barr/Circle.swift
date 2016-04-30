@@ -22,6 +22,7 @@ class Circle {
     
     static let sharedInstance : Circle = Circle();
     let userCellPhotoInfoCache : NSCache = NSCache();
+    var lastJoinCircleRequest : requestTracker! = nil;
     
     private init(){}
     
@@ -70,27 +71,37 @@ class Circle {
         return true;
     }
     
-    static func addMemberToCircleByLocation(lat: Double, lon: Double){
+    static func addMemberToCircleByLocation(lat: Double, lon: Double, callback: NSError? -> ()){
+        if let lastJoinRequest = Circle.sharedInstance.lastJoinCircleRequest{
+            if !lastJoinRequest.isFinished {
+                lastJoinRequest.cancel();
+            }
+        }
+        
         let subdomain = "api/v1/rooms/members/" + Me.user.userId!
-        AlamoHelper.authorizedPost(subdomain, parameters: ["coordinate" : [lon, lat]], completion: {
+        
+        let reqTracker = AlamoHelper.authorizedPost(subdomain, parameters: ["coordinate" : [lon, lat]], completion: {
             err, response in
             if (err != nil) {
-                //TODO: handle
+                callback(err)
                 return;
             } else {
                 if (response!["message"] != "success") {
                     //TODO: handle
+                    callback(NSError(domain: "no success", code: 400, userInfo: nil));
                     return;
                 } else {
                     if (Circle.sharedInstance.initCircle(response!["data"])) {
-                        //handle successful circle initiation
+                        callback(nil);
                     } else {
                         //handle unsuccessful circle inititation
+                        callback(NSError(domain: "malformed response", code: 400, userInfo: nil));
                     }
                 }
             }
-
-        })
+        });
+        
+        Circle.sharedInstance.lastJoinCircleRequest = reqTracker;
     }
     
     static func addMemberToCircleByID(roomId: String, completion: (err : NSError?, res: String?) -> Void){

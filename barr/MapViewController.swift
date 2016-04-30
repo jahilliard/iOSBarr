@@ -29,7 +29,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
         let apiKey = "AIzaSyB0Ri7k31AAY9EjPXDhAQc1NpTzKaon6RM"
         GMSServices.provideAPIKey(apiKey)
         //LocationTracker.tracker.startLocationTracking()
-        if let lat = LocationTracker.tracker.currentCoord?.latitude, lon = LocationTracker.tracker.currentCoord?.longitude {
+        if let lat = LocationTracker.sharedInstance.currentCoord?.latitude, lon = LocationTracker.sharedInstance.currentCoord?.longitude {
             mapview = makeMap(lat, longitude: lon , zoom: 15)
             self.view.addSubview(mapview!)
             updateMapLocation()
@@ -37,7 +37,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
             mapview = makeMap(40.4433, longitude: -79.9436 , zoom: 15)
             self.view.addSubview(mapview!)
         }
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MapViewController.updateMapLocation), name: locationNotificationKey, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MapViewController.updateMapLocation), name: mapViewLocationNotificationKey, object: nil)
     }
 
     override func didReceiveMemoryWarning() {
@@ -55,15 +55,14 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
         }
         mapview?.delegate = self
         
-        if let locationCoords = LocationTracker.tracker.currentCoord {
+        if let locationCoords = LocationTracker.sharedInstance.currentCoord {
             mapview!.animateToLocation(locationCoords)
         }
         
     }
     
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(true)
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: locationNotificationKey, object: nil)
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self);
     }
     
     // Mark: Map Methods
@@ -87,13 +86,13 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
     }
     
     func updateMapLocation(){
-        if let locationCoords = LocationTracker.tracker.currentCoord {
+        if let locationCoords = LocationTracker.sharedInstance.currentCoord {
             mapview!.animateToLocation(locationCoords)
             /*Circle.addMemberToCircleByLocation(locationCoords.latitude, lon: locationCoords.longitude){
                 _ in
                 //ADD NOTIFICATION SAYING YOUR IN CIRCLE
             }*/
-            for loc in LocationTracker.tracker.nearbyLocations {
+            for loc in LocationTracker.sharedInstance.nearbyLocations {
                 print(loc)
                 let currMark = self.makeMarker(loc)
                 currMark.map = self.mapview
