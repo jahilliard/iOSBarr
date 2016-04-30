@@ -29,7 +29,7 @@ class LoginViewController: UIViewController {
                             return;
                         } else {
                             //TODO: this belong here?
-                            LocationTracker.tracker.startLocationTracking();
+                            LocationTracker.sharedInstance.startLocationTracking();
                             if (isCreated == false) {
                                 //TODO: move socket init into after info has been filled out by the user in additionalinfocontroller
                                 print("STARTING SOCKETS");

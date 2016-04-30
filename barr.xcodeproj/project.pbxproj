@@ -47,10 +47,13 @@
 		0CDF95631C9CE92A007631AB /* UserCellPhotoInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDF95621C9CE92A007631AB /* UserCellPhotoInfo.swift */; };
 		0CE32B4D1C759E3000C61F98 /* Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE32B4C1C759E3000C61F98 /* Alamofire.swift */; };
 		0CEA2AA91C82926800EA2631 /* Me.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CEA2AA81C82926800EA2631 /* Me.swift */; };
+		20247A8B1CCC13180021BA1A /* defaultProfilePicture.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 20247A8A1CCC13180021BA1A /* defaultProfilePicture.jpg */; };
+		20247A8D1CD038EA0021BA1A /* BackgroundLocationManagerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20247A8C1CD038EA0021BA1A /* BackgroundLocationManagerDelegate.swift */; };
 		203053121C8AA78E00FCC5DC /* ChatList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 203053111C8AA78E00FCC5DC /* ChatList.storyboard */; };
 		203053141C8AAF2100FCC5DC /* ChatListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203053131C8AAF2100FCC5DC /* ChatListTableViewCell.swift */; };
 		203053161C8BD01D00FCC5DC /* ChatListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203053151C8BD01D00FCC5DC /* ChatListViewController.swift */; };
 		203053181C8CE0F100FCC5DC /* SingleChat.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 203053171C8CE0F100FCC5DC /* SingleChat.storyboard */; };
+		20345BA41CD09B0800FEA923 /* ForegroundLocationManagerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20345BA31CD09B0800FEA923 /* ForegroundLocationManagerDelegate.swift */; };
 		203B828E1C82B5B900711838 /* SocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203B828D1C82B5B900711838 /* SocketManager.swift */; };
 		203B82901C83FBCC00711838 /* ChatManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203B828F1C83FBCC00711838 /* ChatManager.swift */; };
 		203B82921C8406EB00711838 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 203B82911C8406EB00711838 /* Message.swift */; };
@@ -129,10 +132,13 @@
 		0CE32B4C1C759E3000C61F98 /* Alamofire.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Alamofire.swift; sourceTree = "<group>"; };
 		0CEA2AA81C82926800EA2631 /* Me.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Me.swift; sourceTree = "<group>"; };
 		1E57B0860CCB306E6589A125 /* Pods_barr.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_barr.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		20247A8A1CCC13180021BA1A /* defaultProfilePicture.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = defaultProfilePicture.jpg; path = ../../../Downloads/defaultProfilePicture.jpg; sourceTree = "<group>"; };
+		20247A8C1CD038EA0021BA1A /* BackgroundLocationManagerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundLocationManagerDelegate.swift; sourceTree = "<group>"; };
 		203053111C8AA78E00FCC5DC /* ChatList.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ChatList.storyboard; sourceTree = "<group>"; };
 		203053131C8AAF2100FCC5DC /* ChatListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatListTableViewCell.swift; sourceTree = "<group>"; };
 		203053151C8BD01D00FCC5DC /* ChatListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatListViewController.swift; sourceTree = "<group>"; };
 		203053171C8CE0F100FCC5DC /* SingleChat.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SingleChat.storyboard; sourceTree = "<group>"; };
+		20345BA31CD09B0800FEA923 /* ForegroundLocationManagerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForegroundLocationManagerDelegate.swift; sourceTree = "<group>"; };
 		203B828D1C82B5B900711838 /* SocketManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketManager.swift; sourceTree = "<group>"; };
 		203B828F1C83FBCC00711838 /* ChatManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatManager.swift; sourceTree = "<group>"; };
 		203B82911C8406EB00711838 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
@@ -209,6 +215,8 @@
 				0CC194691C97150E00F3BD7A /* LocationTracker.swift */,
 				2091D6A71CB0BBED008A6C25 /* FeedManager.swift */,
 				2091D6A91CB0BF71008A6C25 /* FeedEntry.swift */,
+				20247A8C1CD038EA0021BA1A /* BackgroundLocationManagerDelegate.swift */,
+				20345BA31CD09B0800FEA923 /* ForegroundLocationManagerDelegate.swift */,
 			);
 			name = models;
 			sourceTree = "<group>";
@@ -323,6 +331,7 @@
 		0CAB94611CAF2F5D0095D858 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				20247A8A1CCC13180021BA1A /* defaultProfilePicture.jpg */,
 				0CAB94661CAF35EC0095D858 /* PrintBold.otf */,
 				0CAB94671CAF35EC0095D858 /* Lobster.otf */,
 			);
@@ -400,7 +409,12 @@
 				TargetAttributes = {
 					0C3DBAEA1C6C13AA00401A2E = {
 						CreatedOnToolsVersion = 7.2.1;
-						DevelopmentTeam = Q3NWX7AS93;
+						DevelopmentTeam = HCD8427AVA;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					0C3DBAFE1C6C13AA00401A2E = {
 						CreatedOnToolsVersion = 7.2.1;
@@ -438,6 +452,7 @@
 				0CAB946A1CAF3B880095D858 /* PrintBold.otf in Resources */,
 				0CAB945A1CAD9D430095D858 /* Feed.storyboard in Resources */,
 				0C4F14671C80A1350024105D /* JoinCircle.storyboard in Resources */,
+				20247A8B1CCC13180021BA1A /* defaultProfilePicture.jpg in Resources */,
 				0C3DBAF41C6C13AA00401A2E /* Main.storyboard in Resources */,
 				0CAB94691CAF35EC0095D858 /* Lobster.otf in Resources */,
 				0C3DBAF91C6C13AA00401A2E /* LaunchScreen.storyboard in Resources */,
@@ -531,6 +546,7 @@
 				0C3DBAEF1C6C13AA00401A2E /* AppDelegate.swift in Sources */,
 				0C2346061C8BB64D00250B3E /* DownImage.swift in Sources */,
 				0CD31D371CB22FB7004DF1F3 /* MyNavBarController.swift in Sources */,
+				20247A8D1CD038EA0021BA1A /* BackgroundLocationManagerDelegate.swift in Sources */,
 				203B82961C85804800711838 /* ChatViewController.swift in Sources */,
 				0CE32B4D1C759E3000C61F98 /* Alamofire.swift in Sources */,
 				0C44C62F1C7BCC3C00B8DF41 /* UserInfo.swift in Sources */,
@@ -557,6 +573,7 @@
 				0C44DD2C1C6FE70D00B88039 /* AccountViewController.swift in Sources */,
 				0C5694581CA2E862001C4EA7 /* SelectAlbumViewController.swift in Sources */,
 				20DC98D01CB1FF0B00FA81C8 /* FeedViewController.swift in Sources */,
+				20345BA41CD09B0800FEA923 /* ForegroundLocationManagerDelegate.swift in Sources */,
 				20F647D31CB72CB200E2A1D7 /* NewFeedEntryViewController.swift in Sources */,
 				209E9ECE1CBC5E9800FC6322 /* DisplayFeedImageViewController.swift in Sources */,
 				0CC1946A1C97150E00F3BD7A /* LocationTracker.swift in Sources */,
@@ -692,7 +709,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = barr/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.barrapp.barr;
+				PRODUCT_BUNDLE_IDENTIFIER = com.carlbarrapp.barr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -708,7 +725,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = barr/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.barrapp.barr;
+				PRODUCT_BUNDLE_IDENTIFIER = com.carlbarrapp.barr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";

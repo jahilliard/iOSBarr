@@ -84,7 +84,11 @@ class SocketManager {
         //create new socket
         let connectParams = ["id": Me.user.userId!, "access_token": Me.user.accessToken!];
         
-        self.socket = SocketIOClient(socketURL: NSURL(string: "http://172.31.98.21:3000")!, options: ["connectParams" : connectParams]);
+        /*self.socket = SocketIOClient(socketURL: NSURL(string: "http://107.170.5.135:3000")!, options: ["connectParams" : connectParams]);*/
+        
+        self.socket = SocketIOClient(socketURL: NSURL(string: "http://10.0.0.2:3000")!, options: ["connectParams" : connectParams]);
+        
+        /*self.socket = SocketIOClient(socketURL: NSURL(string: "http://172.31.98.21:3000")!, options: ["connectParams" : connectParams]);*/
 
         print("SOCKET MANAGER INITING");
         
@@ -108,14 +112,10 @@ class SocketManager {
         self.socket!.on("connect", callback: {(data, ack) in
             //retrieve latest chats
             ChatManager.sharedInstance.getLatestChats();
-            //get latest circle info 
-            Circle.sharedInstance.getCircleInfo({circleId in
-                FeedManager.sharedInstance.restartFeed();
-                FeedManager.sharedInstance.getLatestFeedEntries();
-            });
+            //update location, join nearest circle
+            LocationTracker.sharedInstance.getFreshLocationInfo();
             print("socket connected");
             //display map view controller
-            
         });
         
         self.socket!.on("newCircleMember", callback: {(data, ack) in

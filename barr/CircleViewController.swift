@@ -27,7 +27,7 @@ class CircleViewController: UIViewController, UICollectionViewDataSource, UIColl
     @IBOutlet weak var circleCollection: UICollectionView!
 
     @IBOutlet weak var HeartButton: UIButton!
-    @IBOutlet weak var joinCircleFail: UIButton!
+    //@IBOutlet weak var joinCircleFail: UIButton!
     
     @IBAction func onHeartButtonPress(sender: AnyObject) {
         print("heart Hit")
@@ -64,8 +64,8 @@ class CircleViewController: UIViewController, UICollectionViewDataSource, UIColl
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if (Circle.sharedInstance.circleId != nil) {
-            joinCircleFail.hidden = true
+        //if (Circle.sharedInstance.circleId != "") {
+            //joinCircleFail.hidden = true
             self.makeMemberArray();
             //        let req = FBSDKGraphRequest(graphPath: "me/photos", parameters: ["fields": "id, source"], tokenString: Me.user.fbAuthtoken, version: nil, HTTPMethod: "GET")
             //        req.startWithCompletionHandler({ (connection, result, error : NSError!) -> Void in
@@ -95,21 +95,21 @@ class CircleViewController: UIViewController, UICollectionViewDataSource, UIColl
             defineToggleView()
             
             NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CircleViewController.updateCircle(_:)), name:CircleUpdateNotification, object: nil);
-        } else {
-            if let lat = LocationTracker.tracker.currentCoord?.latitude, long = LocationTracker.tracker.currentCoord?.longitude{
+        //} else {
+            /*if let lat = LocationTracker.tracker.currentCoord?.latitude, long = LocationTracker.tracker.currentCoord?.longitude{
                 Circle.addMemberToCircleByLocation(lat, lon: long) {
                     res in
                     
                 }
-            }
-        }
+ 
+        }*/
         
     }
     
     
-    @IBAction func joinCircleFailAction(sender: AnyObject) {
+    /*@IBAction func joinCircleFailAction(sender: AnyObject) {
         
-    }
+    }*/
     
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self);
@@ -118,6 +118,7 @@ class CircleViewController: UIViewController, UICollectionViewDataSource, UIColl
     func updateCircle(notification : NSNotification){
         print("updateCircle Called");
         self.makeMemberArray();
+        print(memberArray.count);
         self.circleCollection.reloadData();
     }
     
@@ -185,6 +186,16 @@ class CircleViewController: UIViewController, UICollectionViewDataSource, UIColl
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         if segue.identifier == "showProfile" {
+            if let cell = sender as? UserPhotoCell {
+                print(cell);
+                if let cellInfo = cell.userCellInfo {
+                    print(cellInfo);
+                    if let userInfo = cellInfo.user {
+                        print(userInfo);
+                    }
+                }
+            }
+            
             if let cell = sender as? UserPhotoCell, cellInfo = cell.userCellInfo, userInfo = cellInfo.user
             {
                 let profileController = segue.destinationViewController as! UserProfileViewController;
@@ -220,8 +231,9 @@ class CircleViewController: UIViewController, UICollectionViewDataSource, UIColl
         //look through the user Arr
         let userInfo = self.memberArray[indexPath.row];
 
-        if userInfo.pictures.count > 0 {
+        if userInfo.pictures.count > 0 && userInfo.pictures[0] != "null" {
             let picURL = userInfo.pictures[0];
+            print(picURL);
             if let img = Circle.sharedInstance.userCellPhotoInfoCache.objectForKey(picURL) as? UIImage{
                 let userCellImgInfo = UserCellPhotoInfo(user: userInfo, indexPath: indexPath, img: img, imgURL: picURL);
                 cell.setFbImgInfo(userCellImgInfo);
@@ -235,13 +247,18 @@ class CircleViewController: UIViewController, UICollectionViewDataSource, UIColl
                     }
                 } else {
                     //TODO: set cell to default
+                    let userCellImgInfo = UserCellPhotoInfo(user: userInfo, indexPath: indexPath, img: UIImage(imageLiteral: "defaultProfilePicture.jpg"), imgURL: "default");
+                    cell.setFbImgInfo(userCellImgInfo);
                 }
             }
         } else {
             //TODO: set cell to default
+            print(userInfo);
+            let userCellImgInfo = UserCellPhotoInfo(user: userInfo, indexPath: indexPath, img: UIImage(imageLiteral: "defaultProfilePicture.jpg"), imgURL: "default");
+            cell.setFbImgInfo(userCellImgInfo);
         }
         
-        cell.backgroundColor = UIColor.blueColor()
-        return cell
+        cell.backgroundColor = UIColor.blueColor();
+        return cell;
     }
 }
