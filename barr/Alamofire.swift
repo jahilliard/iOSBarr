@@ -15,7 +15,7 @@ let headers = [
 
 struct AlamoHelper {
     static let MAX_ATTEMPTS : UInt64 = 5;
-    static let domain = "http://128.237.215.81:3000/"
+    static let domain = "http://192.168.1.49:3001/"
 
     static func authorizedGet(subdomain: String, parameters: [String: AnyObject], completion: (err: NSError?, response: JSON?) -> Void){
         if let accessToken = Me.user.accessToken, userId = Me.user.userId {
