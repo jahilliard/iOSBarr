@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="1E9-PT-I0f">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="1E9-PT-I0f">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -7,6 +7,8 @@
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="PrintBold.otf">
+            <string>PrintBold</string>
+            <string>PrintBold</string>
             <string>PrintBold</string>
             <string>PrintBold</string>
         </mutableArray>
@@ -49,20 +51,23 @@
                                                     <constraint firstAttribute="width" constant="81" id="NQo-P7-VMZ"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" name="PrintBold" family="Print Bold" pointSize="17"/>
-                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                <nil key="highlightedColor"/>
+                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </label>
-                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="th9-6q-v4f">
-                                                <rect key="frame" x="0.0" y="461" width="242" height="30"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="th9-6q-v4f">
+                                                <rect key="frame" x="0.0" y="461" width="197" height="30"/>
                                                 <subviews>
-                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="nicknameEnteredHere" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XxF-n1-w9t">
-                                                        <rect key="frame" x="0.0" y="0.0" width="205" height="30"/>
-                                                        <fontDescription key="fontDescription" name="PrintBold" family="Print Bold" pointSize="24"/>
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Choose a Nickname" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XxF-n1-w9t">
+                                                        <rect key="frame" x="0.0" y="0.0" width="164" height="30"/>
+                                                        <fontDescription key="fontDescription" name="PrintBold" family="Print Bold" pointSize="20"/>
                                                         <textInputTraits key="textInputTraits"/>
                                                     </textField>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AC4-zh-Ihx">
-                                                        <rect key="frame" x="205" y="0.0" width="37" height="30"/>
-                                                        <state key="normal" title="Done"/>
+                                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AC4-zh-Ihx">
+                                                        <rect key="frame" x="164" y="0.0" width="33" height="30"/>
+                                                        <fontDescription key="fontDescription" name="PrintBold" family="Print Bold" pointSize="18"/>
+                                                        <state key="normal" title="Done">
+                                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        </state>
                                                         <connections>
                                                             <action selector="onNicknameDoneButtonPress:" destination="zbk-Bs-QxS" eventType="touchUpInside" id="NtH-mc-eTU"/>
                                                         </connections>
@@ -74,7 +79,10 @@
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="7Hi-dT-jsJ"/>
                                                 </constraints>
-                                                <state key="normal" title="Post"/>
+                                                <fontDescription key="fontDescription" name="PrintBold" family="Print Bold" pointSize="20"/>
+                                                <state key="normal" title="Post">
+                                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
                                                 <connections>
                                                     <action selector="onSendStatusButtonPress:" destination="zbk-Bs-QxS" eventType="touchUpInside" id="DkT-J3-X3H"/>
                                                 </connections>
@@ -89,7 +97,7 @@
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                             </textView>
                                         </subviews>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstItem="YHK-FW-hen" firstAttribute="leading" secondItem="f3z-UF-j7l" secondAttribute="leading" id="17G-L0-vR1"/>
                                             <constraint firstItem="HW5-uN-J4Y" firstAttribute="width" secondItem="f3z-UF-j7l" secondAttribute="width" id="68E-vk-Mi2"/>

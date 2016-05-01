@@ -12,6 +12,7 @@ class ChatListViewController: UITableViewController {
     var selectedChateeId: String = "";
     var chatOrder: [String] = [String]();
     
+    
     func updateChatOrder(){
         let chateeIds = Array(ChatManager.sharedInstance.chats.keys);
         self.chatOrder = self.sortChateeIds(chateeIds);

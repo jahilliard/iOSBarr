@@ -34,7 +34,7 @@ struct AlamoHelper {
     static let MAX_ATTEMPTS : UInt64 = 5;
     
     //static let domain = "http://107.170.5.135:3000/";
-    static let domain = "http://10.0.0.2:3000/";
+    static let domain = "http://10.0.0.47:3001/";
     static var requestArray = [requestTracker]();
     
     static private func deleteFromRequestArray(reqTracker: requestTracker) {

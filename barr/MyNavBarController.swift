@@ -18,7 +18,7 @@ class MyNavBarController: UINavigationController, UINavigationControllerDelegate
         topDiv.backgroundColor = UIColor(red: 64, green: 78, blue: 146)
         self.navigationBar.addSubview(topDiv)
         
-        let attributes = [NSFontAttributeName : UIFont(name: "Lobster1.4", size: 24)!, NSForegroundColorAttributeName : UIColor(red: 64, green: 78, blue: 146)]
+        let attributes = [NSFontAttributeName : UIFont(name: "PrintBold", size: 28)!, NSForegroundColorAttributeName : UIColor(red: 64, green: 78, blue: 146)]
         self.navigationBar.titleTextAttributes = attributes
         
     }
