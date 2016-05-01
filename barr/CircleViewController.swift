@@ -36,7 +36,7 @@ class CircleViewController: UIViewController, UICollectionViewDataSource, UIColl
             self.HeartButton.backgroundColor = UIColor.whiteColor();
         } else {
             heartDepressed = true
-            self.HeartButton.backgroundColor = UIColor.grayColor();
+            self.HeartButton.backgroundColor = UIColor.init(red: 223, green: 226, blue: 237);
         }
         
         self.makeMemberArray();
@@ -51,7 +51,7 @@ class CircleViewController: UIViewController, UICollectionViewDataSource, UIColl
             self.PokeButton.backgroundColor = UIColor.whiteColor();
         } else {
             pokeDepressed = true
-            self.PokeButton.backgroundColor = UIColor.grayColor();
+            self.PokeButton.backgroundColor = UIColor.init(red: 223, green: 226, blue: 237);
         }
         
         self.makeMemberArray();
@@ -64,6 +64,12 @@ class CircleViewController: UIViewController, UICollectionViewDataSource, UIColl
     
     override func viewDidLoad() {
         super.viewDidLoad()
+//        if let f_name = Me.user.firstName, l_name = Me.user.lastName {
+//            self.navigationItem.title = "\(f_name) \(l_name)";
+//        } else {
+//            self.navigationItem.title = "Square";
+//        }
+        self.navigationItem.title = "Square";
         //if (Circle.sharedInstance.circleId != "") {
             //joinCircleFail.hidden = true
             self.makeMemberArray();

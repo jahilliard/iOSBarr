@@ -121,7 +121,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="chat_icon_not" width="45" height="22"/>
+        <image name="chat_icon_not" width="32" height="28"/>
         <image name="chat_not_selected_icon" width="52" height="21"/>
         <image name="feed_selected_icon" width="27" height="26"/>
         <image name="pin_not_selected" width="13" height="34"/>

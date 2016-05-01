@@ -29,12 +29,12 @@ class SelectAlbumViewController: UIViewController, UITableViewDelegate, UITableV
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "Facebook Album";
         getFbAlbums()
         
-        tableView = UITableView(frame: CGRect(origin: CGPoint(x: 0, y: self.navigationController!.navigationBar.frame.size.height), size: CGSize(width: screenSize.width, height: screenSize.height - self.tabBarController!.tabBar.frame.size.height)))
+        tableView = UITableView(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: screenSize.width, height: screenSize.height - self.tabBarController!.tabBar.frame.size.height)))
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.backgroundColor = UIColor.greenColor()
         self.view.addSubview(tableView)
     }
     

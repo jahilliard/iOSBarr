@@ -69,10 +69,10 @@
             </objects>
             <point key="canvasLocation" x="956" y="302"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--My Nav Bar Controller-->
         <scene sceneID="e9y-Zd-rbY">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="bU0-lW-LwK" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="bU0-lW-LwK" customClass="MyNavBarController" customModule="barr" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="8EV-PG-vMH">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>

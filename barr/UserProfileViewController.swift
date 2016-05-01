@@ -82,6 +82,12 @@ class UserProfileViewController: UIViewController, UIScrollViewDelegate {
         self.pictureScrollView.delegate = self;
         self.nickName.text = self.userInfo!.nickname;
         self.pageControl.pageIndicatorTintColor = UIColor.blueColor();
+        let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(UserProfileViewController.respondToSwipeGesture(_:)))
+        swipeUp.direction = UISwipeGestureRecognizerDirection.Up
+        self.view.addGestureRecognizer(swipeUp)
+        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(UserProfileViewController.respondToSwipeGesture(_:)))
+        swipeDown.direction = UISwipeGestureRecognizerDirection.Down
+        self.view.addGestureRecognizer(swipeDown)
         
         //load the photos in
         /*if self.userInfo.pictures.count > 0 {
@@ -103,6 +109,10 @@ class UserProfileViewController: UIViewController, UIScrollViewDelegate {
             //TODO: set cell to default
         }*/
         // Do any additional setup after loading the view.
+    }
+    
+    func respondToSwipeGesture(gesture: UIGestureRecognizer) {
+         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     func getImg(url : String, completion: (NSError?, UIImage) -> Void) {

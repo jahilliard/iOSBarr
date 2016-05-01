@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="f5b-HI-6pD">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="f5b-HI-6pD">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="PrintBold.otf">
+            <string>PrintBold</string>
+        </mutableArray>
+    </customFonts>
     <scenes>
         <!--Chats-->
         <scene sceneID="WwI-1o-tBE">
@@ -19,7 +24,7 @@
                                 <rect key="frame" x="0.0" y="92" width="600" height="120"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2gZ-by-egm" id="M21-KQ-bg0">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="119"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="119.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="gnS-fP-VH7">
@@ -40,13 +45,13 @@
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="66" id="zdd-dE-ldD"/>
                                                             </constraints>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                            <fontDescription key="fontDescription" name="PrintBold" family="Print Bold" pointSize="26"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Preview" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z5B-pU-Wzw">
-                                                            <rect key="frame" x="0.0" y="50" width="449" height="53"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                            <rect key="frame" x="0.0" y="46" width="449" height="58"/>
+                                                            <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="16"/>
                                                             <color key="textColor" red="0.55350378787878785" green="0.55350378787878785" blue="0.55350378787878785" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
@@ -64,17 +69,46 @@
                                                 <constraint firstAttribute="bottom" secondItem="e37-Cx-MVL" secondAttribute="bottom" id="fzK-My-K1y"/>
                                             </constraints>
                                         </stackView>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="badge_box" translatesAutoresizingMaskIntoConstraints="NO" id="7hg-2v-EbJ">
+                                            <rect key="frame" x="439" y="8" width="133" height="51"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="133" id="0k9-KG-sOH"/>
+                                            </constraints>
+                                        </imageView>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dem-p4-xgx">
+                                            <rect key="frame" x="444" y="12" width="64" height="42"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="64" id="WWN-GW-kyc"/>
+                                            </constraints>
+                                        </imageView>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="LTB-SI-XqF">
+                                            <rect key="frame" x="511" y="12" width="57" height="42"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="57" id="fbb-Lk-iFi"/>
+                                            </constraints>
+                                        </imageView>
                                     </subviews>
                                     <constraints>
+                                        <constraint firstAttribute="trailingMargin" secondItem="LTB-SI-XqF" secondAttribute="trailing" constant="24" id="2TB-bt-f0D"/>
                                         <constraint firstItem="gnS-fP-VH7" firstAttribute="top" secondItem="M21-KQ-bg0" secondAttribute="topMargin" id="332-uK-yBx"/>
+                                        <constraint firstItem="dem-p4-xgx" firstAttribute="top" secondItem="M21-KQ-bg0" secondAttribute="topMargin" constant="4" id="60z-Tx-fv9"/>
+                                        <constraint firstItem="dem-p4-xgx" firstAttribute="centerY" secondItem="7hg-2v-EbJ" secondAttribute="centerY" id="AVI-y1-b8D"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="7hg-2v-EbJ" secondAttribute="bottom" constant="52.5" id="Cgl-ug-cqO"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="gnS-fP-VH7" secondAttribute="trailing" constant="20" id="D6a-Ni-9Tx"/>
+                                        <constraint firstItem="7hg-2v-EbJ" firstAttribute="top" secondItem="gnS-fP-VH7" secondAttribute="top" id="G6y-Xl-M27"/>
+                                        <constraint firstItem="LTB-SI-XqF" firstAttribute="leading" secondItem="dem-p4-xgx" secondAttribute="trailing" constant="3" id="J7W-CZ-ecx"/>
                                         <constraint firstItem="gnS-fP-VH7" firstAttribute="leading" secondItem="M21-KQ-bg0" secondAttribute="leading" constant="10" id="Lw7-V3-d7g"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="gnS-fP-VH7" secondAttribute="bottom" id="Wu2-uT-rrY"/>
+                                        <constraint firstItem="7hg-2v-EbJ" firstAttribute="trailing" secondItem="gnS-fP-VH7" secondAttribute="trailing" id="Zv9-3L-IA7"/>
+                                        <constraint firstItem="dem-p4-xgx" firstAttribute="bottom" secondItem="LTB-SI-XqF" secondAttribute="bottom" id="jkD-El-9NE"/>
+                                        <constraint firstItem="dem-p4-xgx" firstAttribute="top" secondItem="LTB-SI-XqF" secondAttribute="top" id="z3G-Do-LkG"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="heart_badge" destination="LTB-SI-XqF" id="IWB-WZ-MWV"/>
                                     <outlet property="nameLabel" destination="Sse-Ty-q4Q" id="dEc-GJ-JZT"/>
                                     <outlet property="picture" destination="lBE-3P-2Ol" id="zcr-cx-Br4"/>
+                                    <outlet property="poke_badge" destination="dem-p4-xgx" id="s8J-9o-qev"/>
                                     <outlet property="preview" destination="Z5B-pU-Wzw" id="3OF-Sl-6OX"/>
                                 </connections>
                             </tableViewCell>
@@ -127,6 +161,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="chat_icon_not" width="45" height="22"/>
+        <image name="badge_box" width="76" height="32"/>
+        <image name="chat_icon_not" width="32" height="28"/>
     </resources>
 </document>

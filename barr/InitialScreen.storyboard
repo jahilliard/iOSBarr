@@ -23,8 +23,21 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon" translatesAutoresizingMaskIntoConstraints="NO" id="0p5-H1-cyT">
+                                <rect key="frame" x="181.5" y="182.5" width="237" height="235"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="224" id="Ang-J6-92P"/>
+                                    <constraint firstAttribute="width" constant="258" id="PVy-Rd-iS2"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="Ang-J6-92P"/>
+                                        <exclude reference="PVy-Rd-iS2"/>
+                                    </mask>
+                                </variation>
+                            </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading..." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FGF-dD-izn">
-                                <rect key="frame" x="138" y="398" width="324" height="124"/>
+                                <rect key="frame" x="239" y="422.5" width="122" height="36"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="324" id="EXJ-Zm-Yzj"/>
                                     <constraint firstAttribute="width" secondItem="FGF-dD-izn" secondAttribute="height" multiplier="81:65" constant="169.47692307692307" id="OkN-pt-4Gn"/>
@@ -32,23 +45,35 @@
                                 <fontDescription key="fontDescription" name="PrintBold" family="Print Bold" pointSize="36"/>
                                 <color key="textColor" red="0.25098039215686274" green="0.30588235294117649" blue="0.5725490196078431" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="EXJ-Zm-Yzj"/>
+                                        <exclude reference="OkN-pt-4Gn"/>
+                                    </mask>
+                                </variation>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon" translatesAutoresizingMaskIntoConstraints="NO" id="0p5-H1-cyT">
-                                <rect key="frame" x="171" y="136" width="258" height="224"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="224" id="Ang-J6-92P"/>
-                                    <constraint firstAttribute="width" constant="258" id="PVy-Rd-iS2"/>
-                                </constraints>
-                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="FGF-dD-izn" firstAttribute="top" secondItem="0p5-H1-cyT" secondAttribute="bottom" constant="38" id="0In-Jd-Eia"/>
-                            <constraint firstItem="0p5-H1-cyT" firstAttribute="top" secondItem="Pqd-xM-cj2" secondAttribute="bottom" constant="116" id="G86-PY-4cr"/>
+                            <constraint firstItem="FGF-dD-izn" firstAttribute="top" secondItem="0p5-H1-cyT" secondAttribute="bottom" constant="5" id="FQ7-vL-H6G"/>
+                            <constraint firstItem="0p5-H1-cyT" firstAttribute="centerY" secondItem="iYZ-PX-Cbk" secondAttribute="centerY" id="I2L-eq-Gbe"/>
+                            <constraint firstItem="FGF-dD-izn" firstAttribute="top" secondItem="0p5-H1-cyT" secondAttribute="bottom" constant="5" id="ULg-hf-sEG"/>
                             <constraint firstItem="3UC-VA-gbd" firstAttribute="top" secondItem="FGF-dD-izn" secondAttribute="bottom" constant="78" id="WkW-ns-EpK"/>
+                            <constraint firstItem="FGF-dD-izn" firstAttribute="centerX" secondItem="0p5-H1-cyT" secondAttribute="centerX" id="byT-5R-vAj"/>
+                            <constraint firstItem="FGF-dD-izn" firstAttribute="centerX" secondItem="0p5-H1-cyT" secondAttribute="centerX" id="cTh-ej-inH"/>
+                            <constraint firstItem="0p5-H1-cyT" firstAttribute="centerX" secondItem="iYZ-PX-Cbk" secondAttribute="centerX" id="eha-mb-gdM"/>
                             <constraint firstItem="0p5-H1-cyT" firstAttribute="centerX" secondItem="iYZ-PX-Cbk" secondAttribute="centerX" id="qUq-GG-XAn"/>
                             <constraint firstItem="FGF-dD-izn" firstAttribute="centerX" secondItem="iYZ-PX-Cbk" secondAttribute="centerX" id="wEK-6h-7iJ"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="qUq-GG-XAn"/>
+                                <exclude reference="FQ7-vL-H6G"/>
+                                <exclude reference="byT-5R-vAj"/>
+                                <exclude reference="wEK-6h-7iJ"/>
+                                <exclude reference="WkW-ns-EpK"/>
+                            </mask>
+                        </variation>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IjT-CV-IN1" userLabel="First Responder" sceneMemberID="firstResponder"/>

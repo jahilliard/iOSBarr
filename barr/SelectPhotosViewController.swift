@@ -27,11 +27,12 @@ class SelectPhotosViewController: UIViewController, UICollectionViewDataSource, 
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "Select Profile Photo";
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 100, left: 0, bottom:5, right: 5)
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom:5, right: 5)
         layout.itemSize = CGSize(width: screenSize.width*0.3, height: screenSize.width*0.3)
         
-        imageCollection = UICollectionView(frame: CGRect(x: 5, y: 100, width: self.view.frame.width-5, height: self.view.frame.height-100), collectionViewLayout: layout)
+        imageCollection = UICollectionView(frame: CGRect(x: 5, y: 0, width: self.view.frame.width-5, height: self.view.frame.height), collectionViewLayout: layout)
         imageCollection.dataSource = self
         imageCollection.delegate = self
         imageCollection.registerClass(FacebookPhotoCell.self, forCellWithReuseIdentifier: "Cell")

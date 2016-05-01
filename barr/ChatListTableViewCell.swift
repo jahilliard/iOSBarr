@@ -13,6 +13,10 @@ class ChatListTableViewCell: UITableViewCell {
     @IBOutlet weak var preview: UILabel!
     @IBOutlet weak var picture: UIImageView!
     
+    @IBOutlet weak var heart_badge: UIImageView!
+    
+    @IBOutlet weak var poke_badge: UIImageView!
+    
     func initialize(chateeId: String){
         if let chat = ChatManager.sharedInstance.getChat(chateeId) {
             nameLabel.text = chat.chatee.nickname;

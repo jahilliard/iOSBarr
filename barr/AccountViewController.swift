@@ -97,6 +97,11 @@ class AccountViewController: UIViewController, UIScrollViewDelegate, UITextViewD
     
     override func viewDidLoad() {
         super.viewDidLoad();
+        if let f_name = Me.user.firstName, l_name = Me.user.lastName {
+            self.navigationItem.title = "\(f_name) \(l_name)";
+        } else {
+            self.navigationItem.title = "Account View";
+        }
         self.nickNameDoneButton.hidden = true;
         self.postButtonHeightConstraint.constant = 0;
         self.postButton.hidden = true;
@@ -121,6 +126,9 @@ class AccountViewController: UIViewController, UIScrollViewDelegate, UITextViewD
             self.statusTextView.text = "Enter Status Here";
             self.statusTextView.textColor = UIColor.lightGrayColor();
         }
+        
+        view.backgroundColor = UIColor(patternImage: UIImage(named:"background.png")!)
+
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(AccountViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil);
         
