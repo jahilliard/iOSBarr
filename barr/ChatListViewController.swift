@@ -32,6 +32,10 @@ class ChatListViewController: UITableViewController {
         super.viewDidLoad()
         self.updateChatOrder();
         
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(self.handleNewOffers(_:)), name: newOffersNotification, object: nil);
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ChatListViewController.updateList(_:)), name: ChatManager.sharedInstance.chatListNotification, object: nil);
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
         
@@ -39,19 +43,18 @@ class ChatListViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
     
-    /* TODO: 
     deinit{
         NSNotificationCenter.defaultCenter().removeObserver(self);
-    }*/
+    }
     
     override func viewWillAppear(animated: Bool) {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ChatListViewController.updateList(_:)), name: ChatManager.sharedInstance.chatListNotification, object: nil);
+        /*NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ChatListViewController.updateList(_:)), name: ChatManager.sharedInstance.chatListNotification, object: nil);*/
         self.tableView.reloadData();
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    /*override func viewWillDisappear(animated: Bool) {
         NSNotificationCenter.defaultCenter().removeObserver(self);
-    }
+    }*/
     
     
     override func didReceiveMemoryWarning() {
@@ -155,6 +158,23 @@ class ChatListViewController: UITableViewController {
             let chatViewController = segue.destinationViewController as! ChatViewController;
             chatViewController.otherUserInfo = ChatManager.sharedInstance.getChat(selectedChateeId)!.chatee;
             chatViewController.hidesBottomBarWhenPushed = true;
+        }
+    }
+    
+    func handleNewOffers(notification: NSNotification) {
+        if let updateInfo = notification.userInfo as? Dictionary<String, AnyObject> {
+            print(updateInfo)
+            if let updatedUser = updateInfo["newOffersForUser"] as? String{
+                print(updateInfo);
+                print(chatOrder);
+                if let index = self.chatOrder.indexOf(updatedUser){
+                    
+                }
+            }
+        }
+        if let updateInfo = notification.userInfo as? Dictionary<String, AnyObject>, updatedUser = updateInfo["newOffersForUser"] as? String, index = self.chatOrder.indexOf(updatedUser)
+        {
+            self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: 0)], withRowAnimation: .None);
         }
     }
 }

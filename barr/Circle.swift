@@ -13,6 +13,7 @@ import CoreLocation
 
 let CircleUpdateNotification = "barr.com.app.CircleUpdateNotification";
 let CircleIdUpdateNofitification = "barr.com.app.CircleIdUpdateNotification";
+let newOffersNotification = "barr.com.app.newOffers";
 class Circle {
     var circleId: String = "";
     var members : [String: UserInfo] = [String: UserInfo]();
@@ -225,9 +226,10 @@ class Circle {
         }
         
         print(self.memberArray);
-        if let member = self.members[from] {
+        if let member = self.getMember(from) {
             member.matchId = matchId;
             member.updateOtherOffers(newOffers);
+             NSNotificationCenter.defaultCenter().postNotificationName(newOffersNotification, object: self, userInfo: ["newOffersForUser": from]);
         }
         
         //notify user now
@@ -261,6 +263,10 @@ class Circle {
                 }
             }
         });
+    }
+    
+    func getMember(memberId: String) -> UserInfo? {
+        return self.members[memberId];
     }
     
     static func getProfilePicture(userId: String, completion: UIImage -> Void) {

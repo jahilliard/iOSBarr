@@ -36,6 +36,16 @@ class ChatListTableViewCell: UITableViewCell {
             } else {
                 self.picture.image = UIImage(imageLiteral: "defaultProfilePicture.jpg");
             }
+            
+            if let member = Circle.sharedInstance.getMember(chateeId) {
+                if member.otherOffers[UserInfo.OfferOptions.HEART]! {
+                    heart_badge.image = UIImage(imageLiteral: "heart_badge.jpg");
+                }
+                
+                if member.otherOffers[UserInfo.OfferOptions.POKE]! {
+                    poke_badge.image = UIImage(imageLiteral: "point_badge.jpg");
+                }
+            }
         }
     }
     

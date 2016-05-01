@@ -24,7 +24,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon" translatesAutoresizingMaskIntoConstraints="NO" id="0p5-H1-cyT">
-                                <rect key="frame" x="181.5" y="182.5" width="237" height="235"/>
+                                <rect key="frame" x="182" y="183" width="237" height="235"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="224" id="Ang-J6-92P"/>
                                     <constraint firstAttribute="width" constant="258" id="PVy-Rd-iS2"/>
@@ -37,7 +37,7 @@
                                 </variation>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading..." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FGF-dD-izn">
-                                <rect key="frame" x="239" y="422.5" width="122" height="36"/>
+                                <rect key="frame" x="239" y="423" width="122" height="36"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="324" id="EXJ-Zm-Yzj"/>
                                     <constraint firstAttribute="width" secondItem="FGF-dD-izn" secondAttribute="height" multiplier="81:65" constant="169.47692307692307" id="OkN-pt-4Gn"/>

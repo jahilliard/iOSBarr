@@ -14,6 +14,7 @@ class UserInfo {
     enum OfferOptions {
         case HEART
         case POKE
+        static let allValues = [HEART, POKE]
     }
     
     var userId : String = "";
@@ -72,10 +73,14 @@ class UserInfo {
             
             if yourOffers != nil{
                 self.yourOffers = parseOffers(yourOffers.arrayValue);
+            } else {
+                self.yourOffers = parseOffers([]);
             }
             
             if otherOffers != nil{
                 self.otherOffers = parseOffers(otherOffers.arrayValue);
+            } else {
+                self.otherOffers = parseOffers([]);
             }
         }
     }
@@ -127,6 +132,11 @@ class UserInfo {
     
     func parseOffers(offers: [JSON]) -> [OfferOptions : Bool] {
         var result : [OfferOptions : Bool] = [OfferOptions : Bool]();
+        
+        for value in OfferOptions.allValues {
+            result[value] = false;
+        }
+        
         for offer in offers {
             if let offerInt = offer.int {
                 if let offerOption = UserInfo.convertToOption(offerInt){
