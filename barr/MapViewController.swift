@@ -87,6 +87,10 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
     }
     
     func updateMapLocation(){
+        if let mapView = self.mapview{
+          mapView.clear();
+        }
+        
         if let locationCoords = LocationTracker.sharedInstance.currentCoord {
             mapview!.animateToLocation(locationCoords)
             /*Circle.addMemberToCircleByLocation(locationCoords.latitude, lon: locationCoords.longitude){
@@ -115,6 +119,8 @@ class MapViewController: UIViewController, GMSMapViewDelegate {
         if (segue.identifier == "showSquareInfo") {
             let squarePreviewViewController = segue.destinationViewController as! SquarePreviewViewController;
             squarePreviewViewController.locationId = self.tappedLocationId;
+            squarePreviewViewController.tabBar = self.tabBarController;
+            print(squarePreviewViewController.tabBar);
         }
     }
     

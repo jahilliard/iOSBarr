@@ -275,6 +275,7 @@ class FeedManager {
         
         self.currentFeedId = Circle.sharedInstance.circleId;
         self.inOtherFeed = false;
+        self.restartFeed();
         if (self.currentFeedId != "") {
             self.getLatestFeedEntries();
         }

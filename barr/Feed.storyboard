@@ -171,37 +171,10 @@
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pe2-m8-PFD">
                                 <rect key="frame" x="0.0" y="20" width="600" height="66"/>
-                                <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ab9-Xe-d5l">
-                                        <rect key="frame" x="8" y="8" width="50" height="50"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="50" id="L3b-Uz-8PA"/>
-                                            <constraint firstAttribute="height" constant="50" id="TfR-iS-r8k"/>
-                                        </constraints>
-                                    </imageView>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Post To Feed" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fmd-L1-LxZ">
-                                        <rect key="frame" x="68" y="8" width="524" height="50"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <gestureRecognizers/>
-                                        <color key="textColor" red="0.80413510099999996" green="0.80413510099999996" blue="0.80413510099999996" alpha="1" colorSpace="calibratedRGB"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                        <connections>
-                                            <outletCollection property="gestureRecognizers" destination="hoH-rl-W6q" appends="YES" id="ub4-xq-EXo"/>
-                                        </connections>
-                                    </textView>
-                                </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <gestureRecognizers/>
                                 <constraints>
-                                    <constraint firstAttribute="bottomMargin" secondItem="Fmd-L1-LxZ" secondAttribute="bottom" id="5tx-2H-MCW"/>
-                                    <constraint firstItem="Ab9-Xe-d5l" firstAttribute="leading" secondItem="Pe2-m8-PFD" secondAttribute="leadingMargin" id="H2X-wm-iuI"/>
                                     <constraint firstAttribute="height" constant="66" id="VDb-7W-nJs"/>
-                                    <constraint firstAttribute="trailingMargin" secondItem="Fmd-L1-LxZ" secondAttribute="trailing" id="VZ5-Qj-dwI"/>
-                                    <constraint firstItem="Fmd-L1-LxZ" firstAttribute="leading" secondItem="Ab9-Xe-d5l" secondAttribute="trailing" constant="10" id="agf-lh-ysW"/>
-                                    <constraint firstAttribute="topMargin" secondItem="Ab9-Xe-d5l" secondAttribute="top" id="d6f-yh-fRJ"/>
-                                    <constraint firstAttribute="bottomMargin" secondItem="Ab9-Xe-d5l" secondAttribute="bottom" id="dG9-Q5-yZa"/>
-                                    <constraint firstItem="Fmd-L1-LxZ" firstAttribute="top" secondItem="Pe2-m8-PFD" secondAttribute="topMargin" id="xft-9Q-5tP"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -223,17 +196,11 @@
                         <outlet property="feedTableView" destination="Maf-8U-Efn" id="PaR-yb-mLU"/>
                         <outlet property="postFeedBar" destination="Pe2-m8-PFD" id="v71-Ql-lve"/>
                         <outlet property="postFeedBarTopConstraint" destination="WHW-Wn-PDF" id="9Uf-yH-uRj"/>
-                        <outlet property="yourTabPicture" destination="Ab9-Xe-d5l" id="V82-73-XbN"/>
                         <segue destination="CBt-RQ-UdF" kind="presentation" identifier="toNewFeedEntry" id="RmO-eo-33p"/>
                         <segue destination="eEN-E3-JSH" kind="presentation" identifier="toMainImage" id="y9r-2j-euh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qrd-pA-odm" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="hoH-rl-W6q">
-                    <connections>
-                        <action selector="IBOutletvaronNewFeedEntryTappedUITapGestureRecognizer:" destination="d3m-qC-ggD" id="DJ8-1n-Bzl"/>
-                    </connections>
-                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1544" y="154"/>
         </scene>
@@ -245,10 +212,10 @@
             </objects>
             <point key="canvasLocation" x="2042.5" y="117"/>
         </scene>
-        <!--View Controller-->
+        <!--Post To Feed Bar View Controller-->
         <scene sceneID="VGt-LH-6Hc">
             <objects>
-                <viewController id="VIb-5b-zU8" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="postToFeedBar" id="VIb-5b-zU8" customClass="PostToFeedBarViewController" customModule="barr" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="cO9-eH-bhW"/>
                         <viewControllerLayoutGuide type="bottom" id="sjW-sN-1Bw"/>
@@ -260,7 +227,7 @@
                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DWZ-cm-7K9">
                                 <rect key="frame" x="20" y="20" width="560" height="50"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="MOd-Rh-h3u">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="MOd-Rh-h3u">
                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="50" id="MzN-T6-QHM"/>
@@ -274,6 +241,9 @@
                                         <color key="textColor" red="0.80413510099999996" green="0.80413510099999996" blue="0.80413510099999996" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="0bv-TY-mYo" appends="YES" id="qfV-zT-Mhe"/>
+                                        </connections>
                                     </textView>
                                 </subviews>
                             </stackView>
@@ -285,10 +255,66 @@
                             <constraint firstItem="DWZ-cm-7K9" firstAttribute="leading" secondItem="Lfu-zX-O5G" secondAttribute="leadingMargin" id="i7q-Mh-IM5"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="yourTabPicture" destination="MOd-Rh-h3u" id="Kiy-zt-A5Z"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Cia-vd-NE7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="0bv-TY-mYo">
+                    <connections>
+                        <action selector="IBOutletvaronNewFeedEntryTappedUITapGestureRecognizer:" destination="VIb-5b-zU8" id="fQi-sx-ayG"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="2195" y="680"/>
+        </scene>
+        <!--Return To Square Feed View Controller-->
+        <scene sceneID="WJz-H7-ylQ">
+            <objects>
+                <viewController storyboardIdentifier="otherFeedTopBar" id="eCD-rH-Lfh" customClass="ReturnToSquareFeedViewController" customModule="barr" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="bQr-d9-OPG"/>
+                        <viewControllerLayoutGuide type="bottom" id="K3b-FO-FhJ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8ZR-7m-8kJ">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oGs-LG-okg">
+                                <rect key="frame" x="20" y="20" width="560" height="50"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="NYA-3m-kW5">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="50" id="FGQ-0b-nKI"/>
+                                            <constraint firstAttribute="height" constant="50" id="kwl-1R-5aY"/>
+                                        </constraints>
+                                    </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ebm-KK-hdK">
+                                        <rect key="frame" x="50" y="0.0" width="510" height="50"/>
+                                        <state key="normal" title="Return to Your Square's Feed"/>
+                                        <connections>
+                                            <action selector="returnToSquareButtonPress:" destination="eCD-rH-Lfh" eventType="touchUpInside" id="9P0-Sd-6f0"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="oGs-LG-okg" firstAttribute="top" secondItem="bQr-d9-OPG" secondAttribute="bottom" id="9rH-Dz-UsM"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="oGs-LG-okg" secondAttribute="trailing" id="AfI-RT-RgQ"/>
+                            <constraint firstItem="oGs-LG-okg" firstAttribute="top" secondItem="bQr-d9-OPG" secondAttribute="bottom" id="Fnb-O9-ZjM"/>
+                            <constraint firstItem="oGs-LG-okg" firstAttribute="leading" secondItem="8ZR-7m-8kJ" secondAttribute="leadingMargin" id="y2T-qW-TSA"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="yourTabPicture" destination="NYA-3m-kW5" id="5R4-2n-C1h"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lAg-NI-BB4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1530" y="864"/>
         </scene>
         <!--DisplayFeedImage-->
         <scene sceneID="5GQ-fE-KNh">

@@ -21,10 +21,6 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var postFeedBarTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var postFeedBar: UIView!
     @IBOutlet weak var feedTableView: UITableView!
-    @IBOutlet weak var yourTabPicture: UIImageView!
-    @IBAction func IBOutletvaronNewFeedEntryTappedUITapGestureRecognizer(sender: AnyObject) {
-        self.performSegueWithIdentifier("toNewFeedEntry", sender: self);
-    }
     
     let MAX_IMAGE_HEIGHT : CGFloat = 300.0;
     
@@ -53,16 +49,10 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FeedViewController.clearEntries(_:)), name: clearFeedNotification, object: nil);
         
         self.originalHeight = self.postFeedBarTopConstraint.constant;
-        /*NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FeedViewController.loadIfNecessary(_:)), name: loadIfNecessaryNotifictation, object: nil);*/
         self.feedTableView.delegate = self;
         self.feedTableView.dataSource = self;
-        if let imagesArr = Me.user.picturesArr where imagesArr.count > 0 {
-            Circle.getProfilePictureByURL(imagesArr[0], completion: {img in self.yourTabPicture.image = img});
-        } else {
-            self.yourTabPicture.image = UIImage(imageLiteral: "defaultProfilePicture.jpg");
-        }
         
-        //self.tableView.registerClass(FeedTableViewCell.self, forCellReuseIdentifier: "Cell")
+        self.chooseToolBar();
     }
     
     /*func loadIfNecessary(notification : NSNotification) {
@@ -74,7 +64,23 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }*/
     
+    func chooseToolBar() {
+        self.postFeedBar.subviews.forEach({ $0.removeFromSuperview() });
+        var vc : UIViewController! = nil;
+        if (!FeedManager.sharedInstance.inOtherFeed) {
+            vc = (storyboard?.instantiateViewControllerWithIdentifier("postToFeedBar"))! as UIViewController;
+            
+        } else {
+            vc = (storyboard?.instantiateViewControllerWithIdentifier("otherFeedTopBar"))! as UIViewController;
+        }
+        
+        self.addChildViewController(vc);
+        vc.view.frame = CGRectMake(0, UIApplication.sharedApplication().statusBarFrame.size.height, self.postFeedBar.frame.size.width, self.postFeedBar.frame.size.height);
+        self.postFeedBar.addSubview(vc.view);
+        vc.didMoveToParentViewController(self);
+    }
     @objc func clearEntries(notification : NSNotification){
+        self.chooseToolBar();
         self.feedTableView.reloadData();
     }
     

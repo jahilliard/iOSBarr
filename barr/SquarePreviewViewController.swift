@@ -10,10 +10,15 @@ import UIKit
 
 class SquarePreviewViewController: UIViewController {
     var locationId: String!;
+    var tabBar: UITabBarController!;
+    
+    @IBAction func cancelButtonPressed(sender: AnyObject) {
+        self.dismissViewControllerAnimated(true, completion: nil);
+    }
     
     @IBAction func onViewFeedButtonPress(sender: UIButton) {
         FeedManager.sharedInstance.updateFeedId(locationId);
-        self.tabBarController!.selectedIndex = 0;
+        self.tabBar!.selectedIndex = 0;
         self.dismissViewControllerAnimated(true, completion: nil);
     }
     
