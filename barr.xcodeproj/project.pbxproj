@@ -134,14 +134,11 @@
 		0CE32B4C1C759E3000C61F98 /* Alamofire.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Alamofire.swift; sourceTree = "<group>"; };
 		0CEA2AA81C82926800EA2631 /* Me.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Me.swift; sourceTree = "<group>"; };
 		1E57B0860CCB306E6589A125 /* Pods_barr.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_barr.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-<<<<<<< HEAD
 		200572E21CD5302B000A294B /* SquarePreview.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SquarePreview.storyboard; sourceTree = "<group>"; };
 		200572E41CD5339A000A294B /* SquarePreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SquarePreviewViewController.swift; sourceTree = "<group>"; };
 		200572E61CD542C6000A294B /* PostToFeedBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostToFeedBarViewController.swift; sourceTree = "<group>"; };
 		200572E81CD563E6000A294B /* ReturnToSquareFeedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReturnToSquareFeedViewController.swift; sourceTree = "<group>"; };
 		20247A8A1CCC13180021BA1A /* defaultProfilePicture.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = defaultProfilePicture.jpg; path = ../../../Downloads/defaultProfilePicture.jpg; sourceTree = "<group>"; };
-=======
->>>>>>> b0205e3a93bf6de6fdf1339063e17a78719ae79f
 		20247A8C1CD038EA0021BA1A /* BackgroundLocationManagerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundLocationManagerDelegate.swift; sourceTree = "<group>"; };
 		203053111C8AA78E00FCC5DC /* ChatList.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ChatList.storyboard; sourceTree = "<group>"; };
 		203053131C8AAF2100FCC5DC /* ChatListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatListTableViewCell.swift; sourceTree = "<group>"; };
