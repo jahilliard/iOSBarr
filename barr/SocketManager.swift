@@ -112,8 +112,10 @@ class SocketManager {
         self.socket!.on("connect", callback: {(data, ack) in
             //retrieve latest chats
             ChatManager.sharedInstance.getLatestChats();
+
             //update location, join nearest circle
             LocationTracker.sharedInstance.getFreshLocationInfo();
+
             print("socket connected");
             //display map view controller
         });

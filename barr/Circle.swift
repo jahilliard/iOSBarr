@@ -249,6 +249,11 @@ class Circle {
             }
                 
             else {
+                if (result!["data"]["circleId"] == "") {
+                    callback("");
+                    return;
+                }
+                
                 if (self.initCircle(result!["data"])) {
                     callback(result!["data"]["circleId"].string!);
                 } else {
