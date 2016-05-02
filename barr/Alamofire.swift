@@ -33,8 +33,8 @@ class requestTracker {
 struct AlamoHelper {
     static let MAX_ATTEMPTS : UInt64 = 5;
     
-    //static let domain = "http://107.170.5.135:3000/";
-    static let domain = "http://10.0.0.2:3000/";
+    static let domain = "http://107.170.5.135:3000/";
+    //static let domain = "http://10.0.0.2:3000/";
     static var requestArray = [requestTracker]();
     
     static private func deleteFromRequestArray(reqTracker: requestTracker) {
@@ -281,7 +281,7 @@ struct AlamoHelper {
                             return;
                         }
                         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(2 * attempt * NSEC_PER_SEC)), dispatch_get_main_queue()) {
-                            postAttempt(subdomain, parameters: parameters, completion: completion, attempt: attempt + 1, reqTracker: reqTracker);
+                            deleteAttempt(subdomain, parameters: parameters, completion: completion, attempt: attempt + 1, reqTracker: reqTracker);
                         }
                     }
                     if let value = response.result.value {
