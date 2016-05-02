@@ -307,7 +307,7 @@ class AccountViewController: UIViewController, UIScrollViewDelegate, UITextViewD
     
     func textFieldDidBeginEditing(textField: UITextField) {
         if textField.textColor == UIColor.lightGrayColor() {
-            textField.text = nil
+            textField.text = nil;
             textField.textColor = UIColor.blackColor();
         }
         

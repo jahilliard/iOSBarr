@@ -14,6 +14,7 @@ import SwiftyJSON
 
 let newFeedEntriesNotification = "barr.app.newFeedEntriesNotification";
 let clearFeedNotification = "barr.app.clearFeedEntriesNotification";
+let newFeedIdNotification = "barr.app.newFeedIdNotification";
 //let loadIfNecessaryNotifictation = "barr.app.loadIfNecessaryNotifictation";
 
 class FeedManager {
@@ -45,6 +46,10 @@ class FeedManager {
         self.feedAuthorInfo = [String: UserInfo]();
         //self.numNewEntries = 0;
         NSNotificationCenter.defaultCenter().postNotificationName(clearFeedNotification, object: self, userInfo: nil);
+    }
+    
+    func getCurrentFeedId() -> String{
+        return self.currentFeedId;
     }
     
     func notifyFeed(updatedEntryIndexes: [Int]) {
@@ -298,6 +303,7 @@ class FeedManager {
         else if newId != self.currentFeedId {
             self.restartFeed();
             self.currentFeedId = newId;
+            NSNotificationCenter.defaultCenter().postNotificationName(newFeedIdNotification, object: self, userInfo: nil);
             if newId != "" {
                 self.getLatestFeedEntries();
             }
@@ -311,6 +317,7 @@ class FeedManager {
         
         self.currentFeedId = Circle.sharedInstance.circleId;
         self.inOtherFeed = false;
+        NSNotificationCenter.defaultCenter().postNotificationName(newFeedIdNotification, object: self, userInfo: nil);
         self.restartFeed();
         if (self.currentFeedId != "") {
             self.getLatestFeedEntries();
@@ -318,6 +325,8 @@ class FeedManager {
     }
     
     func updateFeedId(newFeedId: String) {
+        print(currentFeedId);
+        print(Circle.sharedInstance.name);
         if (self.inOtherFeed) {
             if (self.currentFeedId != newFeedId) {
                 if (newFeedId == Circle.sharedInstance.circleId) {
@@ -325,6 +334,7 @@ class FeedManager {
                     return;
                 } else {
                     self.currentFeedId = newFeedId;
+                    NSNotificationCenter.defaultCenter().postNotificationName(newFeedIdNotification, object: self, userInfo: nil);
                     self.restartFeed();
                     self.getLatestFeedEntries();
                 }
@@ -333,6 +343,7 @@ class FeedManager {
             if (newFeedId != Circle.sharedInstance.circleId) {
                 self.inOtherFeed = true;
                 self.currentFeedId = newFeedId;
+                NSNotificationCenter.defaultCenter().postNotificationName(newFeedIdNotification, object: self, userInfo: nil);
                 self.restartFeed();
                 self.getLatestFeedEntries();
             } else {

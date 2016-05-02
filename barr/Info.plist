@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string></string>
+	<string>Hopskotch</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -85,6 +85,10 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>Allow camera to take photo/video to post to feed</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Allow access to photo library to select photos/videos to post to feed</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Location is required to find out where you are</string>
 	<key>UIAppFonts</key>

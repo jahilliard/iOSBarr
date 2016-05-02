@@ -21,6 +21,20 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var postFeedBarTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var postFeedBar: UIView!
     @IBOutlet weak var feedTableView: UITableView!
+    @IBOutlet weak var squareNameLabel: UILabel!
+    
+    @IBOutlet weak var returnToYourSquareButton: UIButton!
+    @IBOutlet weak var yourTabPicture: UIImageView!
+    @IBOutlet weak var returnToYourSquareButtonWidthConstraint: NSLayoutConstraint!
+    
+    @IBAction func onNewFeedEntryTappedUITapGestureRecognizer(sender: AnyObject) {
+        self.performSegueWithIdentifier("toNewFeedEntry", sender: self);
+    }
+    
+    @IBOutlet weak var postToFeedTextView: UITextView!
+    @IBAction func returnToSquareButtonPress(sender: AnyObject) {
+        FeedManager.sharedInstance.returnToOriginalFeed();
+    }
     
     let MAX_IMAGE_HEIGHT : CGFloat = 300.0;
     
@@ -48,9 +62,17 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FeedViewController.updateEntries(_:)), name: newFeedEntriesNotification, object: nil);
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FeedViewController.clearEntries(_:)), name: clearFeedNotification, object: nil);
         
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FeedViewController.updateFeedIdLabel), name: newFeedIdNotification, object: nil);
+        
         self.originalHeight = self.postFeedBarTopConstraint.constant;
         self.feedTableView.delegate = self;
         self.feedTableView.dataSource = self;
+        
+        if let imagesArr = Me.user.picturesArr where imagesArr.count > 0 && imagesArr[0] != "null"{
+            Circle.getProfilePictureByURL(imagesArr[0], completion: {img in self.yourTabPicture.image = img});
+        } else {
+            self.yourTabPicture.image = UIImage(imageLiteral: "defaultProfilePicture.jpg");
+        }
         
         self.chooseToolBar();
     }
@@ -64,8 +86,31 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }*/
     
+    @objc func updateFeedIdLabel(){
+        let id = FeedManager.sharedInstance.getCurrentFeedId();
+        if let index = LocationTracker.sharedInstance.nearbyLocations.indexOf({$0.id == id})
+        {
+            let name = LocationTracker.sharedInstance.nearbyLocations[index].name
+            self.squareNameLabel.text = name;
+        }
+        self.chooseToolBar();
+    }
+    
     func chooseToolBar() {
-        self.postFeedBar.subviews.forEach({ $0.removeFromSuperview() });
+        if (!FeedManager.sharedInstance.inOtherFeed) {
+            self.returnToYourSquareButton.hidden = true;
+            self.returnToYourSquareButton.userInteractionEnabled = false;
+            self.returnToYourSquareButtonWidthConstraint.constant = 0;
+            self.postToFeedTextView.userInteractionEnabled = true;
+        } else {
+            self.returnToYourSquareButton.hidden = false;
+            self.returnToYourSquareButton.userInteractionEnabled = true;
+            if self.returnToYourSquareButtonWidthConstraint.constant == 0 {
+                self.returnToYourSquareButtonWidthConstraint.constant = self.postToFeedTextView.frame.width;
+            }
+            self.postToFeedTextView.userInteractionEnabled = false;
+        }
+        /*self.postFeedBar.subviews.forEach({ $0.removeFromSuperview() });
         var vc : UIViewController! = nil;
         if (!FeedManager.sharedInstance.inOtherFeed) {
             vc = (storyboard?.instantiateViewControllerWithIdentifier("postToFeedBar"))! as UIViewController;
@@ -75,12 +120,13 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         
         self.addChildViewController(vc);
-        vc.view.frame = CGRectMake(0, UIApplication.sharedApplication().statusBarFrame.size.height, self.postFeedBar.frame.size.width, self.postFeedBar.frame.size.height);
+        vc.view.frame = CGRectMake(0, 0, self.postFeedBar.frame.size.width, self.postFeedBar.frame.size.height);
         self.postFeedBar.addSubview(vc.view);
-        vc.didMoveToParentViewController(self);
+        vc.didMoveToParentViewController(self);*/
+        self.view.layoutIfNeeded();
     }
+    
     @objc func clearEntries(notification : NSNotification){
-        self.chooseToolBar();
         self.feedTableView.reloadData();
     }
     
