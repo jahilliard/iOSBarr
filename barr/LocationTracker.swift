@@ -38,7 +38,7 @@ class LocationTracker : NSObject {
     var lastRefreshTime : NSDate! = nil;
     let MIN_REFRESH_INTERVAL : Double = 120;
     var isBackgrounded : Bool = false;
-    var initialized : Bool = true;
+    var initialized : Bool = false;
     
     private override init()  {
         super.init();
