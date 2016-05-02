@@ -264,7 +264,7 @@ class Circle {
                 }
                 
                 if (self.initCircle(result!["data"])) {
-                    callback(result!["data"]["circleId"].string!);
+                    callback(result!["data"]["circle"]["_id"].string!);
                 } else {
                     self.getCircleInfo(callback);
                 }
