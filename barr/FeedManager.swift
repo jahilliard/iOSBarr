@@ -307,7 +307,7 @@ class FeedManager {
     
     private init(){
         self.currentFeedId = Circle.sharedInstance.circleId;
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(self.handleCircleIdUpdate), name: CircleIdUpdateNofitification, object: nil);
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(self.handleCircleIdUpdate), name: NewCircleNotification, object: nil);
     }
 }
     

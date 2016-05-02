@@ -12,10 +12,11 @@ import SwiftyJSON
 import CoreLocation
 
 let CircleUpdateNotification = "barr.com.app.CircleUpdateNotification";
-let CircleIdUpdateNofitification = "barr.com.app.CircleIdUpdateNotification";
+let NewCircleNotification = "barr.com.app.NewCircleNotification";
 let newOffersNotification = "barr.com.app.newOffers";
 class Circle {
     var circleId: String = "";
+    var name : String = "";
     var members : [String: UserInfo] = [String: UserInfo]();
     var memberArray: [UserInfo] = [UserInfo]();
     var coordinates : CLLocation! = nil;
@@ -33,7 +34,7 @@ class Circle {
         self.circleId = "";
         self.coordinates = nil;
         self.radius = nil;
-    NSNotificationCenter.defaultCenter().postNotificationName(CircleIdUpdateNofitification, object: self, userInfo: nil);
+    NSNotificationCenter.defaultCenter().postNotificationName(NewCircleNotification, object: self, userInfo: nil);
     }
     
     func initCircle(dictionary: JSON) -> Bool {
@@ -49,15 +50,21 @@ class Circle {
         }
         
         let circleInfo = dictionary["circle"];
-        if let circleId = circleInfo["_id"].string, coordinates = circleInfo["geometry"]["coordinates"].array, radius = circleInfo["properties"]["radius"].double where coordinates.count >= 2 {
+        if let circleId = circleInfo["_id"].string, coordinates = circleInfo["geometry"]["coordinates"].array, radius = circleInfo["properties"]["radius"].double, name = circleInfo["properties"]["name"].string where coordinates.count >= 2 {
             if let lat = coordinates[1].double, lon = coordinates[0].double {
                 self.circleId = circleId
                 self.coordinates = CLLocation(latitude: lat, longitude: lon);
                 self.radius = radius;
+                self.name = name;
             } else {
                 return false;
             }
-            NSNotificationCenter.defaultCenter().postNotificationName(CircleIdUpdateNofitification, object: self, userInfo: nil);
+            NSNotificationCenter.defaultCenter().postNotificationName(NewCircleNotification, object: self, userInfo: nil);
+            
+            //notify user
+            let alertController = UIAlertController(title: "Added To New Square!", message: "You've joined the square \"\(self.name)\"", preferredStyle: UIAlertControllerStyle.Alert);
+            alertController.addAction(UIAlertAction(title: "Return", style: UIAlertActionStyle.Default, handler: nil));
+            alertController.show();
         } else {
             return false;
         }

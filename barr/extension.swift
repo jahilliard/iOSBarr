@@ -157,3 +157,37 @@ extension UIColor
         self.init(red: newRed, green: newGreen, blue: newBlue, alpha: 1.0)
     }
 }
+
+extension UIAlertController {
+    
+    func show() {
+        present(true, completion: nil)
+    }
+    
+    func present(animated: Bool, completion: (() -> Void)?) {
+        if let rootVC = UIApplication.sharedApplication().keyWindow?.rootViewController {
+            presentFromController(rootVC, animated: animated, completion: completion);
+            /*var topController = rootVC;
+            while let presentedViewController = topController.presentedViewController {
+                topController = presentedViewController
+            }
+            presentFromController(topController, animated: animated, completion: completion);*/
+        }
+    }
+    
+    private func presentFromController(controller: UIViewController, animated: Bool, completion: (() -> Void)?) {
+        if let navVC = controller as? UINavigationController,
+            let visibleVC = navVC.visibleViewController {
+            presentFromController(visibleVC, animated: animated, completion: completion)
+        } else
+            if let tabVC = controller as? UITabBarController,
+                let selectedVC = tabVC.selectedViewController {
+                presentFromController(selectedVC, animated: animated, completion: completion)
+            } else {
+                if let presentedViewController = controller.presentedViewController { presentedViewController.presentViewController(self, animated: animated, completion: completion)
+                } else {
+                    controller.presentViewController(self, animated: animated, completion: completion)
+                }
+        }
+    }
+}

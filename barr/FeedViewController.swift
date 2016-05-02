@@ -168,7 +168,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
                 }*/
                 
                 //set profile picture
-                if feedEntry.authorInfo.pictures.count > 0 {
+                if feedEntry.authorInfo.pictures.count > 0 && feedEntry.authorInfo.pictures[0] != "null" {
                     Circle.getProfilePictureByURL(feedEntry.authorInfo.pictures[0], completion: {profileImg in
                         dispatch_async(dispatch_get_main_queue(), {
                             //check same cell hasnt been reused

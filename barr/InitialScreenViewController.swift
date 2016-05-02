@@ -32,8 +32,9 @@ class InitialScreenViewController: UIViewController {
     func displayMain(notification : NSNotification){
         print("displayMain Called");
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let mapVC: UIViewController = storyboard.instantiateViewControllerWithIdentifier("TabVC")
-        self.presentViewController(mapVC, animated: true, completion: nil);
+        let tabVC: UIViewController = storyboard.instantiateViewControllerWithIdentifier("TabVC")
+        self.presentViewController(tabVC, animated: true, completion: nil);
+        LocationTracker.sharedInstance.startLocationTracking();
     }
 
     /*

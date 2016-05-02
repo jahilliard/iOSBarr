@@ -31,7 +31,7 @@ class ChatListTableViewCell: UITableViewCell {
                 print("CONTAINS UNREAD");
             }
             
-            if chat.chatee.pictures.count > 0 {
+            if chat.chatee.pictures.count > 0 && chat.chatee.pictures[0] != "null" {
                 Circle.getProfilePictureByURL(chat.chatee.pictures[0], completion: {img in self.picture.image = img});
             } else {
                 self.picture.image = UIImage(imageLiteral: "defaultProfilePicture.jpg");

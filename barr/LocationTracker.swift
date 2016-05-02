@@ -38,6 +38,7 @@ class LocationTracker : NSObject {
     var lastRefreshTime : NSDate! = nil;
     let MIN_REFRESH_INTERVAL : Double = 120;
     var isBackgrounded : Bool = false;
+    var initialized : Bool = true;
     
     private override init()  {
         super.init();
@@ -83,6 +84,7 @@ class LocationTracker : NSObject {
     }
     
     func startLocationTracking() {
+        self.initialized = true;
         self.needRefresh = true;
         //initialize locationManager
         let locationDelegate = ForegroundLocationManagerDelegate();
@@ -145,7 +147,9 @@ class LocationTracker : NSObject {
     
         self.reset();
         self.needRefresh = true;
-        self.getUpdatedCoordinates();
+        if self.initialized {
+            self.getUpdatedCoordinates();
+        }
         self.lastRefreshTime = currentTime;
     }
     

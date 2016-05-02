@@ -63,6 +63,9 @@ class UserInfo {
         self.yourOffers = [OfferOptions : Bool]();
         self.otherOffers = [OfferOptions : Bool]();
         
+        self.yourOffers = parseOffers([]);
+        self.otherOffers = parseOffers([]);
+        
         if userInfo["matches"] != nil{
             let matchInfo = userInfo["matches"];
             let yourOffers = matchInfo["yourOffers"];
@@ -73,15 +76,11 @@ class UserInfo {
             
             if yourOffers != nil{
                 self.yourOffers = parseOffers(yourOffers.arrayValue);
-            } else {
-                self.yourOffers = parseOffers([]);
             }
             
             if otherOffers != nil{
                 self.otherOffers = parseOffers(otherOffers.arrayValue);
-            } else {
-                self.otherOffers = parseOffers([]);
-            }
+            } 
         }
     }
     
@@ -116,8 +115,13 @@ class UserInfo {
     func updateOtherOffers(offers: [Int]) {
         print(self.otherOffers);
         for offer in offers {
-            if let offerOption = UserInfo.convertToOption(offer){
+            if let offerOption = UserInfo.convertToOption(offer)
+            {
                 self.otherOffers[offerOption] = true;
+                //notify user
+                let alertController = UIAlertController(title: "New Update", message: "Got a \(offerOption) from \(self.nickname)", preferredStyle: UIAlertControllerStyle.Alert);
+                alertController.addAction(UIAlertAction(title: "Return", style: UIAlertActionStyle.Default, handler: nil));
+                alertController.show();
             }
         }
     }
