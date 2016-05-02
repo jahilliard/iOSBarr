@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 class NewFeedEntryViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate, UIScrollViewDelegate {
     let imagePicker = UIImagePickerController();
@@ -19,6 +20,7 @@ class NewFeedEntryViewController: UIViewController, UIImagePickerControllerDeleg
     //var postContentArea: UIView!
     
     @IBAction func onTakeImageButtonPressed(sender: AnyObject) {
+        checkCamera()
         imagePicker.allowsEditing = false
         imagePicker.sourceType =  UIImagePickerControllerSourceType.Camera;
         imagePicker.cameraCaptureMode = UIImagePickerControllerCameraCaptureMode.Photo;
@@ -31,6 +33,47 @@ class NewFeedEntryViewController: UIViewController, UIImagePickerControllerDeleg
         imagePicker.sourceType = .PhotoLibrary
         
         presentViewController(imagePicker, animated: true, completion: nil)
+    }
+    
+    func checkCamera() {
+        let authStatus = AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo)
+        switch authStatus {
+        case .Authorized: break // Do you stuffer here i.e. allowScanning()
+        case .Denied: alertToEncourageCameraAccessInitially()
+        case .NotDetermined: alertPromptToAllowCameraAccessViaSetting()
+        default: alertToEncourageCameraAccessInitially()
+        }
+    }
+    
+    func alertToEncourageCameraAccessInitially() {
+        let alert = UIAlertController(
+            title: "Camera Access",
+            message: "Allow camera access to post a photo!",
+            preferredStyle: UIAlertControllerStyle.Alert
+        )
+        alert.addAction(UIAlertAction(title: "Cancel", style: .Default, handler: nil))
+        alert.addAction(UIAlertAction(title: "Allow Camera", style: .Cancel, handler: { (alert) -> Void in
+            UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
+        }))
+        presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    func alertPromptToAllowCameraAccessViaSetting() {
+        
+        let alert = UIAlertController(
+            title: "Camera Access",
+            message: "Allow camera access to post a photo!",
+            preferredStyle: UIAlertControllerStyle.Alert
+        )
+        alert.addAction(UIAlertAction(title: "Dismiss", style: .Cancel) { alert in
+            if AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo).count > 0 {
+                AVCaptureDevice.requestAccessForMediaType(AVMediaTypeVideo) { granted in
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self.checkCamera() } }
+            }
+            }
+        )
+        presentViewController(alert, animated: true, completion: nil)
     }
     
     override func viewDidLayoutSubviews() {
