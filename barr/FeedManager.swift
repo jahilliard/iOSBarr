@@ -18,7 +18,7 @@ let newFeedIdNotification = "barr.app.newFeedIdNotification";
 //let loadIfNecessaryNotifictation = "barr.app.loadIfNecessaryNotifictation";
 
 class FeedManager {
-    let RETRIEVE_AMOUNT = 3;
+    let RETRIEVE_AMOUNT = 8;
     //in seconds
     let RETRIEVE_INTERVAL : Double = 3;
     

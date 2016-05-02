@@ -10,6 +10,8 @@ import FBSDKCoreKit
 import UIKit
 import SwiftyJSON
 
+let newProfilePicture = "barr.app.newProfilePicture";
+
 class SelectPhotosViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, InfoToPhotoDelegate {
     
     var indexToMod: Int?
@@ -77,7 +79,8 @@ class SelectPhotosViewController: UIViewController, UICollectionViewDataSource, 
         let cell: FacebookPhotoCell = collectionView.cellForItemAtIndexPath(indexPath)! as! FacebookPhotoCell
         
         print(Me.user.picturesArr);
-        Me.user.picturesArr![self.indexToMod!] = (cell.fbCellInfo?.imgURL)!
+        let index = self.indexToMod!;
+        Me.user.picturesArr![index] = (cell.fbCellInfo?.imgURL)!
         print(Me.user.picturesArr)
         
         func callback(err: NSError?) {
@@ -85,6 +88,11 @@ class SelectPhotosViewController: UIViewController, UICollectionViewDataSource, 
                 //TODO: notify user
                 Me.user.updateUser(["picture": Me.user.picturesArr!], completion: callback);
                 return;
+            } else {
+                if index == 0 {
+                    //profile picture changed
+                    NSNotificationCenter.defaultCenter().postNotificationName(newProfilePicture, object: self, userInfo: nil);
+                }
             }
         }
         

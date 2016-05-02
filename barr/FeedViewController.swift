@@ -54,7 +54,6 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     override func viewDidLayoutSubviews() {
-        print(self.postFeedBarTopConstraint.constant);
     }
     
     override func viewDidLoad() {
@@ -64,15 +63,13 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FeedViewController.updateFeedIdLabel), name: newFeedIdNotification, object: nil);
         
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FeedViewController.handleNewProfilePicture), name: newProfilePicture, object: nil);
+        
         self.originalHeight = self.postFeedBarTopConstraint.constant;
         self.feedTableView.delegate = self;
         self.feedTableView.dataSource = self;
         
-        if let imagesArr = Me.user.picturesArr where imagesArr.count > 0 && imagesArr[0] != "null"{
-            Circle.getProfilePictureByURL(imagesArr[0], completion: {img in self.yourTabPicture.image = img});
-        } else {
-            self.yourTabPicture.image = UIImage(imageLiteral: "defaultProfilePicture.jpg");
-        }
+        self.setTabPicture();
         
         self.chooseToolBar();
     }
@@ -85,6 +82,18 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
         }
     }*/
+    func setTabPicture() {
+        if let imagesArr = Me.user.picturesArr where imagesArr.count > 0 && imagesArr[0] != "null"{
+            Circle.getProfilePictureByURL(imagesArr[0], completion: {img in self.yourTabPicture.image = img});
+        } else {
+            self.yourTabPicture.image = UIImage(imageLiteral: "defaultProfilePicture.jpg");
+        }
+    }
+    
+    @objc func handleNewProfilePicture(){
+        self.setTabPicture();
+        self.feedTableView.reloadData();
+    }
     
     @objc func updateFeedIdLabel(){
         let id = FeedManager.sharedInstance.getCurrentFeedId();
