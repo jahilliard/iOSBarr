@@ -141,11 +141,14 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
+        print(feedEntries.count);
         return feedEntries.count;
     }
     
     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell,forRowAtIndexPath indexPath: NSIndexPath)
     {
+        print(indexPath.row);
+        print(FeedManager.sharedInstance.numOldEntries);
         if indexPath.row == self.feedEntries.count - 1 && FeedManager.sharedInstance.numOldEntries > 0
         {
             FeedManager.sharedInstance.getOlderEntries();
@@ -528,7 +531,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         
         if scrollView.contentOffset.y <= -minOffsetToTriggerRefresh {
-            FeedManager.sharedInstance.getLatestFeedEntries();
+            FeedManager.sharedInstance.getNextFeedEntries();
         }
     }
     

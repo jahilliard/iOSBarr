@@ -168,6 +168,42 @@ class FeedManager {
         }
         
         self.retrievingNewEntries = true;
+        AlamoHelper.authorizedGet("api/v1/feed/\(self.currentFeedId)/latest", parameters: params, completion: {(err, resp) in
+            if err != nil || resp!["message"].string != "success" {
+                self.retrievingNewEntries = false;
+                return;
+            }
+            
+            if resp!["entries"].arrayValue.count == 0 {
+                self.retrievingNewEntries = false;
+                return;
+            }
+            
+            if let numUnretrieved = resp!["numRemainingEntries"].int {
+                self.numOldEntries = numUnretrieved;
+                self.processFeedEntryAuthors(resp!["entryAuthors"]);
+                self.processLatestFeedEntries(resp!["entries"]);
+            }
+            self.retrievingNewEntries = false;
+        });
+    }
+    
+    func getNextFeedEntries() {
+        if (self.currentFeedId == "") {
+            return;
+        }
+        
+        if FeedManager.sharedInstance.retrievingNewEntries /*|| FeedManager.sharedInstance.numNewEntries == 0*/ {
+            return;
+        }
+        
+        var params = [String: AnyObject]();
+        params["numEntriesToFetch"] = RETRIEVE_AMOUNT; //min(numNewEntries, RETRIEVE_AMOUNT);
+        if self.feedEntries.count > 0 {
+            params["earliestDate"] = feedEntries[0].dateString;
+        }
+        
+        self.retrievingNewEntries = true;
         AlamoHelper.authorizedGet("api/v1/feed/\(self.currentFeedId)/updates", parameters: params, completion: {(err, resp) in
             if err != nil || resp!["message"].string != "success" {
                 self.retrievingNewEntries = false;

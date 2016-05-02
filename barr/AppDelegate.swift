@@ -116,12 +116,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NSNotificationCenter.defaultCenter().postNotificationName(appWillEnterForegroundNotification, object: self, userInfo: nil);
         SocketManager.sharedInstance.open();
         //get latest circle info
-        Circle.sharedInstance.getCircleInfo({circleId in
+        /*Circle.sharedInstance.getCircleInfo({circleId in
             if (circleId != "") {
                 FeedManager.sharedInstance.restartFeed();
                 FeedManager.sharedInstance.getLatestFeedEntries();
             }
-        });
+        });*/
     }
 
     func applicationDidBecomeActive(application: UIApplication) {
