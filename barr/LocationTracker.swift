@@ -32,7 +32,8 @@ class LocationTracker : NSObject {
     var currentLocation: CLLocation?
     var currentCoord: CLLocationCoordinate2D?
     var nearbyLocations: [Location] = [];
-    let LOCATION_SEARCH_RADIUS : Double = 200;
+    let LOCATION_SEARCH_RADIUS : Double = 1600;
+    let RESEARCH_RADIUS : Double = 200;
     let TRACKING_RADIUS : Double = 200;
     let SEARCH_REGION_IDENTIFIER = "SEARCH_REGION";
     var lastRefreshTime : NSDate! = nil;
@@ -162,7 +163,7 @@ class LocationTracker : NSObject {
                 self.registerRegionsToMonitor(nearByLocations);
                 
                 //add new search radius region
-                let region = CLCircularRegion(center: newestLocation.coordinate, radius: self.LOCATION_SEARCH_RADIUS, identifier: self.SEARCH_REGION_IDENTIFIER);
+                let region = CLCircularRegion(center: newestLocation.coordinate, radius: self.RESEARCH_RADIUS, identifier: self.SEARCH_REGION_IDENTIFIER);
                 region.notifyOnEntry = true;
                 region.notifyOnExit = true;
                 self.locationManager.startMonitoringForRegion(region);

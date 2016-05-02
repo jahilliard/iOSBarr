@@ -60,6 +60,7 @@ class CircleViewController: UIViewController, UICollectionViewDataSource, UIColl
     
     func makeMemberArray() {
         self.memberArray = Circle.sharedInstance.memberArray.filter({self.shouldMemberDisplay($0)});
+        print(Circle.sharedInstance.memberArray.count);
     }
     
     override func viewDidLoad() {
@@ -122,7 +123,6 @@ class CircleViewController: UIViewController, UICollectionViewDataSource, UIColl
     }
     
     func updateCircle(notification : NSNotification){
-        print("updateCircle Called");
         self.makeMemberArray();
         print(memberArray.count);
         self.circleCollection.reloadData();

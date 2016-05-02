@@ -169,6 +169,7 @@ class Circle {
         if (self.circleId == "") {
             return;
         }
+        print(self.memberArray.count);
         if let singleMember = UserInfo(userInfo: userInfo) {
             var insertIndex = self.memberArray.count;
             if let userId = userInfo["_id"].string {
@@ -185,6 +186,7 @@ class Circle {
             
             self.members[singleMember.userId] = singleMember;
             self.memberArray.insert(singleMember, atIndex: insertIndex);
+            print(self.memberArray.count);
             notifyCircle();
         } else {
             //TODO: error handling
