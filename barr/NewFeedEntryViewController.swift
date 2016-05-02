@@ -8,6 +8,7 @@
 
 import UIKit
 import AVFoundation
+import Photos
 
 class NewFeedEntryViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate, UIScrollViewDelegate {
     let imagePicker = UIImagePickerController();
@@ -20,19 +21,58 @@ class NewFeedEntryViewController: UIViewController, UIImagePickerControllerDeleg
     //var postContentArea: UIView!
     
     @IBAction func onTakeImageButtonPressed(sender: AnyObject) {
-        checkCamera()
+        checkCamera();
         imagePicker.allowsEditing = false
         imagePicker.sourceType =  UIImagePickerControllerSourceType.Camera;
         imagePicker.cameraCaptureMode = UIImagePickerControllerCameraCaptureMode.Photo;
-        
         presentViewController(imagePicker, animated: true, completion: nil)
     }
     
     @IBAction func onImageButtonPressed(sender: AnyObject) {
+        checkPhotoLibrary();
         imagePicker.allowsEditing = false
         imagePicker.sourceType = .PhotoLibrary
         
         presentViewController(imagePicker, animated: true, completion: nil)
+    }
+    
+    func checkPhotoLibrary() {
+        let authStatus = PHPhotoLibrary.authorizationStatus()
+        switch authStatus {
+        case .Authorized: break // Do you stuffer here i.e. allowScanning()
+        case .Denied: alertToEncouragePhotoLibraryAccessInitially()
+        case .NotDetermined: alertPromptToAllowPhotoAccessViaSetting()
+        default: alertToEncouragePhotoLibraryAccessInitially()
+        }
+    }
+    
+    func alertPromptToAllowPhotoAccessViaSetting() {
+        
+        let alert = UIAlertController(
+            title: "Photo Library Access",
+            message: "Please allow access to photo library for this app in your settings to post a photo/video!",
+            preferredStyle: UIAlertControllerStyle.Alert
+        )
+        alert.addAction(UIAlertAction(title: "Continue", style: .Cancel) { alert in
+            PHPhotoLibrary.requestAuthorization() { granted in
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.checkPhotoLibrary() } }
+            });
+        
+        presentViewController(alert, animated: true, completion: nil);
+    }
+    
+    func alertToEncouragePhotoLibraryAccessInitially() {
+        let alert = UIAlertController(
+            title: "Photo Library Access",
+            message: "Please allow access to photo library for this app in your settings to post a photo/video!",
+            preferredStyle: UIAlertControllerStyle.Alert
+        )
+        alert.addAction(UIAlertAction(title: "Cancel", style: .Default, handler: nil))
+        alert.addAction(UIAlertAction(title: "Allow Photo Library", style: .Cancel, handler: { (alert) -> Void in
+            UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
+        }))
+        presentViewController(alert, animated: true, completion: nil)
     }
     
     func checkCamera() {
@@ -48,7 +88,7 @@ class NewFeedEntryViewController: UIViewController, UIImagePickerControllerDeleg
     func alertToEncourageCameraAccessInitially() {
         let alert = UIAlertController(
             title: "Camera Access",
-            message: "Allow camera access to post a photo!",
+            message: "Please allow camera access for this app in your settings to post a photo!",
             preferredStyle: UIAlertControllerStyle.Alert
         )
         alert.addAction(UIAlertAction(title: "Cancel", style: .Default, handler: nil))
@@ -62,18 +102,18 @@ class NewFeedEntryViewController: UIViewController, UIImagePickerControllerDeleg
         
         let alert = UIAlertController(
             title: "Camera Access",
-            message: "Allow camera access to post a photo!",
+            message: "Please allow camera access to take and post a photo!",
             preferredStyle: UIAlertControllerStyle.Alert
         )
-        alert.addAction(UIAlertAction(title: "Dismiss", style: .Cancel) { alert in
-            if AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo).count > 0 {
-                AVCaptureDevice.requestAccessForMediaType(AVMediaTypeVideo) { granted in
-                    dispatch_async(dispatch_get_main_queue()) {
-                        self.checkCamera() } }
-            }
-            }
-        )
-        presentViewController(alert, animated: true, completion: nil)
+        alert.addAction(UIAlertAction(title: "Continue", style: .Cancel) { alert in
+                if AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo).count > 0 {
+                    AVCaptureDevice.requestAccessForMediaType(AVMediaTypeVideo) { granted in
+                        dispatch_async(dispatch_get_main_queue()) {
+                            self.checkCamera() } }
+                }
+            });
+        
+        presentViewController(alert, animated: true, completion: nil);
     }
     
     override func viewDidLayoutSubviews() {
