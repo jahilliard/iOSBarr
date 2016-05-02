@@ -84,9 +84,9 @@ class SocketManager {
         //create new socket
         let connectParams = ["id": Me.user.userId!, "access_token": Me.user.accessToken!];
         
-        /*self.socket = SocketIOClient(socketURL: NSURL(string: "http://107.170.5.135:3000")!, options: ["connectParams" : connectParams]);*/
+        self.socket = SocketIOClient(socketURL: NSURL(string: "http://107.170.5.135:3000")!, options: ["connectParams" : connectParams]);
         
-        self.socket = SocketIOClient(socketURL: NSURL(string: "http://10.0.0.2:3000")!, options: ["connectParams" : connectParams]);
+        /*self.socket = SocketIOClient(socketURL: NSURL(string: "http://10.0.0.2:3000")!, options: ["connectParams" : connectParams]);*/
         
         /*self.socket = SocketIOClient(socketURL: NSURL(string: "http://172.31.98.21:3000")!, options: ["connectParams" : connectParams]);*/
 
