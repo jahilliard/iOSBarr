@@ -32,7 +32,7 @@ class LocationTracker : NSObject {
     var currentLocation: CLLocation?
     var currentCoord: CLLocationCoordinate2D?
     var nearbyLocations: [Location] = [];
-    let LOCATION_SEARCH_RADIUS : Double = 1600;
+    let LOCATION_SEARCH_RADIUS : Double = 3400;
     let RESEARCH_RADIUS : Double = 200;
     let TRACKING_RADIUS : Double = 200;
     let SEARCH_REGION_IDENTIFIER = "SEARCH_REGION";

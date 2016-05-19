@@ -97,6 +97,10 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     @objc func updateFeedIdLabel(){
         let id = FeedManager.sharedInstance.getCurrentFeedId();
+        if id == "" {
+            self.squareNameLabel.text = "Not in a Square";
+            return;
+        }
         if let index = LocationTracker.sharedInstance.nearbyLocations.indexOf({$0.id == id})
         {
             let name = LocationTracker.sharedInstance.nearbyLocations[index].name
@@ -355,17 +359,19 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         
             //calculate size for text
             genericCell.postText.text = feedEntry.text;
-            let newTextSize : CGSize = genericCell.postText.sizeThatFits(CGSize(width: textViewWidth, height: CGFloat.max));
+            print(feedEntry.text);
+            let insets: UIEdgeInsets = genericCell.postText.textContainerInset;
+            let newTextSize : CGSize = genericCell.postText.sizeThatFits(CGSize(width: textViewWidth - insets.left - insets.right, height: CGFloat.max));
             let newTextViewHeight = newTextSize.height;
 
-            let colorArr = [UIColor(red: 212, green: 22, blue: 28),UIColor(red: 133, green: 210, blue: 224), UIColor(red: 42, green: 162, blue: 140), UIColor(red: 222, green: 32, blue: 110), UIColor(red: 236, green: 180, blue: 65),UIColor(red: 79, green: 193, blue: 158), UIColor(red: 62, green: 19, blue: 61)]
+            /*let colorArr = [UIColor(red: 212, green: 22, blue: 28),UIColor(red: 133, green: 210, blue: 224), UIColor(red: 42, green: 162, blue: 140), UIColor(red: 222, green: 32, blue: 110), UIColor(red: 236, green: 180, blue: 65),UIColor(red: 79, green: 193, blue: 158), UIColor(red: 62, green: 19, blue: 61)]
             
             let topDiv = UIView(frame: CGRect(origin: CGPoint(x: 0, y:  genericCell.frame.height-1), size: CGSize(width: genericCell.frame.width, height: 1)))
             topDiv.backgroundColor = colorArr[indexPath.row%colorArr.count]
-            genericCell.addSubview(topDiv);
+            genericCell.addSubview(topDiv);*/
             
             // Configure the cell...
-            height = oldHeight + (newTextViewHeight - oldTextViewHeight);
+            height = oldHeight + (newTextViewHeight - oldTextViewHeight) + insets.top + insets.bottom + 10;
             break;
         }
         return height;
